@@ -7,7 +7,7 @@ const isOpen = ref(false)
 <template>
     <v-app-bar :elevation="2" class="px-sm-2 py-1" density="compact" rounded>
         <template v-slot:prepend >
-            <v-app-bar-title>LifeCris</v-app-bar-title>
+            <v-app-bar-title>appName</v-app-bar-title>
         </template>
         <v-spacer />
             <v-text-field
