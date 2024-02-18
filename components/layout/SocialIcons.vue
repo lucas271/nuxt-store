@@ -22,14 +22,13 @@
 <style scoped>
 
     .btn-responsive-position{
-        top: 60%;
-        left: 2.5%; 
-        right: 50%; 
-        
+        top: 45%;
+        left: 2%;  
     }
     @media (min-width: 700px) { 
         .btn-responsive-position{
-            left: 0.5%
+            top: 45%;
+            left: 2%;
         }
     }   
 </style>

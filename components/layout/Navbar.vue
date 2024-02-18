@@ -5,7 +5,7 @@ const isOpen = ref(false)
 </script>
 
 <template>
-    <v-app-bar :elevation="2" rounded>
+    <v-app-bar :elevation="2" rounded height="60" class="text-teal-darken-4">
         <template v-slot:prepend >
             <v-app-bar-title>appName</v-app-bar-title>
         </template>

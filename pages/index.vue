@@ -1,29 +1,30 @@
 <template>
-    <v-card height="100%" class="overflow-hidden">
-        <v-container class="h-100 d-flex flex-sm-row flex-column">
-            <div class="bg-white ga-6 h-75 my-auto w-full">
-                <div class="d-flex h-100 flex-column justify-space-between align-center ga-6 w-75 text-break word-break">
-                    <article>
-                        <v-card-title tag="h2" class="font-weight-bold text-teal-darken-4 text-wrap">Equilíbrio e harmonia em cada medida.</v-card-title>
-                        <v-card-subtitle tag="span" class="font-weight-bold text-teal-darken-3 ">Cuide de você e encontre sua melhor versão.</v-card-subtitle>
+    <v-card class="overflow-hidden full-height-minus-navheader d-flex">
+        <v-container class="h-100 my-auto d-flex flex-sm-row flex-column overflow-hidden py-4 ga-6 justify-space-evenly">
+            <div class="bg-white ga-6 overflow-hidden w-full" :style="{height: 'fit-content'}">
+                <div class="d-flex h-100 flex-column overflow-hidden justify-space-between align-center ga-6 w-100 text-break word-break">
+                    <article class="w-100  text-left">
+                        <v-card-title class="text-sm-h2 text-h3 text-teal-darken-4 text-wrap mx-0 px-0 overflow-visible" tag="h3">
+                            LifeCris
+                        </v-card-title>
+                        <v-card-subtitle tag="h4" class="mt-3 ml-1 text-sm-subtitle-1 text-subtitle-2 pa-0 ma-0 t text-teal-darken-3 text-wrap">
+                           Clinica de estética com o melhor preço do mercado
+                        </v-card-subtitle>
                     </article>
-                    <div class="w-100">
-                        <v-img height='400px' width='100%' src="https://images.pexels.com/photos/8158947/pexels-photo-8158947.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+                    <div class="flex-grow-1 flex-shrink-1 w-100 overflow-hidden">
+                        <v-img height='100%' cover width='100%' src="https://images.pexels.com/photos/8158947/pexels-photo-8158947.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
 
                         </v-img >
                     </div>
                 </div>
             </div>
-            <div class='flex-grow-1 h-75 my-auto ' :style="{position: 'relative'}">
-                <div class="w-100 h-100 d-flex flex-column justify-space-between align-center">
-                    <div class="w-100 text-left">
-                        <v-card-title class="text-h2 text-teal-darken-4 ">
-                            LifeCris
-                        </v-card-title>
-                        <v-card-subtitle class="mt-3 ml-1 text-subtitle-1 text-teal-darken-3 text-wrap">
-                           Clinica de estética com o melhor preço do mercado
-                        </v-card-subtitle>
-                    </div>
+            <div class='h-100 overflow-hidden flex-shrink-1' :style="{position: 'relative'}">
+                <div class="w-100 h-100 d-flex flex-column justify-space-between ">
+                    <article>
+                        <v-card-title tag="h3" class="font-weight-bold text-teal-darken-4 text-subtitle-1  text-wrap  text-sm-h5">Equilíbrio e harmonia em cada medida.</v-card-title>
+                        <v-card-subtitle tag="span" class="font-weight-bold text-teal-darken-3 text-wrap text-subtitle-2">Cuide de você e encontre sua melhor versão.</v-card-subtitle>
+                    </article>
+
 
                     <div class="w-100 mx-auto" :style="{position: 'relative'}">
 
@@ -40,18 +41,18 @@
                         </v-card-actions>
                     </div>
 
-                    <div class="d-flex w-100 justify-space-between">
-                        <v-btn class=" d-flex align-center justify-center gap-6 rounded-xl" variant="outlined" color="teal-darken-2">
+                    <div class="d-none d-sm-flex w-100 justify-space-between">
+                        <v-btn class=" d-flex align-center justify-center ga-6 rounded-xl" variant="outlined" color="teal-darken-2">
                             <v-icon>mdi-chevron-double-down</v-icon>
                             <v-icon>mdi-chevron-double-down</v-icon>
                             <v-icon>mdi-chevron-double-down</v-icon>
                         </v-btn>
-                        <v-btn class="d-flex align-center justify-center gap-6 rounded-xl" variant="outlined" color="teal-darken-2">
+                        <v-btn class="d-flex align-center justify-center ga-6 rounded-xl" variant="outlined" color="teal-darken-2">
                             <v-icon>mdi-chevron-double-down</v-icon>
                             <v-icon>mdi-chevron-double-down</v-icon>
                             <v-icon>mdi-chevron-double-down</v-icon>
                         </v-btn>
-                        <v-btn class="d-flex align-center d-sm-none d-md-inline justify-center gap-6 rounded-xl" variant="outlined" color="teal-darken-2">
+                        <v-btn class="d-flex align-center d-sm-none d-md-inline justify-center ga-6 rounded-xl" variant="outlined" color="teal-darken-2">
                             <v-icon>mdi-chevron-double-down</v-icon>
                             <v-icon>mdi-chevron-double-down</v-icon>
                             <v-icon>mdi-chevron-double-down</v-icon>
@@ -62,7 +63,78 @@
             </div>
         </v-container>
     </v-card>
+    <v-container class="full-height-minus-navheader w-100 bg-black d-flex justify-space-around align-center">
+        <v-slide-group class="w-100 h-100 d-flex align-center justify-center ga-3">
+            <v-slide-item class="w-25 d-flex flex-column d-flex">
+                <v-img class="h-50 w-100 flex-shrink-1" cover src="https://duohaus.com.br/wp-content/uploads/2021/07/massagemodeladora1.jpeg"></v-img>
+                <div class='flex-grow-1 d-flex justify-space-around flex-column'>
+                    <v-card-title class="font-italic">Drenagem linfatica</v-card-title>
+                    <v-card-subtitle class="text-wrap">Cirurgia? A drenagem linfatica te ajuda! Sinta-se melhor logo.</v-card-subtitle>
+                    <v-card-text>R$3000.00</v-card-text>
+                    <v-card-actions >
+                        <v-btn class="text-body-2" color='teal-lighten-3' variant="tonal">
+                            Ver mais
+                        </v-btn>
+                        <v-btn class="text-body-2"  color='teal-lighten-3'  variant="tonal" >
+                            + Carrinho
+                        </v-btn>
+                    </v-card-actions>
+                </div>
 
+            </v-slide-item>
+            <v-slide-item class="w-25 h-75 d-flex flex-column d-flex">
+                <v-img class="h-50 w-100 flex-shrink-1" cover src="https://duohaus.com.br/wp-content/uploads/2021/07/massagemodeladora1.jpeg"></v-img>
+                <div class='flex-grow-1 d-flex justify-space-around flex-column'>
+                    <v-card-title class="font-italic">Drenagem linfatica</v-card-title>
+                    <v-card-subtitle class="text-wrap">Cirurgia? A drenagem linfatica te ajuda! Sinta-se melhor logo.</v-card-subtitle>
+                    <v-card-text>R$3000.00</v-card-text>
+                    <v-card-actions >
+                        <v-btn class="text-body-2" color='teal-lighten-3' variant="tonal">
+                            Ver mais
+                        </v-btn>
+                        <v-btn class="text-body-2"  color='teal-lighten-3'  variant="tonal" >
+                            + Carrinho
+                        </v-btn>
+                    </v-card-actions>
+                </div>
+
+            </v-slide-item>
+            <v-slide-item class="w-25 h-75 bg-yellow d-flex flex-column d-flex">
+                <v-img class="h-50 w-100 flex-shrink-1" cover src="https://duohaus.com.br/wp-content/uploads/2021/07/massagemodeladora1.jpeg"></v-img>
+                <div class='flex-grow-1 d-flex justify-space-around flex-column'>
+                    <v-card-title class="font-italic">Drenagem linfatica</v-card-title>
+                    <v-card-subtitle class="text-wrap">Cirurgia? A drenagem linfatica te ajuda! Sinta-se melhor logo.</v-card-subtitle>
+                    <v-card-text>R$3000.00</v-card-text>
+                    <v-card-actions >
+                        <v-btn class="text-body-2" color='teal-lighten-3' variant="tonal">
+                            Ver mais
+                        </v-btn>
+                        <v-btn class="text-body-2"  color='teal-lighten-3'  variant="tonal" >
+                            + Carrinho
+                        </v-btn>
+                    </v-card-actions>
+                </div>
+
+            </v-slide-item>
+        </v-slide-group>
+        
+    </v-container>
+    <v-card class="full-height-minus-navheader bg-yellow">
+        <v-container>
+            <v-card-title>Veja O que dizem sobre nós</v-card-title>
+            <v-slide-group>
+                <v-slide-item> 
+                    <v-card-text>
+                        doksaodkjasihugfhajhgnjkbvmlz,çlpkqdwiotjiqetgjdlasklçfd,almovjmxbicojmobsfgs
+                        doksaodkjasihugfhajhgnjkbvmlz,çlpkqdwiotjiqetgjdlasklçfd,almovjmxbicojmobsfgs
+                        doksaodkjasihugfhajhgnjkbvmlz,çlpkqdwiotjiqetgjdlasklçfd,almovjmxbicojmobsfgs
+                        doksaodkjasihugfhajhgnjkbvmlz,çlpkqdwiotjiqetgjdlasklçfd,almovjmxbicojmobsfgs
+                    </v-card-text>
+                </v-slide-item>
+            </v-slide-group>
+
+        </v-container>
+    </v-card>
 </template>
 <script lang="ts">
 </script>
