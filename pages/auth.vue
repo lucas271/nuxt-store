@@ -1,53 +1,104 @@
 <template>
-    <v-main class="h-screen w-screen pa-0 ma-0">
-        <div class="w-100 h-100 d-flex justify-center align-center">
-            <v-window class="w-75 h-100">
-                <v-window-item class="h-100 w-100">
-                    <v-form class="h-100 w-100 bg-teal-lighten-3">
-                        <div class="h-100 w-100 d-flex justify-center align-center rounded-lg">
+    <v-main class="h-screen w-screen d-flex align-center justify-center pa-0 ma-0 bg-teal-darken-2">
+            <v-btn icon="mdi-arrow-left" density="comfortable" position="absolute" :style="{top: '1%', left: '0.5%', zIndex: '100'}"></v-btn>
+            <v-window class="mx-auto h-100 w-100 responsive-width my-auto" v-model="step">
+                <v-window-item class="h-100 w-100" :value="1">
+                    <v-form class="h-100 w-100">
+                        <v-card class="h-100 w-100 d-flex justify-center bg-teal-darken-1 align-center">
+                            <div class="w-50 h-100 pa-4 flex-column d-none d-sm-flex justify-space-evenly align-center">
+                                <v-card-title class="text-uppercase font-weight-bold">Entre na sua conta</v-card-title>
+                                <div class="w-100">
+                                    <v-text-field placeholder="email"></v-text-field>
+                                    <v-text-field placeholder="Senha"></v-text-field>
+                                </div>
 
-                            <div class="w-50 h-100 pa-4 rounded-lg">
-                                <v-card-title>Entre na sua conta</v-card-title>
-                                <v-text-field placeholder="email"></v-text-field>
-                                <v-text-field placeholder="Senha"></v-text-field>
                                 
                                 <v-card-actions>
-                                    <v-btn variant="tonal">Entrar</v-btn>
-                                </v-card-actions>
-                            </div>
-
-                            <div class="w-50 h-100 pa-4 d-flex justify-space-between align-center flex-column login-form-bg-image text-white bg-yellow">
-                                <v-card-subtitle class="text-h4">Life Cris</v-card-subtitle>
-                                <v-card-actions>
-                                    <v-card-text class="text-center">Não tem uma conta? <br/><v-btn variant="tonal mt-3">Registre!</v-btn></v-card-text>
+                                    <v-btn variant="tonal" class="font-weight-bold">Entrar</v-btn>
                                 </v-card-actions>
                             </div>
 
 
-                        </div>
+                            <div class="w-50 h-100  login-form-bg-image flex-grow-1">
+                                <v-sheet position="absolute" class="bg-overlay">
+
+                                </v-sheet>
+
+                                <div class="remove-overlay d-flex justify-space-between align-center flex-column pa-4 h-100 w-100 text-white">
+                                    <v-card-subtitle tag="h1" class="text-h4 text-uppercase font-weight-bold bg-teal-darken-4 pa-3 rounded-lg text-wrap text-center" :style="{lineHeight: '1.5'}">Life Cris - Login</v-card-subtitle>
+                                    <div class="w-100 h-100 pa-4 flex-column d-flex d-sm-none justify-space-evenly align-center">
+                                        <div class="w-100">
+                                            <v-text-field placeholder="email" variant="solo-filled"></v-text-field>
+                                            <v-text-field placeholder="Senha" variant="solo-filled"></v-text-field>
+                                        </div>
+                                    </div>
+                                    <v-card-actions class="d-flex flex-column ga-3">
+                                        <v-btn variant="tonal" class="font-weight-bold">Entrar</v-btn>
+                                        <v-card-subtitle class="text-center bg-teal-darken-4 rounded-lg pa-4">Não tem uma conta? <br/><v-btn variant="tonal mt-3" @click="step = 2">Crie!</v-btn></v-card-subtitle>
+                                    </v-card-actions>
+                                </div>
+
+                            </div>
+
+
+                        </v-card>
                     </v-form>
                 </v-window-item>
-                <v-window-item class="h-100 w-100">
-                    <v-card class="h-100 w-75 bg-black">
-                        <v-card-title>Regitro</v-card-title>
+                <v-window-item class="h-100 w-100" :value="2">
+                    <v-form class="h-100 w-100">
+                        <v-card class="h-100 w-100 d-flex justify-center bg-teal-darken-1 align-center">
+
+                            <div class="w-50 h-100 pa-4 flex-column d-none d-sm-flex justify-space-evenly align-center">
+                                <v-card-title class="text-uppercase font-weight-bold">Crie sua conta</v-card-title>
+                                <div class="w-100">
+                                    <v-text-field placeholder="email"></v-text-field>
+                                    <v-text-field placeholder="Senha"></v-text-field>
+                                    <v-text-field placeholder="Repetir"></v-text-field>
+                                </div>
+
+                                
+                                <v-card-actions>
+                                    <v-btn variant="tonal" class="font-weight-bold">Criar</v-btn>
+                                </v-card-actions>
+                            </div>
+
+                            <div class="w-50 h-100  register-form-bg-image flex-grow-1">
+                                <v-sheet position="absolute" class="bg-overlay">
+
+                                </v-sheet>
+
+                                <div class="remove-overlay d-flex justify-space-between align-center flex-column pa-4 h-100 w-100 text-white">
+                                    <v-card-subtitle tag="h1" class="text-h4 text-uppercase font-weight-bold bg-teal-darken-4 pa-3 rounded-lg text-wrap text-center" :style="{lineHeight: '1.5'}">Life Cris - Registrar</v-card-subtitle>
+                                    <div class="w-100 h-100 pa-4 flex-column d-flex d-sm-none justify-space-evenly align-center">
+                                        <div class="w-100">
+                                            <v-text-field placeholder="email" variant="solo-filled"></v-text-field>
+                                            <v-text-field placeholder="Senha" variant="solo-filled"></v-text-field>
+                                            <v-text-field placeholder="repetir senha" variant="solo-filled" class="text-yellow"></v-text-field>
+                                        </div>
+                                    </div>
+                                    <v-card-actions class="d-flex flex-column ga-3">
+                                        <v-btn variant="tonal" class="font-weight-bold">Criar</v-btn>
+                                        <v-card-subtitle class="text-center bg-teal-darken-4 rounded-lg pa-4">Já tem uma conta? <br/><v-btn variant="tonal mt-3" @click="step = 1">Entre!</v-btn></v-card-subtitle>
+                                    </v-card-actions>
+                                </div>
+
+                            </div>
 
 
-                        <v-text-field placeholder="Email"></v-text-field>
-                        <v-text-field placeholder="Senha"></v-text-field>
-                        <v-text-field placeholder="repetir senha"></v-text-field>
-
-                        <v-card-actions>
-                            <v-btn>Entrar</v-btn>
-                        </v-card-actions>
-
-                        <v-subtitle>
-                            já tem uma conta? <span>entre!</span>
-
-                        </v-subtitle>
-                    </v-card>
+                        </v-card>
+                    </v-form>
                 </v-window-item>
             </v-window>
-        </div>
-
     </v-main>
 </template>
+
+<script lang="ts" setup>
+
+
+const step = ref<number>(1)
+
+definePageMeta({
+  layout: 'empty',
+})
+
+</script>
