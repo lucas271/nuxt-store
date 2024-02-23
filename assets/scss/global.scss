@@ -1,3 +1,73 @@
 .full-height-minus-navheader{
     height: calc(100vh - 60px);
 }
+.main-min-height{
+    min-height: calc(100vh);
+}
+.less-height-minus-navheader{
+    height: calc(100vh - 120px);
+    @media (max-width: 600px) {
+        height: calc(100vh - 180px)
+    }
+}
+.half-height-minus-navheader{
+    height: calc(50vh - 60px);
+}
+
+.register-form-bg-image{
+    background: url("https://img.freepik.com/fotos-gratis/noiva-poses-sob-castanheiro_1304-4878.jpg?t=st=1708408487~exp=1708409087~hmac=132c1242cd0ac11de6c3c75e8d2f6cf5a723e0314c6d22a42de3820532742772");
+    background-size: 100% 100%;
+    
+    position: relative;
+
+    .bg-overlay{
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(2, 109, 86, 0.2); 
+    }
+    .remove-overlay{
+        position:  relative !important;
+        z-index: 2
+        
+    }
+}
+.front-page-bg-image{
+    background: url("https://cdn.vuetifyjs.com/images/cards/docks.jpg");
+    background-size: cover;
+
+}
+.login-form-bg-image{
+    background: url("https://img.freepik.com/fotos-gratis/mulher-segurando-uma-folha-de-monstro_23-2148660828.jpg?size=626&ext=jpg&ga=GA1.1.108152292.1708396590&semt=sph");
+    background-size: 100% 100%;
+    
+    position: relative;
+
+    .bg-overlay{
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(2, 109, 86, 0.2); 
+    }
+    .remove-overlay{
+        position:  relative !important;
+        z-index: 2
+        
+    }
+}
+.responsive-height{
+    max-height: calc(100vh - 60px);
+    min-height: 50vh;
+}
+.responsive-width{
+    width: 75%;
+    @media (max-width: 600px) {
+        width: 90%;
+      }
+}

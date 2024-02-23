@@ -12,14 +12,12 @@ const isOpen = ref(false)
         <v-spacer />
             <v-text-field
                 class="d-sm-inline-block d-none"
-                :loading="loading"
                 density="compact"
                 variant="solo"
                 label="Procurar tratamentos"
                 append-inner-icon="mdi-magnify"
                 single-line
                 hide-details
-                @click:append-inner="onClick"
             ></v-text-field>
         <v-spacer />
         <template v-slot:append>
