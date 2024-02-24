@@ -13,7 +13,15 @@
 .half-height-minus-navheader{
     height: calc(50vh - 60px);
 }
-
+.responsive-card-slide{
+    position: relative;
+    height: 350px;
+    width: 300px;
+    @media (max-width: 400px) {
+        height: 400px;
+        width: 200px;
+    }
+}
 .register-form-bg-image{
     background: url("https://img.freepik.com/fotos-gratis/noiva-poses-sob-castanheiro_1304-4878.jpg?t=st=1708408487~exp=1708409087~hmac=132c1242cd0ac11de6c3c75e8d2f6cf5a723e0314c6d22a42de3820532742772");
     background-size: 100% 100%;
