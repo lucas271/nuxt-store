@@ -14,7 +14,7 @@
                     </v-list>
                 </v-col>
 
-                <v-col cols='4'>
+                <v-col cols='6' sm="4">
                     <v-list class="bg-transparent">
                         <v-list-item-title>daskdoasda</v-list-item-title>
                         <v-list-item class="mx-0 px-0">lalallalaa</v-list-item>
@@ -30,7 +30,7 @@
                         <v-list-item class="mx-0 px-0">EsteticaLifecris@gmail.com</v-list-item>
                     </v-list>
                     <v-row>
-                        <v-list></v-list>
+                      
                         <v-list-item-title>Redes sociais</v-list-item-title>
                         <v-list-item clas="d-flex"><v-icon>mdi-instagram</v-icon><v-icon>mdi-instagram</v-icon><v-icon>mdi-instagram</v-icon></v-list-item>
                     </v-row>

@@ -29,18 +29,25 @@
 
         <v-slide-group>
             <v-slide-group-item v-for="i in 5">
-                <v-card height="300px" width="210px" class="mx-2 bg-teal-lighten-1">
-                    <v-img class="h-50 w-100 flex-shrink-1 flex-grow-1" cover src="https://duohaus.com.br/wp-content/uploads/2021/07/massagemodeladora1.jpeg"/>
-                    <v-card-title>
-                        Nome item
-                    </v-card-title>
-                    <v-card-text>
-                        esse item faz tantantnantnantnantanta
-                    </v-card-text>
-                    <v-card-subtitle>
-                        25.90
-                    </v-card-subtitle>
-                    <v-card-actions>
+                <v-card height="300px" width="210px" class="mx-2 d-flex flex-column bg-teal-lighten-1 overflow-hidden">
+                    <v-img class="h-50 w-100 flex-grow-1" cover src="https://duohaus.com.br/wp-content/uploads/2021/07/massagemodeladora1.jpeg"/>
+                    <article class="flex-grow-1 flex-shrink-1 d-flex flex-column ga-2 overflow-auto">
+                        <div class="flex-grow-1 flex-shrink-1 d-flex flex-column   overflow-auto">
+                            <v-card-title>
+                                Nome item
+                            </v-card-title>
+                            <v-card-text class="overflow-hidden">
+                                esse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantanta
+                            </v-card-text>
+                        </div>
+
+
+                        <v-card-subtitle class="">
+                            R$25.90
+                        </v-card-subtitle>
+                    </article>
+
+                    <v-card-actions class="w-100" >
                         <v-btn variant="tonal" density="compact" class="text-subtitle-2 text-uppercase">
                             Ver mais
                         </v-btn>

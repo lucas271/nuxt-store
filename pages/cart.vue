@@ -13,7 +13,7 @@
                             <div class="d-flex flex-shrink-1 flex-grow-1 h-100 w-100 justify-between overflow-hidden">
                                 <v-img class="w-50 h-100" cover src="https://duohaus.com.br/wp-content/uploads/2021/07/massagemodeladora1.jpeg"/>
                                 <article class=" w-50 pa-1 pa-sm-2 text-center overflow-hidden">
-                                    <v-card-title class="text-sm-h6 text-subtitle-1 word-wrap">Item bonito</v-card-title>
+                                    <v-card-title class="text-sm-h6 text-subtitle-1 text-wrap">Item bonito</v-card-title>
                                     <v-card-subtitle class="text-sm-subtitle-1 text-subtitle-2 text-wrap overflow-auto">esse item faz bonitezas</v-card-subtitle>
                                     <v-card-text class="pa-0 ma-0 text-body-1 text-wrap  text-sm-subtitle-2">R$ 500,00</v-card-text>
                                 </article>
