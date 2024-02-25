@@ -1,8 +1,200 @@
 datasource db {
-  url      = env("DATABASE_URL")
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  schemas           = ["public", "auth"]
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+
+
+
+model User { 
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  image String   @default("#")
+  name String @unique
+  //relations
+  carts          Cart[]
+  favorites      Favorite[]
+  comments       Review[]
+  rating         Rating[]
+
+  @@index([id])
+  @@unique([id, name])
+
+  @@schema("auth")
+}
+
+model Cart {
+  id String @id
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  status    CartStatus @default(PENDING)
+
+  //relations
+  products CartItem[]
+  user     User       @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  //index
+  @@index([id])
+    @@schema("public")
+
+}
+
+//cart related models
+
+model CartItem {
+  id String @id @default(uuid())
+
+  quantity   Int @default(0)
+  product_id String
+  cart_id    String
+
+  //relations
+  cart    Cart    @relation(fields: [cart_id], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  //index
+  @@index([id])
+
+  @@unique([product_id, cart_id])
+      @@schema("public")
+
+}
+
+model Product {
+  id String @id @default(uuid())
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  name         String
+  description  String
+  title        String
+  price        Float
+  img          String
+  quantity     Int
+  is_available Boolean @default(true)
+
+  category_name String?
+  brand_id      String?
+
+  //relations
+
+  favorites Favorite[]
+  comments  Review[]
+  rating    Rating[]
+  cart_item CartItem[]
+
+  category Category? @relation(fields: [category_name], references: [name])
+
+  //indexes
+  @@index([id, name])
+      @@schema("public")
+
+}
+
+//product and user related models
+model Review {
+  id String @id @default(uuid())
+  userName String
+
+  message    String
+  userId     String 
+  product_id String
+
+  //relations
+  //review does not need to be attached with a rating
+  Rating Rating? 
+  user    User    @relation(fields: [userId, userName], references: [id, name], onDelete: Cascade) 
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  //indexes
+  @@index([id])
+  @@unique([userId, product_id])
+      @@schema("public")
+
+}
+
+model Rating {
+  id String @id @default(uuid())
+
+  rate Float
+
+  user_id    String
+  product_id String
+  review_id String @unique
+  //rating need to be attached with a review
+
+
+
+  //relations
+  review Review @relation(fields: [review_id], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  //block attributes
+  @@unique([product_id, user_id])
+  //indexes
+  @@index([id])
+      @@schema("public")
+
+}
+
+model Favorite {
+  id String @id @default(uuid())
+
+  user_id    String
+  product_id String
+
+  //relations
+  user    User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  //block attributes
+  @@unique([product_id, user_id])
+  //indexes
+  @@index([id])
+      @@schema("public")
+
+}
+
+//product related models
+model Category {
+  name String @id
+
+  description String?
+  image       String?
+
+  is_active Boolean @default(true)
+
+  //relations
+  product Product[]
+
+  //indexes
+  @@index([name])
+      @@schema("public")
+
+}
+
+//enums
+enum Role {
+  ADMIN
+  BASIC
+      @@schema("auth")
+
+}
+
+enum CartStatus {
+  PENDING
+  COMPLETED
+  CANCELED
+      @@schema("public")
+
 }

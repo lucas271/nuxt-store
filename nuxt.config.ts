@@ -15,8 +15,14 @@ export default defineNuxtConfig({
       })
     },
     '@pinia/nuxt',
-    '@nuxtjs/google-fonts'
+    '@nuxtjs/google-fonts',
+    '@nuxtjs/supabase'
   ],
+  supabase:{
+    redirectOptions: {
+      login: '/auth',
+    }
+  },
   alias: {
     "@": resolve(__dirname, '/')
   },
