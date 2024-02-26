@@ -71,10 +71,11 @@
                                     <v-card-subtitle tag="h1" class="text-h4 text-uppercase font-weight-bold bg-teal-darken-4 pa-3 rounded-lg text-wrap text-center" :style="{lineHeight: '1.5'}">Life Cris - Registrar</v-card-subtitle>
                                     <div class="w-100 h-100 pa-4 flex-column d-flex d-sm-none justify-space-evenly align-center">
                                         <div class="w-100">
-                                            <v-text-field placeholder="email" variant="solo-filled" @change="email = $event.target.value" :value="email"></v-text-field>
-                                            <v-text-field placeholder="Senha" variant="solo-filled" @change="password = $event.target.value" :value="password"></v-text-field>
-                                            <v-text-field placeholder="repetir senha" variant="solo-filled" class="text-yellow" @change="repeatPassword = $event.target.value" :value="repeatPassword"></v-text-field>
+                                            <v-text-field placeholder="email" variant="solo-filled" v-model="email"></v-text-field>
+                                            <v-text-field placeholder="Senha" variant="solo-filled" v-model="password"></v-text-field>
+                                            <v-text-field placeholder="repetir senha" variant="solo-filled" class="text-yellow"  v-model="repeatPassword"></v-text-field>
                                         </div>
+                                 
                                     </div>
                                     <v-card-actions class="d-flex flex-column ga-3">
                                         <v-btn type='submit' variant="tonal" class="font-weight-bold">Criar</v-btn>
@@ -101,9 +102,21 @@ const password = ref<string>('')
 const repeatPassword = ref<string>('')
 
 const client = useSupabaseClient()
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault()
+    console.log(email.value, 'a')
+
     console.log("a")
+    console.log(e.target)
+
+    if(!email.value || !password.value) return console.log('b')
+
+    const {data, error} = await client.auth.signUp({
+        email: email.value,
+        password: password.value
+    }).catch(e => console.log(e, 'an'))
+    console.log('a')
+    console.log(data, error)
 }
 async function signUp(){
     try {
