@@ -3,7 +3,6 @@ import {resolve} from 'path'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  pages: true,
   build: {
     transpile: ['vuetify'],
   },
@@ -19,9 +18,7 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase'
   ],
   supabase:{
-    redirectOptions: {
-      login: '/auth',
-    }
+    redirect: false
   },
   alias: {
     "@": resolve(__dirname, '/')

@@ -1,13 +1,9 @@
-<script setup>
-import { ref } from 'vue'
 
-const isOpen = ref(false)
-</script>
 
 <template>
     <v-app-bar :elevation="2" rounded height="60" class="text-teal-darken-4">
         <template v-slot:prepend >
-            <v-app-bar-title>LifeCris</v-app-bar-title>
+            <v-app-bar-title @click="navigateTo('/')" class="cursor-pointer">LifeCris</v-app-bar-title>
         </template>
         <v-spacer />
             <v-text-field
@@ -18,11 +14,12 @@ const isOpen = ref(false)
                 append-inner-icon="mdi-magnify"
                 single-line
                 hide-details
+
             ></v-text-field>
         <v-spacer />
         <template v-slot:append>
             <div class="d-none d-sm-flex">
-                <v-btn>
+                <v-btn @click="navigateTo('/wishList')">
                     <v-icon>mdi-heart-outline</v-icon>
                 </v-btn>
                 <v-menu :close-on-content-click="false">
@@ -36,8 +33,8 @@ const isOpen = ref(false)
                     </template>
                     <layoutCartPreview/>
                 </v-menu>
-                <v-btn >
-                    <v-icon>mdi-account-outline</v-icon>
+                <v-btn @click="data.session ? handleSignOut() : navigateTo('/auth')"}>
+                    <v-icon>{{data.session ? "mdi-exit-run" : "mdi-account-outline"}}</v-icon>
                 </v-btn>
             </div>
 
@@ -54,3 +51,20 @@ const isOpen = ref(false)
     </div>
 
 </template>
+
+<script lang="ts" setup >
+    import { ref } from 'vue'
+
+    const isOpen = ref(false)
+    const client = useSupabaseClient()
+    const router = useRouter()
+    const { data, error } = await client.auth.getSession()
+
+    const handleSignOut = async () => {
+    try {
+      await client.auth.signOut({redirectTo: '/'})
+      return await reloadNuxtApp() 
+    } catch (err) {
+    }
+  }
+</script>
