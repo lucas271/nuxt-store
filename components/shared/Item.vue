@@ -5,17 +5,36 @@
 
         </v-img>
         <div class='flex-grow-1 d-flex justify-space-around flex-column'>
-            <v-card-title class="font-italic">Drenagem linfatica</v-card-title>
-            <v-card-subtitle class="text-wrap">Cirurgia? A drenagem linfatica te ajuda! Sinta-se melhor logo.</v-card-subtitle>
-            <v-card-text>R$3000.00</v-card-text>
+            <v-card-title class="font-italic">{{name}}</v-card-title>
+            <v-card-subtitle class="text-wrap">{{title}}</v-card-subtitle>
+            <v-card-text>R${{ price.toFixed(2).replace('.', ',') }}</v-card-text>
             <v-card-actions >
                 <v-btn class="text-body-1"  variant="tonal">
                     Ver mais
                 </v-btn>
                 <v-btn class="text-body-1"  variant="tonal" >
                     + Carrinho
+                    
                 </v-btn>
             </v-card-actions>
         </div>
     </v-card>
+    {{  }}
 </template>
+
+<script setup lang="ts">
+interface ItemInterface {
+    id: string,
+    createdAt?: string,
+    updatedAt?:string,
+    name: string,
+    description: string,
+    title: string
+    price: number,
+    img?: string,
+    quantity: number
+    is_available: boolean,
+    categoryName?: string
+}
+defineProps<ItemInterface>()
+</script>
