@@ -11,6 +11,7 @@ specifiers:
   pinia: ^2.1.7
   prisma: ^5.10.2
   sass: ^1.70.0
+  typescript: ^5.3.3
   vite: ^5.1.1
   vite-plugin-vuetify: ^2.0.1
   vue: 3.4.15
@@ -22,21 +23,22 @@ dependencies:
   '@mdi/font': 7.4.47
   '@nuxtjs/supabase': 1.1.6
   '@nuxtjs/vuetify': 1.12.3_vue@3.4.15+webpack@5.90.1
-  nuxt: 3.10.2_sass@1.70.0+vite@5.1.1
-  pinia: 2.1.7_vue@3.4.15
+  nuxt: 3.10.2_mgukgb5bjqp2pgepiwabzpqd3y
+  pinia: 2.1.7_uvcdd7474ilntvuyfubqjxprie
   vite: 5.1.1_sass@1.70.0
-  vue: 3.4.15
+  vue: 3.4.15_typescript@5.3.3
   vue-router: 4.2.5_vue@3.4.15
   webpack: 5.90.1
 
 devDependencies:
   '@nuxtjs/google-fonts': 3.1.3
-  '@pinia/nuxt': 0.5.1_vue@3.4.15
+  '@pinia/nuxt': 0.5.1_uvcdd7474ilntvuyfubqjxprie
   '@prisma/client': 5.10.2_prisma@5.10.2
   prisma: 5.10.2
   sass: 1.70.0
+  typescript: 5.3.3
   vite-plugin-vuetify: 2.0.1_ujfmfqfwxtj7jhystm36f3pjae
-  vuetify: 3.5.3_sojgrkmgyy4z6ncsmwlgqrt5w4
+  vuetify: 3.5.3_ex3cfb3qyud3ezytjx2agvfxay
 
 packages:
 
@@ -984,7 +986,7 @@ packages:
       '@nuxt/kit': 3.10.2
       '@nuxt/schema': 3.10.2
       execa: 7.2.0
-      nuxt: 3.10.2_sass@1.70.0+vite@5.1.1
+      nuxt: 3.10.2_mgukgb5bjqp2pgepiwabzpqd3y
       vite: 5.1.1_sass@1.70.0
     transitivePeerDependencies:
       - rollup
@@ -1032,7 +1034,7 @@ packages:
       launch-editor: 2.6.1
       local-pkg: 0.5.0
       magicast: 0.3.3
-      nuxt: 3.10.2_sass@1.70.0+vite@5.1.1
+      nuxt: 3.10.2_mgukgb5bjqp2pgepiwabzpqd3y
       nypm: 0.3.6
       ohash: 1.1.3
       pacote: 17.0.6
@@ -1181,7 +1183,7 @@ packages:
   /@nuxt/ui-templates/1.3.1:
     resolution: {integrity: sha512-5gc02Pu1HycOVUWJ8aYsWeeXcSTPe8iX8+KIrhyEtEoOSkY0eMBuo0ssljB8wALuEmepv31DlYe5gpiRwkjESA==}
 
-  /@nuxt/vite-builder/3.10.2_sass@1.70.0+vue@3.4.19:
+  /@nuxt/vite-builder/3.10.2_grvt2mihfny7by3qhy4b67j2pm:
     resolution: {integrity: sha512-FFMfcb/o2ID42QqX7LyspjG+cbibTUVMVYDNbxXviIsj0VWt5trlSL4zU81HaLn8nAgGTozMYqV5SJgT4rp/Zg==}
     engines: {node: ^14.18.0 || >=16.10.0}
     peerDependencies:
@@ -1219,8 +1221,8 @@ packages:
       unplugin: 1.7.1
       vite: 5.1.1_sass@1.70.0
       vite-node: 1.2.2_sass@1.70.0
-      vite-plugin-checker: 0.6.4_vite@5.1.1
-      vue: 3.4.19
+      vite-plugin-checker: 0.6.4_baoygt5j2vsa5fghjbk4hais6i
+      vue: 3.4.19_typescript@5.3.3
       vue-bundle-renderer: 2.0.0
     transitivePeerDependencies:
       - '@types/node'
@@ -1427,11 +1429,11 @@ packages:
       '@parcel/watcher-win32-x64': 2.4.0
     dev: false
 
-  /@pinia/nuxt/0.5.1_vue@3.4.15:
+  /@pinia/nuxt/0.5.1_uvcdd7474ilntvuyfubqjxprie:
     resolution: {integrity: sha512-6wT6TqY81n+7/x3Yhf0yfaJVKkZU42AGqOR0T3+UvChcaOJhSma7OWPN64v+ptYlznat+fS1VTwNAcbi2lzHnw==}
     dependencies:
       '@nuxt/kit': 3.10.1
-      pinia: 2.1.7_vue@3.4.15
+      pinia: 2.1.7_uvcdd7474ilntvuyfubqjxprie
     transitivePeerDependencies:
       - '@vue/composition-api'
       - rollup
@@ -1971,7 +1973,7 @@ packages:
       '@unhead/shared': 1.8.10
       hookable: 5.5.3
       unhead: 1.8.10
-      vue: 3.4.19
+      vue: 3.4.19_typescript@5.3.3
     dev: false
 
   /@vercel/nft/0.24.4:
@@ -2006,7 +2008,7 @@ packages:
       '@babel/plugin-transform-typescript': 7.23.6_@babel+core@7.23.9
       '@vue/babel-plugin-jsx': 1.2.1_@babel+core@7.23.9
       vite: 5.1.1_sass@1.70.0
-      vue: 3.4.19
+      vue: 3.4.19_typescript@5.3.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -2019,7 +2021,7 @@ packages:
       vue: ^3.2.25
     dependencies:
       vite: 5.1.1_sass@1.70.0
-      vue: 3.4.19
+      vue: 3.4.19_typescript@5.3.3
     dev: false
 
   /@vue-macros/common/1.10.1_vue@3.4.19:
@@ -2037,7 +2039,7 @@ packages:
       ast-kit: 0.11.3
       local-pkg: 0.5.0
       magic-string-ast: 0.3.0
-      vue: 3.4.19
+      vue: 3.4.19_typescript@5.3.3
     transitivePeerDependencies:
       - rollup
     dev: false
@@ -2204,7 +2206,7 @@ packages:
     dependencies:
       '@vue/compiler-ssr': 3.4.15
       '@vue/shared': 3.4.15
-      vue: 3.4.15
+      vue: 3.4.15_typescript@5.3.3
 
   /@vue/server-renderer/3.4.19_vue@3.4.19:
     resolution: {integrity: sha512-eAj2p0c429RZyyhtMRnttjcSToch+kTWxFPHlzGMkR28ZbF1PDlTcmGmlDxccBuqNd9iOQ7xPRPAGgPVj+YpQw==}
@@ -2213,7 +2215,7 @@ packages:
     dependencies:
       '@vue/compiler-ssr': 3.4.19
       '@vue/shared': 3.4.19
-      vue: 3.4.19
+      vue: 3.4.19_typescript@5.3.3
     dev: false
 
   /@vue/shared/3.4.15:
@@ -2230,8 +2232,8 @@ packages:
       vuetify: ^3.0.0
     dependencies:
       upath: 2.0.1
-      vue: 3.4.15
-      vuetify: 3.5.3_sojgrkmgyy4z6ncsmwlgqrt5w4
+      vue: 3.4.15_typescript@5.3.3
+      vuetify: 3.5.3_ex3cfb3qyud3ezytjx2agvfxay
     dev: true
 
   /@webassemblyjs/ast/1.11.6:
@@ -4717,7 +4719,7 @@ packages:
       fsevents: 2.3.3
     dev: false
 
-  /nuxt/3.10.2_sass@1.70.0+vite@5.1.1:
+  /nuxt/3.10.2_mgukgb5bjqp2pgepiwabzpqd3y:
     resolution: {integrity: sha512-EYRPNPEHRoOzL5ZusOMoBvv1/yifGwdv7BLJPD/jaEDeEZvdXjLXLSRh2NukmdB1SdNmfL3wEnt5xtRpQO1niQ==}
     engines: {node: ^14.18.0 || >=16.10.0}
     hasBin: true
@@ -4736,7 +4738,7 @@ packages:
       '@nuxt/schema': 3.10.2
       '@nuxt/telemetry': 2.5.3
       '@nuxt/ui-templates': 1.3.1
-      '@nuxt/vite-builder': 3.10.2_sass@1.70.0+vue@3.4.19
+      '@nuxt/vite-builder': 3.10.2_grvt2mihfny7by3qhy4b67j2pm
       '@unhead/dom': 1.8.10
       '@unhead/ssr': 1.8.10
       '@unhead/vue': 1.8.10_vue@3.4.19
@@ -4781,7 +4783,7 @@ packages:
       unplugin: 1.7.1
       unplugin-vue-router: 0.7.0_vjstq6vovw45lyudbm6kitvssa
       untyped: 1.4.2
-      vue: 3.4.19
+      vue: 3.4.19_typescript@5.3.3
       vue-bundle-renderer: 2.0.0
       vue-devtools-stub: 0.1.0
       vue-router: 4.2.5_vue@3.4.19
@@ -4999,7 +5001,7 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
 
-  /pinia/2.1.7_vue@3.4.15:
+  /pinia/2.1.7_uvcdd7474ilntvuyfubqjxprie:
     resolution: {integrity: sha512-+C2AHFtcFqjPih0zpYuvof37SFxMQ7OEG2zV9jRI12i9BOy3YQVAHwdKtyyc8pDcDyIc33WCIsZaCFWU7WWxGQ==}
     peerDependencies:
       '@vue/composition-api': ^1.4.0
@@ -5012,7 +5014,8 @@ packages:
         optional: true
     dependencies:
       '@vue/devtools-api': 6.5.1
-      vue: 3.4.15
+      typescript: 5.3.3
+      vue: 3.4.15_typescript@5.3.3
       vue-demi: 0.14.7_vue@3.4.15
 
   /pkg-types/1.0.3:
@@ -6102,6 +6105,11 @@ packages:
     engines: {node: '>=14.16'}
     dev: false
 
+  /typescript/5.3.3:
+    resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   /ufo/1.4.0:
     resolution: {integrity: sha512-Hhy+BhRBleFjpJ2vchUNN40qgkh0366FWJGqVLYBHev0vpHTrXSA0ryT+74UiW6KWsldNurQMKGqCm1M2zBciQ==}
 
@@ -6395,7 +6403,7 @@ packages:
       - terser
     dev: false
 
-  /vite-plugin-checker/0.6.4_vite@5.1.1:
+  /vite-plugin-checker/0.6.4_baoygt5j2vsa5fghjbk4hais6i:
     resolution: {integrity: sha512-2zKHH5oxr+ye43nReRbC2fny1nyARwhxdm0uNYp/ERy4YvU9iZpNOsueoi/luXw5gnpqRSvjcEPxXbS153O2wA==}
     engines: {node: '>=14.16'}
     peerDependencies:
@@ -6437,6 +6445,7 @@ packages:
       semver: 7.6.0
       strip-ansi: 6.0.1
       tiny-invariant: 1.3.1
+      typescript: 5.3.3
       vite: 5.1.1_sass@1.70.0
       vscode-languageclient: 7.0.0
       vscode-languageserver: 7.0.0
@@ -6501,8 +6510,8 @@ packages:
       debug: 4.3.4
       upath: 2.0.1
       vite: 5.1.1_sass@1.70.0
-      vue: 3.4.15
-      vuetify: 3.5.3_sojgrkmgyy4z6ncsmwlgqrt5w4
+      vue: 3.4.15_typescript@5.3.3
+      vuetify: 3.5.3_ex3cfb3qyud3ezytjx2agvfxay
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -6600,7 +6609,7 @@ packages:
       '@vue/composition-api':
         optional: true
     dependencies:
-      vue: 3.4.15
+      vue: 3.4.15_typescript@5.3.3
 
   /vue-devtools-stub/0.1.0:
     resolution: {integrity: sha512-RutnB7X8c5hjq39NceArgXg28WZtZpGc3+J16ljMiYnFhKvd8hITxSWQSQ5bvldxMDU6gG5mkxl1MTQLXckVSQ==}
@@ -6612,7 +6621,7 @@ packages:
       vue: ^3.2.0
     dependencies:
       '@vue/devtools-api': 6.5.1
-      vue: 3.4.15
+      vue: 3.4.15_typescript@5.3.3
     dev: false
 
   /vue-router/4.2.5_vue@3.4.19:
@@ -6621,10 +6630,10 @@ packages:
       vue: ^3.2.0
     dependencies:
       '@vue/devtools-api': 6.5.1
-      vue: 3.4.19
+      vue: 3.4.19_typescript@5.3.3
     dev: false
 
-  /vue/3.4.15:
+  /vue/3.4.15_typescript@5.3.3:
     resolution: {integrity: sha512-jC0GH4KkWLWJOEQjOpkqU1bQsBwf4R1rsFtw5GQJbjHVKWDzO6P0nWWBTmjp1xSemAioDFj1jdaK1qa3DnMQoQ==}
     peerDependencies:
       typescript: '*'
@@ -6637,8 +6646,9 @@ packages:
       '@vue/runtime-dom': 3.4.15
       '@vue/server-renderer': 3.4.15_vue@3.4.15
       '@vue/shared': 3.4.15
+      typescript: 5.3.3
 
-  /vue/3.4.19:
+  /vue/3.4.19_typescript@5.3.3:
     resolution: {integrity: sha512-W/7Fc9KUkajFU8dBeDluM4sRGc/aa4YJnOYck8dkjgZoXtVsn3OeTGni66FV1l3+nvPA7VBFYtPioaGKUmEADw==}
     peerDependencies:
       typescript: '*'
@@ -6651,6 +6661,7 @@ packages:
       '@vue/runtime-dom': 3.4.19
       '@vue/server-renderer': 3.4.19_vue@3.4.19
       '@vue/shared': 3.4.19
+      typescript: 5.3.3
     dev: false
 
   /vuetify-loader/1.9.2_k3eb3gkovdiu72n6no7mejd4bi:
@@ -6675,7 +6686,7 @@ packages:
       decache: 4.6.2
       file-loader: 6.2.0_webpack@5.90.1
       loader-utils: 2.0.4
-      vue: 3.4.15
+      vue: 3.4.15_typescript@5.3.3
       vuetify: 2.7.1_vue@3.4.15
       webpack: 5.90.1
     dev: false
@@ -6685,10 +6696,10 @@ packages:
     peerDependencies:
       vue: ^2.6.4
     dependencies:
-      vue: 3.4.15
+      vue: 3.4.15_typescript@5.3.3
     dev: false
 
-  /vuetify/3.5.3_sojgrkmgyy4z6ncsmwlgqrt5w4:
+  /vuetify/3.5.3_ex3cfb3qyud3ezytjx2agvfxay:
     resolution: {integrity: sha512-z2H1HYEfFeqHTp47VbFOLAv6Nard/eP4+qIXY9c6Z/uUflLhq5K8cyXL6MKhfIzyUsto+KszjVTyX+bu7zT2QA==}
     engines: {node: ^12.20 || >=14.13}
     peerDependencies:
@@ -6707,8 +6718,9 @@ packages:
       webpack-plugin-vuetify:
         optional: true
     dependencies:
+      typescript: 5.3.3
       vite-plugin-vuetify: 2.0.1_ujfmfqfwxtj7jhystm36f3pjae
-      vue: 3.4.15
+      vue: 3.4.15_typescript@5.3.3
     dev: true
 
   /watchpack/2.4.0:

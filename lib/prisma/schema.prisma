@@ -169,6 +169,7 @@ model Favorite {
 model Category {
   name String @id
 
+
   description String?
   image       String?
 

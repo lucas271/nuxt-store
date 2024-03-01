@@ -15,30 +15,33 @@
                     </template>
                 </v-hover>
                 <v-card class="h-100 w-100" v-if="isForm">
-                    <v-stepper class="h-100 w-100" v-model="step">
+                    <v-stepper class="h-100 w-100" v-model="step" non-linear>
                         <v-stepper-header>
-                            <v-stepper-item  value="1"   :complete="step > 0" :editable="step > 1" title="Passo 1">
-                            </v-stepper-item>
-                            <v-divider/>
-                            <v-stepper-item value="2" title="Passo 2" :rules="[() => false]"  :editable="step > 2 || step < 2">
-                            </v-stepper-item>
-                            <v-divider/>
-
-                            <v-stepper-item value="3" title="Passo 3" :rules="[() => true]"  :editable="step < 3" >
-
-                            </v-stepper-item>
-                            <v-divider/>
-
+                            <template v-for="(item, index) in steps" key="index">
+                                
+                                <v-stepper-item :value="index + 1"   :complete="step > 1" :editable="step > 1">
+                                </v-stepper-item>
+                                <v-divider v-if="index + 1 !== steps.length"/>
+                            </template>
                         </v-stepper-header>
                         <v-stepper-window>
-                            <v-stepper-window-item v-for="step in steps">
+                            <v-stepper-window-item :value='index + 1' v-for="(item, index) in steps" :key="index ">
                                 <v-form >
-                                    <v-text-field 
-                                        :label="step[input].label" 
-                                        :rules="step[input].rules" :name="input" 
-                                        :placeholder="step[input].placeholder" 
-                                        :type="step[input].type" v-for="input in Object.keys(step)"
-                                    />
+                                    <template v-for="input in Object.keys(item)">
+                                        <v-text-field 
+                                            v-if="item[input].type === 'text' || item[input].type === 'number'"
+                                            :label="item[input].label" 
+                                            :rules="item[input].rules" :name="input" 
+                                            :placeholder="item[input].placeholder" 
+                                            :type="item[input].type"
+                                        />
+                                        <v-file-input 
+                                            v-if="item[input].type === 'file'"                                         
+                                            :label="item[input].label" 
+                                            :rules="item[input].rules" :name="input" 
+                                            :placeholder="item[input].placeholder" 
+                                        />
+                                    </template>
                                 </v-form>
                             </v-stepper-window-item>
                         </v-stepper-window>
@@ -71,9 +74,9 @@
         //this avoids any possible bug
         if (type === 'next') {
             
-            return step.value = step.value === 1 && 2 || step.value === 2 && 3 || step.value
+            return step.value = step.value === 0 && 1 || step.value === 1 && 2 || step.value
         }
-        if (type === 'prev') return step.value = step.value === 2 ? 1 : step.value === 3 && 2 || step.value
+        if (type === 'prev') return step.value = step.value === 1 ? 0 : step.value === 2 && 1 || step.value
     }
 
     const steps = [
@@ -92,13 +95,14 @@
                 ],
                 label: 'Nome do produto',
                 placeholder: '',
-                type: 'string'
+                type: 'text',
+                valid: true
             },
             category: {
                 rules: [],
                 label: 'categoria do produto',
                 placeholder: '',
-                type: 'string'
+                type: 'text'
             },
             price: {
                 rules: [
@@ -109,6 +113,7 @@
                         return !Number(price.value) ? false : true
                     },
                 ],
+                type: 'number',
                 label: 'Preço do produto',
                 placeholder: ''
             }
