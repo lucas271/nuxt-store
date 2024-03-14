@@ -20,12 +20,12 @@ export const useCategoryStore = defineStore('category', () => {
     async function getAllCategories(){
         try {
             start()
-            const response = await axios.get('/api/category?category='+JSON.stringify({type: 'getAll'})).then(res => res).catch(res => {
+            const response = await $fetch('/api/category?data='+JSON.stringify({type: 'getAll'})).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
-    
             reset()
-            return categories.value = response.data.category
+            console.log(response.category)
+            return categories.value = response.category
         } catch (error) {
             reset()
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel encontrar as categorias')
