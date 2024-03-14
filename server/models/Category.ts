@@ -37,12 +37,8 @@ class Category{
 	}
 
 	async getAllCategories(){
-		if(!this.query?.name) return this.errors.push("informações faltando")
-
-		const items = await this.prisma.category.findMany({       
-            select: selectOptions
-		}).catch(err => this.errors.push("nao foi possivel encontrar as categorias"))
-
+		console.log('a')
+		const items = await this.prisma.category.findMany({}).catch(err => this.errors.push("nao foi possivel encontrar as categorias") && console.log(err))
 		if(this.errors.length > 0) return
 		this.response = items
 	}  

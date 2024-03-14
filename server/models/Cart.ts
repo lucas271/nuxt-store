@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-const prima = new PrismaClient()
+const prisma = new PrismaClient()
 //userId === cartId in the db
 export interface CartBodyInterface{
     productId?: string,
@@ -22,7 +22,7 @@ class Cart{
 	}
 
 	async getCart(){
-		if(!this.body.userId) return this.errors.push("Did not receive cart ID")
+		if(!this.body.userId) return this.errors.push("	Id do cart não recebido")
 		const cart = await this.prisma.cart.findUnique({
 			where:{
 				id: this.body.userId
@@ -32,7 +32,7 @@ class Cart{
 				id: true
 			}
 		}).catch(() => {
-			this.errors.push('could not find product')
+			this.errors.push('nao foi possivel achar o produto')
 			return null
 		})
 
@@ -63,7 +63,7 @@ class Cart{
 		const cart = await this.handleCart()
 		if(this.errors.length > 0) return
 		this.body.userId = cart?.id || this.body.userId
-		if(!this.body.userId || !this.body.productId) return this.errors.push("Did not receive cart ID Or Product ID")
+		if(!this.body.userId || !this.body.productId) return this.errors.push("o id do produto ou o id do usuario não foi recebido")
 		const existingCartItem = await this.prisma.cartItem.findFirst({
 			where: {
 				product_id: this.body.productId,
@@ -84,7 +84,7 @@ class Cart{
 					quantity: true,
 					product_id: true,
 				}
-			}).catch((err) => this.errors.push('unable to add new cart Item') && console.log(err));
+			}).catch((err) => this.errors.push('Não foi possivel adicionar o novo item') && console.log(err));
 			if(this.errors.length > 0) return
 			this.response = cartItem
 		} else {
@@ -100,7 +100,7 @@ class Cart{
 					quantity: true,
 					product_id: true,
 				}
-			}).catch((err) => this.errors.push('unable to create new cart Item'));
+			}).catch((err) => this.errors.push('não foi possivel adicionar o novo item'));
 			if(this.errors.length > 0) return
 
 			this.response = cartItem
@@ -129,7 +129,7 @@ class Cart{
 					quantity: true,
 					product_id: true
 				}
-			}).then(res => res).catch(() => this.errors.push(' could not delete product'))
+			}).then(res => res).catch(() => this.errors.push('nao foi possivel deletar o item'))
 
 			if(this.errors.length > 0) return
 			this.response = deleteSingleProduct
@@ -149,15 +149,15 @@ class Cart{
 			select: {id: true}
 		}).catch(err => {
 			console.log(err)
-			this.errors.push(' could not find user')
+			this.errors.push('não foi possivel encontrar o usuario')
 			return
 		})
-		const cartDeleted = await this.prisma.cartItem.delete({
+		await this.prisma.cartItem.delete({
 			where: {
 				id: productInCart?.id
 			}
 		}).then(res => res).catch(err => {
-			this.errors.push("could not delete")})
+			this.errors.push("não foi ossivel deletar o carrinho")})
 
 		if(this.errors.length > 0) return
 
@@ -173,7 +173,7 @@ class Cart{
 			select: {id: true}
 		}).catch(err => {
 			console.log(err)
-			this.errors.push(' could not find user')
+			this.errors.push('nao foi possivel encontrar o usuario')
 			return
 		})
 
@@ -186,7 +186,7 @@ class Cart{
 				quantity: true,
 				product_id: true
 			}
-		}).catch(err => this.errors.push("not able to delete product"))
+		}).catch(err => this.errors.push("nao foi possivel deletar o produto"))
 
 		if(this.errors.length > 0) return
 		this.response = deleteProduct
@@ -201,7 +201,7 @@ class Cart{
 				id: this.body.userId
 			}
 		}).catch(() => {
-			this.errors.push('Error trying to get the cart')
+			this.errors.push('Erro tentando encontrar o carrinho')
 			return null
 		})
 
@@ -210,12 +210,12 @@ class Cart{
 			return cart
 		}
 		if(!this.body.userId){
-			this.errors.push("No user id received") 
+			this.errors.push("id do usuario não recebido") 
 			return null    
 		}
 		if(this.errors.length > 0) return null
 		cart = await this.prisma.cart.create({data: {id: this.body.userId, status: 'PENDING'}}).then((res) => res).catch(() => {
-			this.errors.push('unable to create cart')
+			this.errors.push('nao foi possivel criar o carrinho')
 			return null
 		})
 		if(this.errors.length > 0) return null

@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-const prima = new PrismaClient()
+const prisma = new PrismaClient()
 
 //userId === cartId in the db
 export interface ProductBodyInterface{
@@ -17,6 +17,7 @@ export interface ProductBodyInterface{
 }
 
 export interface ProductQueryInterface{
+    categoryName?: string,
     productId?: string,
     limit?: number,
     skip?: number,
@@ -54,24 +55,25 @@ class Product{
 					startsWith: this.query?.startsWith || '',
 					mode: "insensitive"
 				},
-				brand_id: this.query?.brandId,
 				category_name: this.query?.categoryName,
 				quantity: {gt: this.query?.includeSoldOut ? -1 : 0},
 			}
-		}).catch(err => this.errors.push("it was not possible to get the products"))
+		}).catch(err => {
+			this.errors.push("Erro ao tentar encontrar os produtos")
+		})
 
 		if(this.errors.length > 0) return
 		this.response = products
 	}  
 
 	async getProduct(){
-		if(!this.query?.productId) return this.errors.push("did not receive the product Id")
+		if(!this.query?.productId) return this.errors.push("ID do produto não recebido")
 
 		const product = await this.prisma.product.findUnique({
 			where: {
 				id: this.query.productId
 			}
-		}).catch(err => this.errors.push("could not get product"))
+		}).catch(err => this.errors.push("Não foi possível obter o produto"))
 
 		if(this.errors.length > 0) return
     
@@ -79,7 +81,7 @@ class Product{
 	}
 
 	async createNewProduct(){
-		if(!this.body || !this.body.title || !this.body.name || !this.body.quantity || !this.body.description || !this.body.price) return this.errors.push("There are empty fields")
+		if(!this.body || !this.body.title || !this.body.name || !this.body.quantity || !this.body.description || !this.body.price) return this.errors.push("Existem campos vazios")
 
 		const newProduct = await this.prisma.product.create({
 			data: {
@@ -89,10 +91,9 @@ class Product{
 				name: this.body.name,
 				price: Number(this.body.price),
 				quantity: Number(this.body.quantity) || 1,
-				brand_id: this.body?.brandName || undefined,
 				category_name: this.body?.categoryName || undefined,
 			}
-		}).catch((error) => this.errors.push('error creating product') && console.log(error))
+		}).catch((error) => this.errors.push('Erro ao criar o produto') && console.log(error))
 
 		if(this.errors.length > 0) return
 
@@ -100,15 +101,15 @@ class Product{
 	}
 
 	async deleteProduct(){
-		if(!this.body) return this.errors.push("did not receive any info")
-		if(!this.body.productId) return this.errors.push("did not receive the product to delete")
-		if(!this.body.userId) return this.errors.push("you need to be an authorized user to create a product")
+		if(!this.body) return this.errors.push("Não recebeu nenhuma informação")
+		if(!this.body.productId) return this.errors.push("Não recebeu o produto para excluir")
+		if(!this.body.userId) return this.errors.push("Você precisa ser um usuário autorizado para excluir um produto")
 
 		const deletedProduct = await this.prisma.product.delete({
 			where: {
 				id: this.body.productId
 			}
-		}).catch(() => this.errors.push('error deleting product'))
+		}).catch(() => this.errors.push('Erro ao excluir o produto'))
 
 		if(this.errors.length > 0) return
 
@@ -116,8 +117,8 @@ class Product{
 	}
 
 	async updateProduct(){
-		if(!this.body?.userId) return this.errors.push("you need to be an authorized user to create a product")
-		if(!this.body?.productId) return this.errors.push(" did not receive the product to update")
+		if(!this.body?.userId) return this.errors.push("Você precisa ser um usuário autorizado para atualizar um produto")
+		if(!this.body?.productId) return this.errors.push("Não recebeu o produto para atualizar")
 		console.log(this.body.title, this.body.description, this.body.name, this.body.price, this.body)
 		const updatedProduct = await this.prisma.product.update({
 			where: {
@@ -130,10 +131,9 @@ class Product{
 				name: this.body?.name,
 				price: this.body?.price,
 				quantity: Number(this.body?.quantity) || undefined,
-				brand_id: this.body?.brandName,
 				category_name: this.body?.categoryName,
 			}
-		}).catch(() => this.errors.push('error creating product'))
+		}).catch(() => this.errors.push('Erro ao atualizar o produto'))
 
 		if(this.errors.length > 0) return
 
@@ -141,9 +141,9 @@ class Product{
 	}
 
 	async decreaseProductQuantByOne(){
-		if(!this.body || !this.body.productId) return this.errors.push("info missing")
+		if(!this.body || !this.body.productId) return this.errors.push("Informações faltando")
     
-		//Up to know for bussiness logic it should ALLOW negative items in storage. 
+		//Até o momento, para a lógica de negócios, deve PERMITIR itens negativos no estoque. 
 		const product = await this.prisma.product.update({
 			where: {
 				id: this.body.productId
@@ -151,7 +151,7 @@ class Product{
 			data:{
 				quantity: {decrement: 1}
 			}
-		}).catch(() => this.errors.push('error decreasing product'))
+		}).catch(() => this.errors.push('Erro ao diminuir a quantidade do produto'))
 
 		if(this.errors.length > 0) return
 
@@ -159,8 +159,8 @@ class Product{
 	}
 
 	async increaseProductQuant(){
-		if(!this.body || !this.body.productQuantIncrement || !this.body.productId || !this.body.userId) return this.errors.push("info missing")
-		if(!(await this.isAuthorized(this.body.userId))) return this.errors.push("user not authorized")
+		if(!this.body || !this.body.productQuantIncrement || !this.body.productId || !this.body.userId) return this.errors.push("Informações faltando")
+		if(!(await this.isAuthorized(this.body.userId))) return this.errors.push("Usuário não autorizado")
 
 		const product = await this.prisma.product.update({
 			where: {
@@ -169,7 +169,7 @@ class Product{
 			data:{
 				quantity: {increment: Number(this.body.productQuantIncrement)}
 			}
-		}).catch(() => this.errors.push('error decreasing product'))
+		}).catch(() => this.errors.push('Erro ao aumentar a quantidade do produto'))
 
 		if(this.errors.length > 0) return
 
@@ -178,11 +178,10 @@ class Product{
 
 	private async isAuthorized(userId: string){
 		const user = await this.prisma.user.findFirst({where: {id: userId}}).then(res => res).catch(() => {
-			this.errors.push("not able to check if user is authorized")
+			this.errors.push("Não foi possível verificar se o usuário está autorizado")
 			return null
 		})
 		if(this.errors.length > 0)
-			if(user?.role === 'ADMIN') return true
 		return false
 	}
 }
