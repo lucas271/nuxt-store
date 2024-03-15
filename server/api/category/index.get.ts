@@ -6,7 +6,6 @@ export default defineEventHandler(async (event) => {
 
   try {
     const query: CategoryQueryInterface & {type: 'getAll' | 'getSingle'} = JSON.parse(String(getQuery(event).data))
-
     if(!query || !query.type) throw {errors: ['Informações faltando'], statusCode: 400}
     const category = new Category(undefined, query)
     

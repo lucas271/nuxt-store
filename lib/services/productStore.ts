@@ -13,11 +13,11 @@ export interface ItemInterface {
     img?: string,
     quantity: number
     is_available: boolean,
-    categoryName?: string
+    category?: string
 }
 
 
-export const useProductStore = defineStore('item', () => {
+export const useProductStore = defineStore('product', () => {
     const product = ref<ItemInterface | null>(null)
     const products = ref<ItemInterface[]>([])
     const loading = ref<boolean>(true)
@@ -44,17 +44,16 @@ export const useProductStore = defineStore('item', () => {
     async function addProduct(product: ItemInterface){
         try {
             start()
-            const response = await axios.post('/api/product', {...product}).then(res => res).catch(res => {
+            const response = await $fetch('/api/product', {method: 'POST',body: { ...product}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
             reset()
-
-            return products.value.push(response.data.product)
+            return products.value.push(response.product)
         } catch (error) {
             reset()
 
-
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            console.log(error)
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
     async function removeProduct(productId: string){

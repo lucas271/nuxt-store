@@ -4,7 +4,7 @@ export interface filterInterface{
     numberOfSessions: null,
     searchQuery: null 
 }
-export const useFilterState = () => useState<filterInterface | null>('filter', () => {
+export const useFilterState = () => useState<filterInterface>('filter', () => {
     return {
         sortBy: '',
         typesSelected: [],

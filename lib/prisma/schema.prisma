@@ -180,7 +180,7 @@ model Category {
 
   //indexes
   @@index([name])
-      @@schema("public")
+  @@schema("public")
 
 }
 
