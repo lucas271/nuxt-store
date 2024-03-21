@@ -1,6 +1,7 @@
 <template>
-    <v-card class="w-100 h-100 flex-column d-flex ga-2 bg-teal-lighten-2 rounded-lg">
-        <v-img class="h-50 w-100 flex-shrink-1" cover :src="img ? img : 'https://duohaus.com.br/wp-content/uploads/2021/07/massagemodeladora1.jpeg'">
+    <v-card class="flex-column d-flex ga-2 bg-teal-lighten-2 rounded-lg w-100" height="600px">
+        <v-img class="h-50 w-100 " cover :src="img ? img : 'https://duohaus.com.br/wp-content/uploads/2021/07/massagemodeladora1.jpeg'">
+            <slot/>
             <v-btn variant="" class="text-subtitle-2 text-red-darken-1 bg-red-lighten-3" icon="mdi-heart" density="comfortable" position="absolute" :style="{top: '5%', right: '5%'}"></v-btn>
 
         </v-img>
@@ -19,7 +20,6 @@
             </v-card-actions>
         </div>
     </v-card>
-    {{  }}
 </template>
 
 <script setup lang="ts">
