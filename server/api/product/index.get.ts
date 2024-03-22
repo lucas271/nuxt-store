@@ -3,12 +3,14 @@ import defaultResponse from "../util/defaultResponse"
 
 export default defineEventHandler(async (event) => {
   try {
-    const query: ProductQueryInterface & {type: 'product' | 'products'} = JSON.parse(String(getQuery(event).data))
+    const query: ProductQueryInterface & {type: 'product' | 'products' | 'maxPrice'} = JSON.parse(String(getQuery(event).data))
     if(!query || !query.type) throw {errors: ['Informações faltando'], statusCode: 400}
-    const product = new Product(query)
+    console.log(query)
+    const product = new Product(undefined, query)
     
     if(query.type === 'product') return await defaultResponse(product, product.getProduct.bind(product), 'product')
     else if(query.type ==='products') return await defaultResponse(product, product.getProducts.bind(product), 'product')
+    else if(query.type ==='maxPrice') return await defaultResponse(product, product.getMaxPrice.bind(product), 'value')
   } catch (error: any) {
     throw createError({
       statusCode: error?.statusCode || 500,

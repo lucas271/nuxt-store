@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient()
 
@@ -17,17 +17,17 @@ export interface ProductBodyInterface{
 }
 
 export interface ProductQueryInterface{
-    categoryName?: string,
     productId?: string,
-    limit?: number,
+    take?: number,
     skip?: number,
     sortBy?: {
         isPriceAscending?: boolean,
-        mostFavorites?: boolean,
-        isNewer?: boolean,
+        isMostFavorites?: boolean,
+        isNewest?: boolean,
     },
+	categoriesSelected?: string[]
     startsWith?: string,
-    includeSoldOut?: boolean,
+    priceRange?: number[],
 }
 
 class Product{
@@ -47,25 +47,45 @@ class Product{
 	}
 
 	async getProducts(){
+		console.log(this.query?.take, this.query?.skip)
+		const whereObject: Prisma.ProductWhereInput = {
+			name: {
+				startsWith: this.query?.startsWith,
+				mode: "insensitive"
+			},
+			category_name: (this.query?.categoriesSelected && this.query.categoriesSelected.length >= 1) ? {in: this.query?.categoriesSelected} : undefined,
+			price: {gte: this.query?.priceRange ? this.query?.priceRange[0] || 0 : 0, lte: this.query?.priceRange ? this.query?.priceRange[1] || undefined: undefined}
+		}
+		const productCount = await this.prisma.product.count({
+			where: whereObject
+		})
 		const products = await this.prisma.product.findMany({
-			skip: this.query?.skip || 0,
-			take: this.query?.limit || 100, 
-			where: {
-				name: {
-					startsWith: this.query?.startsWith || '',
-					mode: "insensitive"
-				},
-				category_name: this.query?.categoryName,
-				quantity: {gt: this.query?.includeSoldOut ? -1 : 0},
+			skip: this.query?.skip,
+			take: this.query?.take, 
+			where: whereObject,
+			orderBy: this.query?.sortBy && {
+				price: this.query.sortBy.isPriceAscending === false && 'desc' || this.query.sortBy.isPriceAscending === true && 'asc' || undefined,
+				created_at: this.query.sortBy.isNewest && 'asc' || undefined,
+				favorites: this.query.sortBy.isMostFavorites === true ? {
+					_count: 'asc'
+				} : undefined
 			}
 		}).catch(err => {
 			this.errors.push("Erro ao tentar encontrar os produtos")
 		})
+		
+		if(this.errors.length > 0) return
+		this.response = {products: products, productCount: productCount}
+	}  
+	async getMaxPrice(){
+		const product = await this.prisma.product.findFirst({
+			orderBy: { price: 'desc' }, // Sort by price in descending order
+		}).then(res => res ? res.price : undefined).catch(err => this.errors.push('Nao foi possivel pegar o maior preço'))
 
 		if(this.errors.length > 0) return
-		this.response = products
-	}  
-
+		if(!product) return this.errors.push('não existe nenhum item')
+		this.response = product
+	}
 	async getProduct(){
 		if(!this.query?.productId) return this.errors.push("ID do produto não recebido")
 
@@ -76,7 +96,6 @@ class Product{
 		}).catch(err => this.errors.push("Não foi possível obter o produto"))
 
 		if(this.errors.length > 0) return
-    
 		this.response = product
 	}
 
@@ -119,7 +138,6 @@ class Product{
 	async updateProduct(){
 		if(!this.body?.userId) return this.errors.push("Você precisa ser um usuário autorizado para atualizar um produto")
 		if(!this.body?.productId) return this.errors.push("Não recebeu o produto para atualizar")
-		console.log(this.body.title, this.body.description, this.body.name, this.body.price, this.body)
 		const updatedProduct = await this.prisma.product.update({
 			where: {
 				id: this.body.productId
