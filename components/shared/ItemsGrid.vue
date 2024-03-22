@@ -1,5 +1,6 @@
 <template>
         <v-row class="flex-grow-1">
+
             <template v-if="!productStore.loading">
                 <v-col cols="12" md="4" sm="6" v-if="$slots.default">
                     <slot/>
@@ -16,11 +17,11 @@
                 </span>
             </template>
         </v-row>
+
 </template>
 
 <script setup lang="ts">
     import {useProductStore} from '../../lib/services/productStore.ts'
-    
     interface productInterface {
         id: string,
         createdAt?: string,
@@ -37,13 +38,15 @@
 
     const productStore = useProductStore()
 
-
     const props = defineProps<{
         storeFunc: () => Promise<any>,
-        watchVariable?: any
+        watchVariable?: any,
+        take: number,
+        skip: number,
     } & productInterface>()
     const watchVariableProp = ref(props.watchVariable)
+
     watchVariableProp.value && watch(watchVariableProp.value, async () => {
-        await props.storeFunc(watchVariableProp.value)
+        await props.storeFunc(watchVariableProp.value, props.take, props.skip)
     })
 </script>
