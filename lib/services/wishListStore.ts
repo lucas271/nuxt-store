@@ -17,10 +17,10 @@ export interface wishListInterface {
 }
 
 
-export const useItemStore = defineStore('item', () => {
+export const useWishListStore = defineStore('wishList', () => {
     const wishList = ref<wishListInterface[]>([])
     const loading = ref<boolean>(true)
-    const errors= ref<string[]>([])
+    const errors = ref<string[]>([])
 
 
     async function removeFromWishList(wishListItemId: string){
@@ -34,7 +34,7 @@ export const useItemStore = defineStore('item', () => {
             return wishList.value = wishList.value.filter(product => product.product.id !== response.data.product.id)
         } catch (error) {
             reset()
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel encontrar os produtos')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel encontrar os produtos'])
         }
     }
     async function removeAllFromWishList(wishListItemId: string){
@@ -47,7 +47,7 @@ export const useItemStore = defineStore('item', () => {
             return wishList.value = []
         } catch (error) {
             reset()
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
 
@@ -62,7 +62,7 @@ export const useItemStore = defineStore('item', () => {
             return wishList.value = response.data.product
         } catch (error) {
             reset()
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
 
     }
@@ -78,7 +78,7 @@ export const useItemStore = defineStore('item', () => {
             return wishList.value.push(response.data.product)
         } catch (error) {
             reset()
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
 
 

@@ -49,7 +49,7 @@ export const useItemStore = defineStore('item', () => {
         } catch (error) {
             reset()
 
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
     async function addMessage(review: MessageInterface & {rating: number}){
@@ -64,7 +64,7 @@ export const useItemStore = defineStore('item', () => {
         } catch (error) {
             reset()
 
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
     async function removeMessage(messageId: string){
@@ -78,7 +78,7 @@ export const useItemStore = defineStore('item', () => {
         } catch (error) {
             reset()
 
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
     function reset(){

@@ -24,11 +24,10 @@ export const useCategoryStore = defineStore('category', () => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
             reset()
-            console.log(response.category)
             return categories.value = response.category
         } catch (error) {
             reset()
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel encontrar as categorias')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel encontrar as categorias'])
         }
     }
     async function addCategory(name: string, description?: string, image?: string){
@@ -44,7 +43,7 @@ export const useCategoryStore = defineStore('category', () => {
         } catch (error) {
             reset()
 
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
     async function removeCategory(name: string){
@@ -59,7 +58,7 @@ export const useCategoryStore = defineStore('category', () => {
         } catch (error) {
             reset()
 
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
     function reset(){

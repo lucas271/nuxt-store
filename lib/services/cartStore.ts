@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia'
-import type { filterInterface} from '../../composables/states'
 import {ref} from 'vue'
-import axios from 'axios'
 
 export interface cartProductInterface {
     product: {
@@ -16,18 +14,19 @@ export interface cartProductInterface {
         loading?: boolean
     },
     quantity: number
+    cartId: string
 }
 
 
-export const useItemStore = defineStore('item', () => {
+export const useCartStore = defineStore('cart', () => {
     const cartProducts = ref<cartProductInterface[]>([])
-    const loading = ref<boolean>(true)
+    const loading = ref<boolean>(false)
     const errors= ref<string[]>([])
 
     async function getCart(){
         try {
             start()
-            const response = await axios.get('/api/cart?data='+JSON.stringify('')).then(res => res).catch(res => {
+            const response = await $fetch('/api/cart?data='+JSON.stringify('')).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
 			})            
             
@@ -38,14 +37,14 @@ export const useItemStore = defineStore('item', () => {
             return cartProducts.value = response.data.product
         } catch (error) {
             reset()
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel encontrar os produtos')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel encontrar os produtos'])
         }
     }
 
     async function deleteSingleCartProduct(productId: string){
         try {
             start()
-            const response = await axios.put('/api/cart', {type: 'deleteSingleProductFromcart',  productId}).then(res => res).catch(res => {
+            const response = await $fetch('/api/cart', {method: 'PUT', body: {type: 'deleteSingleProductFromcart',  productId}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })    
                 
@@ -58,13 +57,13 @@ export const useItemStore = defineStore('item', () => {
         } catch (error) {
             reset()
 
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
-    async function addProduct(productId: string){
+    async function addProduct(productId: string, userId: string){
         try {
             start()
-            const response = await axios.put('/api/cart', {type: 'addProduct', productId}).then(res => res).catch(res => {
+            const response = await $fetch('/api/cart', {method: 'PUT', body: {type: 'addProduct', productId, userId}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
             reset()
@@ -73,14 +72,14 @@ export const useItemStore = defineStore('item', () => {
         } catch (error) {
             reset()
 
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
 
     async function deleteCartProduct(productId: string){
         try {
             start()
-            const response = await axios.delete('/api/cart', {data: {type: 'deleteProductFromCart', productId}}).then(res => res).catch(res => {
+            const response = await $fetch('/api/cart', {method: 'DELETE', body: {data: {type: 'deleteProductFromCart', productId}}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
             reset()
@@ -90,7 +89,7 @@ export const useItemStore = defineStore('item', () => {
         } catch (error) {
             reset()
 
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
 
     }
@@ -98,14 +97,14 @@ export const useItemStore = defineStore('item', () => {
     async function deleteCart(){
         try {
             start()
-            const response = await axios.delete('/api/cart', {data: {type: 'deleteCart'}}).then(res => res).catch(res => {
+            const response = await $fetch('/api/cart', {method: 'DELETE', body: {data: {type: 'deleteCart', cartId}}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })   //storing in a variable if I ever need to use it.
             reset()
             return cartProducts.value = []
         } catch (error) {
             reset()
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
 
 

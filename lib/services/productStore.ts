@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import type { filterInterface} from '../../composables/states'
 import {ref} from 'vue'
 
-export interface ItemInterface {
+export interface productInterface {
     id: string,
     createdAt?: string,
     updatedAt?:string,
@@ -13,70 +13,74 @@ export interface ItemInterface {
     img?: string,
     quantity: number
     is_available: boolean,
-    category?: string
+    category?: string,
 }
 
 
 export const useProductStore = defineStore('product', () => {
-    const product = ref<ItemInterface | null>(null)
-    const products = ref<ItemInterface[]>([])
+    const product = ref<productInterface | null>(null)
+    const products = ref<productInterface[]>([])
+    const productCount = ref<number | null>(null)
     const loading = ref<boolean>(true)
     const errors= ref<string[]>([])
     
 
-    async function getAllProducts(filter: filterInterface){
+    async function getAllProducts(filter: filterInterface, take: number, skip: number){
         try {
             start()
-            const response = await $fetch('/api/product?data='+JSON.stringify({ filter, type: 'products'})).then(res => res).catch(res => {
-                console.log(res.data.message)
+            const response = await $fetch('/api/product?data='+JSON.stringify({ ...filter, take, skip, type: 'products'})).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
-            if(response?.product?.length  < 1) throw {errors: ['Nenhum produto disponivel']}
 
-            return products.value = response.product
+            if(response?.product?.products?.length  < 1) {
+                products.value = []
+                throw {errors: ['Nenhum produto disponivel']}
+             }
+            productCount.value = response.product.productCount
+            return products.value = response.product.products
         } catch (error: any) {
-            console.log(error)
             reset()
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel encontrar os produtos'])
         }
     }
-    async function addProduct(product: ItemInterface){
+    async function addProduct(productInfo: ItemInterface){
         try {
             start()
-            const response = await $fetch('/api/product', {method: 'POST',body: { ...product}}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+            const response = await $csrfFetch('/api/product', {method: 'POST',body: { ...productInfo}}).then(res => res).catch(res => {
+                throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
+            productCount.value = productCount.value + 1
             return products.value.push(response.product)
         } catch (error) {
             reset()
-
-            console.log(error)
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
     async function removeProduct(productId: string){
         try {
             start()
-            const response = await axios.delete('/api/product', {data: {type: 'deleteProductFromCart', productId}}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+            console.log(productId)
+            const response = await $fetch('/api/product', {method: 'delete', body: {productId: productId}}).then(res => res).catch(res => {
+                throw {errors: JSON.parse(res?.data?.message).errors}
             })
             reset()
+            productCount.value = productCount.value - 1
 
             return products.value.filter(product => product.id !== response.data.product.id) 
         } catch (error) {
+            console.log(error, 'ldpasldplaspldpaslp')
             reset()
-
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
 
     async function updateProduct({productId, updateInfo}: {productId: string, updateInfo: ItemInterface}){
         try {
             start()
-            const response = await axios.put('/api/controllers/product', {type: 'updateProduct', productId, ...updateInfo}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+            const response = await $fetch('/api/controllers/product', {method: 'put', body: {type: 'updateProduct', productId, ...updateInfo}}).then(res => res).catch(res => {
+                throw {errors: JSON.parse(res.data.message).errors}
             })
 
             const productIndex = products.value.map(product => product.id).indexOf(response.data.product.id)
@@ -85,7 +89,7 @@ export const useProductStore = defineStore('product', () => {
             return products.value[productIndex >= 0 ? productIndex : products.value.length] = response.data.product
         } catch (error) {
             reset()
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
 
     }
@@ -93,15 +97,15 @@ export const useProductStore = defineStore('product', () => {
     async function getProduct(productId: string){
         try {
             start()
-            const response = await axios.get('/api/product?productCredencials='+JSON.stringify({productId, type: 'product'})).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+            const response = await $fetch('/api/product?productCredencials='+JSON.stringify({productId, type: 'product'})).then(res => res).catch(res => {
+                throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
 
             return product.value = response.data.product
         } catch (error) {
             reset()
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel encontrar os produtos')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel encontrar os produtos'])
         }
 
 
@@ -114,5 +118,5 @@ export const useProductStore = defineStore('product', () => {
         errors.value = []
         loading.value = false
     }
-    return {products, product, getAllProducts, loading, errors, addProduct, removeProduct, updateProduct, getProduct}
+    return {products, product, getAllProducts, productCount, loading, errors, addProduct, removeProduct, updateProduct, getProduct}
 })

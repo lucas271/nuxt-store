@@ -27,7 +27,7 @@ export const useItemStore = defineStore('item', () => {
         } catch (error) {
             reset()
 
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel encontrar as avaliações')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel encontrar as avaliações'])
         }
     }
     async function addRating(ratingValue: string, productId?: string, reviewId?: string){
@@ -42,7 +42,7 @@ export const useItemStore = defineStore('item', () => {
         } catch (error) {
             reset()
 
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
     async function removeRating(productId: string, ratingId: string){
@@ -57,7 +57,7 @@ export const useItemStore = defineStore('item', () => {
         } catch (error) {
             reset()
 
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
     async function updateRating(ratingValue: string, productId: string, ratingId?: string){
@@ -74,7 +74,7 @@ export const useItemStore = defineStore('item', () => {
         } catch (error) {
             reset()
 
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel realizar a ação')
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
     function reset(){
