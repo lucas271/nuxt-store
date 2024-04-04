@@ -13,9 +13,9 @@ export default defineEventHandler(async (event) => {
     else if(query.type ==='getSingle') return await defaultResponse(category, category.getCategory.bind(category), 'category')
     throw {errors: ['Tipo da operação não informado/reconhecido'], statusCode: 400}
   } catch (error: any) {
-    throw createError({
-      statusCode: error?.statusCode || 500,
-      message: JSON.stringify({errors: error?.errors || ["erro no servidor"]}),
-    })
+      throw createError({
+        statusCode: error?.statusCode || 500,
+        message: JSON.stringify({errors: error?.errors || ["erro no servidor"]}),
+      })
   }
 })

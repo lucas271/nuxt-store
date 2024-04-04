@@ -4,7 +4,7 @@ import defaultResponse from "../util/defaultResponse"
 export default defineEventHandler(async (event) => {
     try {
       const query: CartBodyInterface = JSON.parse(String(getQuery(event).data))
-
+      console.log(query)
       if(!query) throw {errors: ['Informações faltando'], statusCode: 400}
   
       const cart = new Cart(query)
