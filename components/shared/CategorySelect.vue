@@ -2,7 +2,7 @@
     <v-select :items="categoryStore.categories.length > 0 ? categoryStore.categories.map(category => {
         return category.name
     }) : []
-    " v-bind:value="select" v-on:input="$emit('update:select', $event.target.value)" name="category">
+    " v-bind:value="select" @change="$emit('update:select', selectedCategory)" name="category">
 
     </v-select>
 </template>

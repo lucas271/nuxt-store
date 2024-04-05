@@ -49,7 +49,7 @@
 
     import {watch} from 'vue'
     const maxPrice = await $fetch('/api/product?data='+JSON.stringify({type: 'maxPrice'})).then(res => res.value ).catch(res => {
-        throw {errors: JSON.parse(res.data.message).errors}
+        return 'a'
     })
     const sortBySelected = ref<'Menor valor' | 'Maior valor' | 'Mais vendidos' | 'Mais Novos'>('Mais vendidos')
     const filter = useFilterState()
@@ -58,7 +58,6 @@
     await categoryStore.getAllCategories()
 
     watch(sortBySelected, (currentValue) => {
-        console.log(sortBySelected)
         if(currentValue !== 'Menor valor' || currentValue !== 'Maior valor') filter.value.sortBy.isPriceAscending = null
         if(currentValue !== 'Mais novos') filter.value.sortBy.isNewest = null
         if(currentValue !== 'Mais relevantes') filter.value.sortBy.isMostFavourites = null

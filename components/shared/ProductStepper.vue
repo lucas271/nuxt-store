@@ -19,9 +19,10 @@
                             :rules="item[input].rules" :name="input" 
                             :placeholder="item[input].placeholder" 
                             :type="item[input].type"
+                            v-model="properties[input]"
                         />
 
-                        <sharedCategorySelect v-if="item[input].type === 'select'" :rules="item[input].rules" :placeholder="item[input].placeholder" :name="input" :label="item[input].label" v-model="categorySelect" />
+                        <sharedCategorySelect v-if="item[input].type === 'select'" :rules="item[input].rules" :placeholder="item[input].placeholder" :name="input" :label="item[input].label" v-model="properties[input]"/>
                         <v-file-input 
                             v-if="item[input].type === 'file'"                                              
                             :label="item[input].label" 
@@ -31,12 +32,11 @@
                         />
                     </template>
                     <div class="pa-2 d-flex justify-space-between align-center">
-                        <v-btn text @click="changeStep('prev', index)">Retroceder</v-btn>
+                        
+                        <v-btn text @click="index + 1 > 1 ? changeStep('prev') : emit('stepperClose')">{{index + 1 > 1 ? "voltar" : 'cancelar'}}</v-btn>
                         <v-btn v-if="index + 1 < 3"  @click="changeStep('next', index)">Avançar</v-btn>
-                        <v-btn v-else color="success" @click="sendAddProductRequest()">Concluir</v-btn>
+                        <v-btn v-else color="success" @click="sendRequest()">Enviar</v-btn>
                     </div>
-
-
                 </v-form>
             </v-stepper-window-item>
             
@@ -46,6 +46,25 @@
 
 <script lang="ts" setup>
     import {useProductStore} from '../../lib/services/productStore.ts'
+    const emit = defineEmits(['stepperClose'])
+    interface PropertiesInterface{
+        isForm: boolean,
+        title?: string,
+        img?: string,
+        price?: number | null,
+        description?: string,
+        id?: string, 
+        quantity?: number | null,
+        name?: string,
+        category?: string
+    }
+
+
+    const props = defineProps<{properties?: PropertiesInterface}>()
+    const properties = ref<{properties: PropertiesInterface}>({isForm: false, title: '', img: '', category: '', name: '', quantity: null, id: '', description: '', price: null, name: ''})
+    onMounted(() => {
+        properties.value = props.properties ? {...props.properties} : properties.value
+    })
 
     const currentStep = ref<1 | 2 | 3>(1)
     const productStore = useProductStore()
@@ -53,7 +72,8 @@
     const formRef = ref(null)
     const isCurrentStepError = ref(false)
 
-    async function sendAddProductRequest(){
+
+    async function sendRequest(){
         const areFormsValidPromises = formRef.value.map(async ref => await ref.validate());
         const areFormsValid = await Promise.all(areFormsValidPromises).then(results => results.filter(result => !result.valid))
         
@@ -61,7 +81,7 @@
         const formInputs = formRef.value.map(ref =>  ref.querySelectorAll('input'))
         const combinedFormInputs = formInputs.reduce((pv, cv) => [...pv, ...cv], [])
         const productRequestParamsArray = await Promise.all(combinedFormInputs.map(async (element) => {
-            if(element.name === 'category') return { [element.name]: categorySelect.value}
+            if(element.name === 'category') return { [element.name]: properties.value[element.name]}
             if (element.name === 'img') {
                 const file = element.files[0];
                 const base64File = await new Promise((resolve, reject) => {
@@ -77,13 +97,13 @@
 
                     reader.readAsDataURL(file);
                 });
-                console.log(base64File)
                 return { [element.name]: base64File };
             }
             return { [element.name]: element.value };
         }))
         const productRequestParamsObj = productRequestParamsArray.reduce((pv, cv) => {return {...pv, ...cv}}, {})
-        productStore.addProduct(productRequestParamsObj)
+        console.log(props.properties.id, productRequestParamsObj)
+        !props.properties ? productStore.addProduct(productRequestParamsObj) : productStore.updateProduct(props.properties.id, productRequestParamsObj)
     }
     const changeStep = async (type: 'next' | 'prev', index) => {
         
@@ -203,4 +223,6 @@
             }
         }
     ]
+
+
 </script>
