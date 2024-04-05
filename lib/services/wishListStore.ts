@@ -21,12 +21,13 @@ export const useWishListStore = defineStore('wishList', () => {
     const wishList = ref<wishListInterface[]>([])
     const loading = ref<boolean>(true)
     const errors = ref<string[]>([])
+    const { $csrfFetch } = useNuxtApp()
 
 
     async function removeFromWishList(wishListItemId: string){
         try {
             start()
-            const response = await axios.delete('/api/controllers/wishList', {data: { wishListItemId, type: 'product'}}).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/controllers/wishList', {method: 'delete',body: { wishListItemId, type: 'product'}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
     
@@ -40,7 +41,7 @@ export const useWishListStore = defineStore('wishList', () => {
     async function removeAllFromWishList(wishListItemId: string){
         try {
             start()
-            const response = await axios.delete('/api/wishList', {data: {wishListItemId, type: 'product'}}).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/wishList', {method: 'delete', body: {wishListItemId, type: 'product'}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
             reset()
@@ -54,7 +55,7 @@ export const useWishListStore = defineStore('wishList', () => {
     async function getAllWishListProducts(productId: string){
         try {
             start()
-            const response = await axios.get('/api/wishList?data='+JSON.stringify({productId, type: 'item'})).then(res => res).catch(res => {
+            const response = await $fetch('/api/wishList?data='+JSON.stringify({productId, type: 'item'})).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
 
@@ -70,7 +71,7 @@ export const useWishListStore = defineStore('wishList', () => {
     async function addToWishList(productId: string){
         try {
             start()
-            const response = await axios.post('/api/wishList', {productId}).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/wishList', {method: 'post', body: {productId}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
 

@@ -15,6 +15,7 @@ export const useCategoryStore = defineStore('category', () => {
     const categories = ref<CategoryInterface[]>([])
     const loading = ref<boolean>(true)
     const errors= ref<string[]>([])
+    const { $csrfFetch } = useNuxtApp()
 
 
     async function getAllCategories(){
@@ -33,7 +34,7 @@ export const useCategoryStore = defineStore('category', () => {
     async function addCategory(name: string, description?: string, image?: string){
         try {
             start()
-            const response = await axios.post('/api/category', {name, description, image}).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/category', {name, description, image}).then(res => res).catch(res => {
                 console.log(res)
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
@@ -49,7 +50,7 @@ export const useCategoryStore = defineStore('category', () => {
     async function removeCategory(name: string){
         try {
             start()
-            const response = await axios.delete('/api/category', {data: {name}}).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/category', {data: {name}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
             reset()

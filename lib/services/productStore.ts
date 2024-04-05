@@ -23,7 +23,7 @@ export const useProductStore = defineStore('product', () => {
     const productCount = ref<number | null>(null)
     const loading = ref<boolean>(true)
     const errors= ref<string[]>([])
-    
+    const { $csrfFetch } = useNuxtApp()
 
     async function getAllProducts(filter: filterInterface, take: number, skip: number){
         try {
@@ -44,10 +44,10 @@ export const useProductStore = defineStore('product', () => {
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel encontrar os produtos'])
         }
     }
-    async function addProduct(productInfo: ItemInterface){
+    async function addProduct(productInfo: productInterface){
         try {
             start()
-            const response = await $csrfFetch('/api/product', {method: 'POST',body: { ...productInfo}}).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/product', {method: 'POST',body: { ...productInfo, category_name: productInfo.category}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
@@ -61,8 +61,7 @@ export const useProductStore = defineStore('product', () => {
     async function removeProduct(productId: string){
         try {
             start()
-            console.log(productId)
-            const response = await $fetch('/api/product', {method: 'delete', body: {productId: productId}}).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/product', {method: 'delete', body: {productId: productId}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res?.data?.message).errors}
             })
             reset()
@@ -70,16 +69,15 @@ export const useProductStore = defineStore('product', () => {
 
             return products.value.filter(product => product.id !== response.data.product.id) 
         } catch (error) {
-            console.log(error, 'ldpasldplaspldpaslp')
             reset()
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
 
-    async function updateProduct({productId, updateInfo}: {productId: string, updateInfo: ItemInterface}){
+    async function updateProduct(productId: string, updateInfo: productInterface){
         try {
             start()
-            const response = await $fetch('/api/controllers/product', {method: 'put', body: {type: 'updateProduct', productId, ...updateInfo}}).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/product', {method: 'put', body: {type: 'updateProduct', productId, ...updateInfo}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
 

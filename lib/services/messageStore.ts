@@ -16,12 +16,13 @@ export const useItemStore = defineStore('item', () => {
     const messages = ref<MessageInterface[]>([])
     const loading = ref<boolean>(true)
     const errors= ref<string[]>([])
+    const { $csrfFetch } = useNuxtApp()
 
 
     async function getMessages(productId: string){
         try {
             start()
-            const response = await axios.get('/api/review?data='+JSON.stringify({productId: productId})).then(res => res).catch(res => {
+            const response = await $fetch('/api/review?data='+JSON.stringify({productId: productId})).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
             reset()
@@ -36,7 +37,7 @@ export const useItemStore = defineStore('item', () => {
     async function updateMessage(commentId: string, title: string, message: string, rating: string){
         try {
             start()
-            const response = await axios.put('/api/controllers/review', { commentId, title, message, rate: rating}).then(res => res).catch(res => {
+            const response = await $csrf('/api/controllers/review', {method: 'put',body: { commentId, title, message, rate: rating}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
 
@@ -55,7 +56,7 @@ export const useItemStore = defineStore('item', () => {
     async function addMessage(review: MessageInterface & {rating: number}){
         try {
             start()
-            const response = await axios.post('/api/review', {...review, rate: review.rating}).then(res => res).catch(res => {
+            const response = await axios.post('/api/review', {method: 'post', body: {...review, rate: review.rating}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
             reset()
@@ -69,7 +70,8 @@ export const useItemStore = defineStore('item', () => {
     }
     async function removeMessage(messageId: string){
         try {
-            start()            const response = await axios.delete('/api/review', {data: {commentId: messageId}}).then(res => res).catch(res => {
+            start()            
+            const response = await $csrfFetch('/api/review', {method: 'delete', body: {commentId: messageId}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
             reset()

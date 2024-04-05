@@ -13,12 +13,13 @@ export const useItemStore = defineStore('item', () => {
     const rating = ref<ratingInterface[]>([])
     const loading = ref<boolean>(true)
     const errors= ref<string[]>([])
+    const { $csrfFetch } = useNuxtApp()
 
 
     async function getProductRatings(productId: string){
         try {
             start()
-            const response = await axios.get('/api/rating?data='+productId).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/rating?data='+productId).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
     
@@ -33,7 +34,7 @@ export const useItemStore = defineStore('item', () => {
     async function addRating(ratingValue: string, productId?: string, reviewId?: string){
         try {
             start()
-            const response = await axios.post('/api/rating', {ratingValue: ratingValue, productId, reviewId}).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/rating', {method: 'post',body: {ratingValue: ratingValue, productId, reviewId}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
             reset()
@@ -48,7 +49,7 @@ export const useItemStore = defineStore('item', () => {
     async function removeRating(productId: string, ratingId: string){
         try {
             start()
-            const response = await axios.delete('/api/rating', {data: {productId, ratingId}}).then(res => res).catch(res => {
+            const response = await axios.delete('/api/rating', {method: 'delete',body: {productId, ratingId}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
             reset()
@@ -63,7 +64,7 @@ export const useItemStore = defineStore('item', () => {
     async function updateRating(ratingValue: string, productId: string, ratingId?: string){
         try {
             start()
-            const response = await axios.put('/api/rating', {ratingValue, productId, ratingId}).then(res => res).catch(res => {
+            const response = await axios.put('/api/rating', {method: 'update', body: {ratingValue, productId, ratingId}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
         
