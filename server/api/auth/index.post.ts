@@ -5,6 +5,7 @@ const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
     try {
+        console.log('we reached here')
         const body: {email: string, password: string, type: 'signIn' | 'signUp'} = await readBody(event)
         const client = await serverSupabaseClient(event)
     
@@ -27,13 +28,16 @@ export default defineEventHandler(async (event) => {
     
             if(error) throw {errors: [error.status == 400 && 'Credenciais invalidas' || 'Algo deu errado'], statusCode: error.status}
     
-    
-            data.user?.id && prisma.user.create({
+            console.log(data.user.id, data)
+            const user  = data.user?.id && prisma.user.create({
                 data: {
                     id: data.user?.id
                 }
+            }).catch((err) => {
+                console.log(err)
+                client.auth.deleteUser(data.user.id, true)
+                throw {errors: ['Não foi possivel deletar o usuario'], statusCode: 500}
             })
-    
     
             return {status: 'success'}
         }

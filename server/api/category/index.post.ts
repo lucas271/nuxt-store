@@ -6,8 +6,9 @@ export default defineEventHandler(async (event) => {
     const body: CategoryBodyInterface = await readBody(event)
     console.log(body)
     if(!body) throw {errors: ['Informações faltando'], statusCode: 400}
-
-    const category = new Category(body)
+    const userId = event.context?.userId
+    if(!userId) throw {errors: ['Informações faltando'], statusCode: 400}
+    const category = new Category({...body, userId})
     
     return await defaultResponse(category, category.newCategory.bind(category), 'category')
   }

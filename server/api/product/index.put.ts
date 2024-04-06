@@ -3,8 +3,6 @@ import defaultResponse from "../util/defaultResponse"
 
 export default defineEventHandler(async (event) => {
   try{
-    console.log('l')
-
     const body: ProductBodyInterface & {type: 'updateProduct' | 'increaseProductQuant' | 'decreaseProductQuantByOne'}= await readBody(event)
     if(!body || !body.type) throw {errors: ['Informações faltando'], statusCode: 400}
     const userId = event.context?.userId

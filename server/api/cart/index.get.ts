@@ -3,12 +3,10 @@ import defaultResponse from "../util/defaultResponse"
 
 export default defineEventHandler(async (event) => {
     try {
-      const query: CartBodyInterface = JSON.parse(String(getQuery(event).data))
-      console.log(query)
-      if(!query) throw {errors: ['Informações faltando'], statusCode: 400}
-  
-      const cart = new Cart(query)
-      
+      console.log('A')
+      const userId = event.context?.userId
+      if(!userId) throw {errors: ['Não foi possivel encontrar as informações do usuário'], statusCode: 400}
+      const cart = new Cart({userId})
       return await defaultResponse(cart, cart.getCart.bind(cart), 'cart')
     } catch (error: any) {
       throw createError({

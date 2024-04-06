@@ -13,7 +13,7 @@ export interface ProductBodyInterface{
     img?: string,
     quantity?: number,
     productQuantIncrement?: number
-    categoryName?: string,
+    category?: string,
 }
 
 export interface ProductQueryInterface{
@@ -47,7 +47,6 @@ class Product{
 	}
 
 	async getProducts(){
-		console.log(this.query?.take, this.query?.skip)
 		const whereObject: Prisma.ProductWhereInput = {
 			name: {
 				startsWith: this.query?.startsWith,
@@ -101,7 +100,6 @@ class Product{
 
 	async createNewProduct(){
 		if(!this.body || !this.body.title || !this.body.name || !this.body.quantity || !this.body.description || !this.body.price) return this.errors.push("Existem campos vazios")
-
 		const newProduct = await this.prisma.product.create({
 			data: {
 				title: this.body.title,
@@ -110,7 +108,7 @@ class Product{
 				name: this.body.name,
 				price: Number(this.body.price),
 				quantity: Number(this.body.quantity) || 1,
-				category_name: this.body?.categoryName || undefined,
+				category_name: this.body?.category
 			}
 		}).catch((error) => this.errors.push('Erro ao criar o produto') && console.log(error))
 
@@ -147,11 +145,13 @@ class Product{
 				description: this.body?.description,
 				img: this.body?.img || '',
 				name: this.body?.name,
-				price: this.body?.price,
+				price: Number(this.body?.price) || undefined,
 				quantity: Number(this.body?.quantity) || undefined,
-				category_name: this.body?.categoryName,
+				category_name: this.body?.category,
 			}
-		}).catch(() => this.errors.push('Erro ao atualizar o produto'))
+		}).catch((err) => {
+			console.log(err)
+			this.errors.push('Erro ao atualizar o produto')})
 
 		if(this.errors.length > 0) return
 

@@ -5,7 +5,9 @@ export default defineEventHandler(async (event) => {
   try{
     const body: CartBodyInterface & {type: "deleteProductFromCart" | 'deleteCart'} = await readBody(event)
     if(!body || !body.type) throw {errors: ['Informações faltando'], statusCode: 400}
-    const cart = new Cart(body)
+    const userId = event.context?.userId
+    if(!userId) throw {errors: ['Informações faltando'], statusCode: 400}
+    const cart = new Cart({...body, userId})
     
     if(body.type === "deleteProductFromCart") return await defaultResponse(cart, cart.deleteProductFromCart.bind(cart), 'cart')
     else if(body.type === 'deleteCart') return await defaultResponse(cart, cart.deleteCart.bind(cart), 'cart')
