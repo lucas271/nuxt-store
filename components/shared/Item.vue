@@ -27,9 +27,13 @@
 <script setup lang="ts">
 
 import {useCartStore} from '../../lib/services/cartStore.ts'
+import {useProductStore} from '../../lib/services/productStore.ts'
 
 const supabase = useSupabaseClient()
 const cartStore = useCartStore()
+const route = useRoute()
+
+const productStore = useProductStore
 interface ItemInterface {
     id: string,
     createdAt?: string,
