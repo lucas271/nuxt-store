@@ -10,8 +10,8 @@ export default defineEventHandler(async (event) => {
     if(!userId) throw {errors: ['Informações faltando'], statusCode: 400}
     const wishList = new WishList({...body, userId})
   
-    if(body.type === 'product') return await defaultResponse(wishList, wishList.removeFromWishList.bind(wishList), 'product')
-		if(body.type === 'deleteAll') return await defaultResponse(wishList,  wishList.removeAllFromWishList.bind(wishList), 'product')
+    if(body.type === 'product') return await defaultResponse(wishList, wishList.removeFromWishList.bind(wishList), 'wishList')
+		if(body.type === 'deleteAll') return await defaultResponse(wishList,  wishList.removeAllFromWishList.bind(wishList), 'wishList')
   }
 
   catch (error: any) {
