@@ -41,18 +41,32 @@
                 </div>
             </div>
         </div>
-        <v-btn>Resetar filtros</v-btn>
+        <v-btn @click="resetFilter">Resetar filtros</v-btn>
 </template>
 
 <script lang="ts" setup>
     import {useCategoryStore} from '../../lib/services/categoryStore.ts'
-
     import {watch} from 'vue'
+    const filter = useFilterState()
+
+    const resetFilter = () => {
+        const isReset = confirm('Tem certeza que quer resetar o filtro?')
+        return filter.value = isReset ? {
+            sortBy: {
+                isPriceAscending: null,
+                isMostFavorites: null,
+                isNewest: null,
+            },
+            categoriesSelected: [],
+            numberOfSessionsSelected: [],
+            startsWith: '',
+            priceRange: null
+        } : filter
+    }
     const maxPrice = await $fetch('/api/product?data='+JSON.stringify({type: 'maxPrice'})).then(res => res.value ).catch(res => {
         return 'a'
     })
     const sortBySelected = ref<'Menor valor' | 'Maior valor' | 'Mais vendidos' | 'Mais Novos'>('Mais vendidos')
-    const filter = useFilterState()
     const categoryStore = useCategoryStore()
 
     await categoryStore.getAllCategories()

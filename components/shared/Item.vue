@@ -33,7 +33,8 @@ const supabase = useSupabaseClient()
 const cartStore = useCartStore()
 const route = useRoute()
 
-const productStore = useProductStore
+const productStore = useProductStore()
+
 interface ItemInterface {
     id: string,
     createdAt?: string,
