@@ -2,7 +2,6 @@ import { serverSupabaseClient } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
     const client = await (await serverSupabaseClient(event)).auth.getUser()
-
     if(event.method === 'GET') {
         event.context.userId = client.data.user?.id || undefined
         return
@@ -10,10 +9,9 @@ export default defineEventHandler(async (event) => {
     const url = getRequestURL(event)
     if(url.pathname.includes('/auth') && client?.data?.user) throw createError({
         statusCode: 400,
-        message: JSON.stringify({errros: ["Voce não pode estar logado para realizar essa ação"]}),
+        message: JSON.stringify({errors: ["Voce não pode estar logado para realizar essa ação"]}),
     })
     if(url.pathname.includes('/auth')) return 
-
     if((event.method === 'POST' || event.method === 'DELETE' || event.method === 'PUT') && !client?.data?.user) {throw createError({
         statusCode: 400,
         message: JSON.stringify({errors: ["Voce precisa estar logado para realizar essa operação."]}),
