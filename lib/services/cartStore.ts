@@ -26,19 +26,14 @@ export const useCartStore = defineStore('cart', () => {
 
     async function getCart(){
         try {
-            console.log('as')
             start()
-        
             const response = await $fetch('/api/cart').then(res => res).catch(res => {
                 console.log('ikdiasjdijasidjias', res)
-                throw {errors: JSON.parse(res.response.statusText).errors}
+                throw {errors: JSON.parse(res.data.message).errors}
 			})            
-            console.log(response.data || response)
-            if(response.data.errors?.length > 0)  throw {errors: response.data.errors}
-            console.log(response.data, 'idjsauidhuashdua')
+            if(response.data?.errors?.length > 0)  throw {errors: response.data.errors}
             reset()
-            console.log(response.data, 'blalbalba')
-            return cartProducts.value = response.data
+            return cartProducts.value = response.cart
         } catch (error) {
             console.log(error)
             reset()
@@ -48,18 +43,17 @@ export const useCartStore = defineStore('cart', () => {
 
     async function deleteSingleCartProduct(productId: string){
         try {
-            start()
+            cartProducts.value = cartProducts.value.map(product => product.product.id === productId ? {...product, product: {...product.product, loading: true}} : product)
             const response = await $csrfFetch('/api/cart', {method: 'PUT', body: {type: 'deleteSingleProductFromcart',  productId}}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+                throw {errors: JSON.parse(res.data.message).errors}
             })    
+            
                 
-            const productsResponse = cartProducts.value.map(product => product.product.id === response.data.product.id ? {product: {...product.product, loading: false}, quantity: product.quantity} : product)
-			const indexOfElementToBeReplaced = productsResponse.map(product => product.product.id).indexOf(response.data.product.id)
-            productsResponse[indexOfElementToBeReplaced >= 0 ? indexOfElementToBeReplaced : productsResponse.length] = response.data.product
             reset()
-
-            return cartProducts.value = productsResponse
+            if(cartProducts.value.find(product => response.cart.product.id)?.quantity === 1 && response.cart)  return cartProducts.value = [...cartProducts.value.filter(product => response.cart.product.id !== product.product.id)]
+            return cartProducts.value.find(product => response.cart.product.id === product.product.id) ? cartProducts.value = [...cartProducts.value.filter(product => response.cart.product.id !== product.product.id), response.cart] : ''
         } catch (error) {
+            console.log(error)
             reset()
 
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
@@ -67,14 +61,12 @@ export const useCartStore = defineStore('cart', () => {
     }
     async function addProduct(productId: string){
         try {
-            start()
+            cartProducts.value = cartProducts.value.map(product => product.product.id === productId ? {...product, product: {...product.product, loading: true}} : product)
             const response = await $csrfFetch('/api/cart', {method: 'PUT', body: {type: 'addProduct', productId}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
-            console.log(response.data.product, response)
             reset()
-
-            return cartProducts.value.push(response.data.product)
+            return cartProducts.value.find(product => response.cart.product.id === product.product.id) ? cartProducts.value = [...cartProducts.value.filter(product => response.cart.product.id !== product.product.id), response.cart] : cartProducts.value.push(response.cart) 
         } catch (error) {
             reset()
             console.log(error.errors)
@@ -84,13 +76,12 @@ export const useCartStore = defineStore('cart', () => {
 
     async function deleteCartProduct(productId: string){
         try {
-            start()
+            cartProducts.value = cartProducts.value.map(product => product.product.id === productId ? {...product, product: {...product.product, loading: true}} : product)
             const response = await $csrfFetch('/api/cart', {method: 'DELETE', body: {data: {type: 'deleteProductFromCart', productId}}}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+                throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
-
-            return cartProducts.value = cartProducts.value.filter(product => product.product.id !== response.data.product.id || product.quantity > 0) 
+            return cartProducts.value = cartProducts.value.filter(product => product.product.id !== response.cart.id || product.quantity > 0) 
 
         } catch (error) {
             reset()
@@ -104,7 +95,7 @@ export const useCartStore = defineStore('cart', () => {
         try {
             start()
             const response = await $csrfFetch('/api/cart', {method: 'DELETE', body: {data: {type: 'deleteCart', cartId}}}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+                throw {errors: JSON.parse(res.data.message).errors}
             })   //storing in a variable if I ever need to use it.
             reset()
             return cartProducts.value = []

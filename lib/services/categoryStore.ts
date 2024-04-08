@@ -22,7 +22,7 @@ export const useCategoryStore = defineStore('category', () => {
         try {
             start()
             const response = await $fetch('/api/category?data='+JSON.stringify({type: 'getAll'})).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+                throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
             return categories.value = response.category
@@ -34,12 +34,10 @@ export const useCategoryStore = defineStore('category', () => {
     async function addCategory(name: string, description?: string, image?: string){
         try {
             start()
-            const response = await $csrfFetch('/api/category', {name, description, image}).then(res => res).catch(res => {
-                console.log(res)
-                throw {errors: JSON.parse(res.response.statusText).errors}
+            const response = await $csrfFetch('/api/category', {metohd: 'post', body: {name, description, image}}).then(res => res).catch(res => {
+                throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
-            console.log(response)
             return categories.value.push(response.data.product)
         } catch (error) {
             reset()
@@ -50,8 +48,8 @@ export const useCategoryStore = defineStore('category', () => {
     async function removeCategory(name: string){
         try {
             start()
-            const response = await $csrfFetch('/api/category', {data: {name}}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+            const response = await $csrfFetch('/api/category', {method: 'delete', body: {name}}).then(res => res).catch(res => {
+                throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
 

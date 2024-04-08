@@ -27,12 +27,12 @@ export const useWishListStore = defineStore('wishList', () => {
     async function removeFromWishList(wishListItemId: string){
         try {
             start()
-            const response = await $csrfFetch('/api/controllers/wishList', {method: 'delete',body: { wishListItemId, type: 'product'}}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+            const response = await $csrfFetch('/api/wishList', {method: 'delete', body: { wishListItemId: wishList.value.find(product => product.product.id === wishListItemId)?.id, type: 'product'}}).then(res => res).catch(res => {
+                throw {errors: JSON.parse(res.data.message).errors}
             })
     
             reset()
-            return wishList.value = wishList.value.filter(product => product.product.id !== response.data.product.id)
+            return wishList.value = wishList.value.filter(product => product.product.id !== response.wishList.product.id)
         } catch (error) {
             reset()
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel encontrar os produtos'])
@@ -41,9 +41,11 @@ export const useWishListStore = defineStore('wishList', () => {
     async function removeAllFromWishList(wishListItemId: string){
         try {
             start()
-            const response = await $csrfFetch('/api/wishList', {method: 'delete', body: {wishListItemId, type: 'product'}}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+            const response = await $csrfFetch('/api/wishList', {method: 'delete', body: {wishListItemId, type: 'deleteAll'}}).then(res => res).catch(res => {
+                throw {errors: JSON.parse(res.data.message).errors}
             })
+
+            if(response.errors) throw {errors: [...response.errors]}
             reset()
             return wishList.value = []
         } catch (error) {
@@ -55,12 +57,13 @@ export const useWishListStore = defineStore('wishList', () => {
     async function getAllWishListProducts(productId: string){
         try {
             start()
-            const response = await $fetch('/api/wishList?data='+JSON.stringify({productId, type: 'item'})).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+            const response = await $fetch('/api/wishList?data='+JSON.stringify({productId, type: 'items'})).then(res => res).catch(res => {
+                throw {errors: JSON.parse(res.data.message).errors}
             })
 
+            if(response?.wishList?.length  < 1) throw {errors: ['Nenhum item nos favoritos']}
             reset()
-            return wishList.value = response.data.product
+            return wishList.value = response.wishList
         } catch (error) {
             reset()
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
@@ -72,11 +75,10 @@ export const useWishListStore = defineStore('wishList', () => {
         try {
             start()
             const response = await $csrfFetch('/api/wishList', {method: 'post', body: {productId}}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+                throw {errors: JSON.parse(res.data.message).errors}
             })
-
             reset()
-            return wishList.value.push(response.data.product)
+            return wishList.value.push(response.wishList)
         } catch (error) {
             reset()
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])

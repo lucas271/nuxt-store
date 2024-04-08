@@ -23,7 +23,7 @@ export const useItemStore = defineStore('item', () => {
         try {
             start()
             const response = await $fetch('/api/review?data='+JSON.stringify({productId: productId})).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+                throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
 
@@ -37,8 +37,8 @@ export const useItemStore = defineStore('item', () => {
     async function updateMessage(commentId: string, title: string, message: string, rating: string){
         try {
             start()
-            const response = await $csrf('/api/controllers/review', {method: 'put',body: { commentId, title, message, rate: rating}}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+            const response = await $csrfFetch('/api/controllers/review', {method: 'put',body: { commentId, title, message, rate: rating}}).then(res => res).catch(res => {
+                throw {errors: JSON.parse(res.data.message).errors}
             })
 
             const reviewIndex = messages.value.map(review => review.id).indexOf(response.data.review.id)
@@ -56,8 +56,8 @@ export const useItemStore = defineStore('item', () => {
     async function addMessage(review: MessageInterface & {rating: number}){
         try {
             start()
-            const response = await axios.post('/api/review', {method: 'post', body: {...review, rate: review.rating}}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+            const response = await $csrfFetch('/api/review', {method: 'post', body: {...review, rate: review.rating}}).then(res => res).catch(res => {
+                throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
 
@@ -72,7 +72,7 @@ export const useItemStore = defineStore('item', () => {
         try {
             start()            
             const response = await $csrfFetch('/api/review', {method: 'delete', body: {commentId: messageId}}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+                throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
 

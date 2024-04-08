@@ -19,7 +19,7 @@ export const useItemStore = defineStore('item', () => {
     async function getProductRatings(productId: string){
         try {
             start()
-            const response = await $csrfFetch('/api/rating?data='+productId).then(res => res).catch(res => {
+            const response = await $fetch('/api/rating?data='+productId).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.response.statusText).errors}
             })
     
@@ -35,7 +35,7 @@ export const useItemStore = defineStore('item', () => {
         try {
             start()
             const response = await $csrfFetch('/api/rating', {method: 'post',body: {ratingValue: ratingValue, productId, reviewId}}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+                throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
 
@@ -49,8 +49,8 @@ export const useItemStore = defineStore('item', () => {
     async function removeRating(productId: string, ratingId: string){
         try {
             start()
-            const response = await axios.delete('/api/rating', {method: 'delete',body: {productId, ratingId}}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+            const response = await $csrfFetch('/api/rating', {method: 'delete',body: {productId, ratingId}}).then(res => res).catch(res => {
+                throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
 
@@ -64,8 +64,8 @@ export const useItemStore = defineStore('item', () => {
     async function updateRating(ratingValue: string, productId: string, ratingId?: string){
         try {
             start()
-            const response = await axios.put('/api/rating', {method: 'update', body: {ratingValue, productId, ratingId}}).then(res => res).catch(res => {
-                throw {errors: JSON.parse(res.response.statusText).errors}
+            const response = await $csrfFetch('/api/rating', {method: 'put', body: {ratingValue, productId, ratingId}}).then(res => res).catch(res => {
+                throw {errors: JSON.parse(res.data.message).errors}
             })
         
             const reviewIndex = rating.value.map(rating => rating.id).indexOf(response.data.rating.id)
