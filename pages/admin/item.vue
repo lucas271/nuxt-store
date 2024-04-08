@@ -27,9 +27,7 @@
                 <sharedDisplayErrors v-if="productStore.errors.length > 0 " :errors="productStore.errors" :filter="filter" :refreshFunc="productStore.getAllProducts" :loading="productStore.loading"/>
             </div>
         </v-header>
-
-
-        <sharedItemsGrid :products="productStore.products" :storeFunc="productStore.getAllProducts" :watchVariable="filter">
+        <sharedItemsGrid :products="productStore.products" :loading="productStore.loading" :edit='edit'  :take="take" :skip="(cvPage - 1) * take" :storeFunc="productStore.getAllProducts" :watchVariable="filter">
             <v-sheet class="w-100 h-100">
                 <v-hover v-if="!isForm">
                     <template v-slot:default="{isHovering, props}">
@@ -39,19 +37,29 @@
                     </template>
                 </v-hover>
                 <v-card class="h-100 w-100" v-if="isForm">
-                    <sharedProductStepper/>
+                    <sharedProductStepper :properties="{isForm: isForm}" @stepperClose='isForm = false'/>
                 </v-card>
             </v-sheet>
+            <template v-slot:icon-slot="{ data }">
+                <sharedAdminProductIcons @editProduct='e => edit = edit.find(product => product.value === e.value) ? [...edit.filter(product => product.value !== e.value), e] : [...edit, e] '/>
+            </template>
         </sharedItemsGrid>
+        <v-pagination v-model="cvPage" :take="take" :length="Math.ceil(productStore.productCount / take)"></v-pagination>
     </v-container>
 </template>
 
 <script lang="ts" setup>
     import {useProductStore} from '../../lib/services/productStore.ts'
 
+    const edit = ref<{isForm: boolean, value: string[]}[]>([])
     const filter = useFilterState()
+    const cvPage = ref<number>(1)
+    const take = ref<number>(5)
 
     const isForm = ref<boolean>(false)
     const productStore = useProductStore()
-    await productStore.getAllProducts()
+    watch(cvPage, async () => {
+        await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value)
+    })
+    await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value)
 </script>   

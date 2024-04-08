@@ -28,5 +28,8 @@
         const isSure = confirm('Tem certeza que deseja remover todos os items do seus favoritos?')
         isSure && await wishListStore.removeAllFromWishList()
     }
-    await wishListStore.getAllWishListProducts()
+    onMounted(async () => {
+        await wishListStore.getAllWishListProducts()
+
+    })
 </script>

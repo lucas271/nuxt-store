@@ -2,8 +2,8 @@
     <v-main class="h-screen w-screen d-flex align-center justify-center pa-0 ma-0 bg-teal-darken-2">
             <v-btn icon="mdi-arrow-left" density="comfortable" position="absolute" :style="{top: '1%', left: '0.5%', zIndex: '100'}"></v-btn>
             <v-window class="mx-auto h-100 w-100 responsive-width my-auto" v-model="step">
-                <v-window-item class="h-100 w-100" :value="1">
-                    <v-form class="h-100 w-100" @submit="handleSignIn">
+                <v-window-item class="h-100 w-100"  :value="1">
+                    <v-form class="h-100 w-100" @submit="e => handleAuth(e, 'signIn')">
                         <v-card class="h-100 w-100 d-flex justify-center bg-teal-darken-1 align-center">
                             <div class="w-50 h-100 pa-4 flex-column d-none d-sm-flex justify-space-evenly align-center">
                                 <v-card-title class="text-uppercase font-weight-bold">Entre na sua conta</v-card-title>
@@ -45,7 +45,7 @@
                     </v-form>
                 </v-window-item>
                 <v-window-item class="h-100 w-100" :value="2">
-                    <v-form class="h-100 w-100" @submit="handleSubmit">
+                    <v-form class="h-100 w-100" @submit="e => handleAuth(e, 'signUp')">
                         <v-card class="h-100 w-100 d-flex justify-center bg-teal-darken-1 align-center">
 
                             <div class="w-50 h-100 pa-4 flex-column d-none d-sm-flex justify-space-evenly align-center">
@@ -95,6 +95,8 @@
 </template>
 
 <script lang="ts" setup>
+const { $csrfFetch } = useNuxtApp()
+
 const router = useRouter()
 const step = ref<number>(1)
 const email = ref<string>('')
@@ -104,42 +106,26 @@ const errorMsg = ref<string>('')
 const successMsg = ref<string>('')
 
 const client = useSupabaseClient()
-const handleSignIn = async (e) => {
-    try{
-        e.preventDefault()
-        if(!email.value || !password.value) return console.log('b')
-        const {error} = await client.auth.signInWithPassword({
-            email: email.value,
-            password: password.value,
-            options: {
-                redirectTo: 'http://localhost:3000/confirm',
-            }
-        })
-        if(error) throw error
+const handleAuth = async (e, type) => {
+    e.preventDefault()
+    console.log()
+    if(!email.value || !password.value) return errorMsg.value = 'Informações faltando'
+    if(type === 'signIn'){
+        const data = await $csrfFetch('/api/auth', {method: 'POST', body: {type: 'signIn', email: email.value, password: password.value}}).catch(res => console.log(res))
+        data?.status === 'success' && client.auth.signInWithPassword({email: email.value, password: password.value, options: {redirectTo: '/'}})
     }
-    catch(e){
-        errorMsg.value = e
+
+    if(password.value !== repeatPassword.value && type === 'signUp') return errorMsg.value = 'Senhas não são iguais.'
+    if(type === 'signUp'){
+        const data = await $csrfFetch('/api/auth', {method: 'POST', body: {type: 'signUp', email: email.value, password: password.value}}).catch(res => console.log(res))
+        data?.status === 'success' && client.auth.signInWithPassword({email: email.value, password: password.value, options: {redirectTo: '/'}})
     }
 }
 const handleSubmit = async (e) => {
-    if(!email.value || !password.value) return console.log('b')
-
-   await signUp()
+    e.preventDefault()
+    await signUp()
 }
-async function signUp(): void{
-    try {
-        const {data, error} = client.auth.signUp({
-            email: email.value,
-            password: password.value
-        })
-        if (error) throw error
 
-        successMsg.value = "Check Your email to confirm your account"
-    } catch (error) {
-        console.log(error)
-        errorMsg.value = error.message
-    }
-}
 
 definePageMeta({
   layout: 'empty',
