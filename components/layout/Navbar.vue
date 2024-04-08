@@ -6,7 +6,7 @@
             <v-app-bar-title @click="navigateTo('/')" class="cursor-pointer">LifeCris</v-app-bar-title>
         </template>
         <v-spacer />
-            <div class='w-50 h-auto relative pa-0 ma-0' :style="{position: 'relative'}">
+            <div class='w-50 h-auto relative pa-0 ma-0' :style="{position: 'relative'}" ref='searchRef'>
                 <v-text-field
                 class="d-sm-inline-block w-100 d-none"
                 density="compact"
@@ -38,6 +38,7 @@
                             </div>
                             <v-list-item-subtitle class='text-sm-center text-md-left'>
                                 R${{Number(product.price).toFixed(2).replace('.', ',')}}
+                                {{searchRef}}
                             </v-list-item-subtitle>
                         </div>
 
@@ -59,7 +60,7 @@
                     <template v-slot:activator="{ props }">
                         <v-btn v-bind="props">
 
-                            <v-badge floating tag="span" offset-y="28" offset-x="10" content="100">
+                            <v-badge floating tag="span" offset-y="28" offset-x="10" :content="cartStore.cartProducts.reduce((cv, pv) => ({quantity: cv.quantity + pv.quantity}), {quantity: 0}).quantity">
                                 <v-icon>mdi-cart-outline</v-icon>
                             </v-badge>
                         </v-btn>
@@ -86,6 +87,7 @@
 
 <script lang="ts" setup>
     import {ref} from 'vue'
+    import {useCartStore} from '../../lib/services/cartStore.ts'
     const isOpen = ref<boolean>(false)
     const isSearchResponseFocused = ref<boolean>(false)
     const searchbarQuery = ref<string>('')
@@ -93,6 +95,11 @@
     const router = useRouter()
     const products = ref<any[] | {errors: string[]}>([])
     const { data, error } = await client.auth.getSession()
+    const searchRef = ref(null)
+    const cartStore = useCartStore()
+    onMounted(async () => {
+        cartStore.cartProducts?.length < 1 && cartStore.getCart()
+    })
 
     const searchProducts = async () => products.value = searchbarQuery && await $fetch('/api/product?data='+JSON.stringify({
         startsWith: searchbarQuery.value,
@@ -107,4 +114,4 @@
     } catch (err) {
     }
   }
-</script>
+</script>onMounted, 
