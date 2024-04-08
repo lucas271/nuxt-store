@@ -6,10 +6,21 @@ export interface filterInterface{
 }
 export const useFilterState = () => useState<filterInterface>('filter', () => {
     return {
-        sortBy: '',
-        typesSelected: [],
+        sortBy: {
+            isPriceAscending: null,
+            isMostFavorites: null,
+            isNewest: null,
+        },
+        categoriesSelected: [],
         numberOfSessionsSelected: [],
-        searchQuery: '',
+        startsWith: '',
         priceRange: null
+    }
+})
+
+export const usePagination = () => useState<filterInterface>('pagination', () => {
+    return {
+        take: 12,
+        skip: 0,
     }
 })

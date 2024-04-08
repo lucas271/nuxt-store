@@ -50,11 +50,9 @@ class Cart{
 			product: true,
 			quantity: true,
 		}}).catch((err) =>{
-			console.log(err)
 			this.errors.push("Error getting product info") 
 			return []
 		})
-		console.log(productsInCart)
 		if(this.errors.length > 0) return
 		if(productsInCart?.length < 1) return this.response = []
 		this.response = productsInCart
