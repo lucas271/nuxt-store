@@ -7,7 +7,7 @@
             <v-text-field class="w-75 mx-auto" :rules="categoryNameRules" v-model="categoryName" label="Nome da nova categoria" density="compact"/>
         </div>
         <div class="w-100">
-            <v-text-field class="w-75 mx-auto" :rules="categoryDescriptionRules" v-model="categoryDescription" label="Nome da nova categoria" density="compact"/>
+            <v-text-field class="w-75 mx-auto" :rules="categoryDescriptionRules" v-model="categoryDescription" label="Descrição da categoria" density="compact"/>
 
         </div >
         <div class="w-100">
