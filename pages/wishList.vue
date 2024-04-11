@@ -32,4 +32,7 @@
         await wishListStore.getAllWishListProducts()
 
     })
+    definePageMeta({
+        middleware: 'need-user'
+    })
 </script>

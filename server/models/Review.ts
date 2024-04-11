@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 //userId === cartId in the db
 export interface ReviewBodyInterface{
     userId: string,
-    userName?: string
+    username?: string
     commentId?: string,
     message?: string,
     productId?: string,
@@ -20,8 +20,10 @@ const selectReview = {
     userId: true,
     product_id: true,
     id: true,
-    userName: true,
+    username: true,
     Rating: true,
+    updated_at: true,
+    created_at: true,
 }
 
 class Review{
@@ -59,12 +61,12 @@ class Review{
         if(!this.body?.userId) return this.errors.push('Necessário estar logado para criar uma avaliação')
         if(!this.body?.productId) return this.errors.push('Não recebeu o ID do produto avaliado')
         if(!this.body?.message) return this.errors.push("Não recebeu a mensagem")
-        if(!this.body?.userName) return this.errors.push("Não recebeu o nome de usuário")
+        if(!this.body?.username) return this.errors.push("Não recebeu o nome de usuário")
 
         const newReview = Number(this.body?.rate) ? await this.prisma.review.create({
             data: {
                 userId: this.body.userId,
-                userName: this.body.userName,
+                username: this.body.username,
                 product_id: this.body.productId,
                 message: this.body.message,
                 Rating: {
@@ -81,7 +83,7 @@ class Review{
         }).catch((error) => this.errors.push('Erro ao criar a avaliação') && console.log(error)) : await this.prisma.review.create({
             data: {
                 userId: this.body.userId,
-                userName: this.body.userName,
+                username: this.body.username,
                 product_id: this.body.productId,
                 message: this.body.message,
             },
@@ -144,7 +146,7 @@ class Review{
             select: {
                 ...selectReview,
             }
-        }).catch((err) => this.errors.push('Erro ao atualizar a mensagem'))
+        })
 
         if(this.errors.length > 0) return
 

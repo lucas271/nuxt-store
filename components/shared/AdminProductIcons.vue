@@ -1,8 +1,9 @@
-<template>
+<template v-if='client.auth.getSession()'>
     <div 
     ref='divRef' 
     class="text-subtitle-2 d-flex ga-3" 
-    :style="{position: 'absolute', [x === 'left' ? 'left' : 'right']: '5%', [y === 'top' ? 'top': 'bottom']: '5%'}">
+    :style="{position: 'absolute', [x === 'left' ? 'left' : 'right']: '5%', [y === 'top' ? 'top': 'bottom']: '5%'}"
+    >
             <v-btn class="text-subtitle-2 text-blue-grey-darken-1 bg-blue-grey-lighten-3" icon="mdi-pencil-outline" density="comfortable" @click='editProduct'></v-btn>
             <v-btn class="text-subtitle-2 text-blue-grey-darken-1 bg-blue-grey-lighten-3" icon="mdi-trash-can-outline" density="comfortable" @click='removeProduct'></v-btn>
     </div>
@@ -13,6 +14,7 @@
     const productStore = useProductStore()
     const divRef = ref(null) 
     const emit = defineEmits(['editProduct'])
+    const client = useSupabaseClient()
 
 
 

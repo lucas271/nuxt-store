@@ -55,6 +55,7 @@
     const filter = useFilterState()
     const cvPage = ref<number>(1)
     const take = ref<number>(5)
+    const router = useRouter();
 
     const isForm = ref<boolean>(false)
     const productStore = useProductStore()
@@ -62,4 +63,7 @@
         await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value)
     })
     await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value)
+    definePageMeta({
+        middleware: 'need-admin'
+    })
 </script>   

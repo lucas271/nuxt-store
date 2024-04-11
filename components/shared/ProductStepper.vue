@@ -60,7 +60,7 @@
     }
 
 
-    const props = defineProps<{properties?: PropertiesInterface}>()
+    const props = defineProps<{properties?: PropertiesInterface, isEdit?: boolean}>()
     const properties = ref<{properties: PropertiesInterface}>({isForm: false, title: '', img: '', category: '', name: '', quantity: null, id: '', description: '', price: null, name: ''})
     onMounted(() => {
         properties.value = props.properties ? {...props.properties} : properties.value
@@ -102,8 +102,7 @@
             return { [element.name]: element.value };
         }))
         const productRequestParamsObj = productRequestParamsArray.reduce((pv, cv) => {return {...pv, ...cv}}, {})
-        console.log(props.properties.id, productRequestParamsObj)
-        !props.properties ? productStore.addProduct(productRequestParamsObj) : productStore.updateProduct(props.properties.id, productRequestParamsObj)
+        !props.isEdit ? productStore.addProduct(productRequestParamsObj) : productStore.updateProduct(props.properties.id, productRequestParamsObj)
     }
     const changeStep = async (type: 'next' | 'prev', index) => {
         

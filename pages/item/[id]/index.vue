@@ -1,26 +1,30 @@
 <template>
     <v-container class="less-height-minus-navheader d-flex align-center justify-center">
-        <v-card class="bg-teal-lighten-1 d-flex  flex-sm-row flex-column h-100 w-100">
-            <v-img class="h-100 w-100 flex-shrink-1 flex-grow-1" cover src="https://duohaus.com.br/wp-content/uploads/2021/07/massagemodeladora1.jpeg"/>
-            <div class=" d-flex justify-space-around flex-column h-100 pa-5">
-                <article>
-                    <v-card-title class="text-md-h4 text-sm-h5 text-h4 text-wrap py-1 px-0 ma-0">
-                        {{route.params}} 
-                    </v-card-title>
-                    <v-card-subtitle class="text-md-subtitle-1 text-sm-subtitle-2 text-subtitle-1 pa-0 ma-0">R$2000.00</v-card-subtitle>
-                    <v-chip-group>
-                        <v-chip>retenção de liquidos</v-chip>
-                        <v-chip>modelar o corpo</v-chip>
-                        <v-chip>pós cirurgico</v-chip>
+        <v-card class="bg-teal-lighten-1 d-flex flex-column  flex-sm-row flex-column h-75 w-75" style='position: relative;'>
+            <sharedDefaultProductIcons y='top' :id='route?.params?.id'/>
 
-                    </v-chip-group>
+            <v-img class="h-100 w-100 flex-shrink-1" cover :src="productStore.product?.img"/>
+            <div class=" d-flex justify-space-around flex-column flex-shrink-1 h-100 w-75 pa-5">
+                <article>
+                    <v-card-title v-if='productStore.product?.name' class="text-md-h4 text-sm-h5 text-h4 text-wrap py-1 px-0 ma-0">
+                        {{productStore.product?.name}}
+                    </v-card-title>
+                    <v-chip> {{productStore.product?.category_name}} </v-chip>
                 </article>
 
-                <p class="pa-0 text-caption my-3 overflow-auto">A drenagem linfatica é um  procedimento ideal para o pós cirurgico porque auxilia na eliminação de liquidos</p>
-                <v-card-actions class="pa-0 d-flex flex-wrap ga-2 justify-space-between align-center">
-                    <v-btn variant="tonal" class="text-body-2">Adicionar ao carrinho</v-btn>
-                    <v-btn variant="tonal" class="text-body-2 ma-0">Entrar em contato</v-btn>
-                </v-card-actions>
+                <p class="pa-0 text-caption my-3 overflow-auto">{{productStore.product?.title}}</p>
+                <div>
+                    <p> {{productStore.product?.description}} </p>
+
+                </div>
+                <div>
+                    <v-card-subtitle class="text-md-subtitle-1 text-sm-subtitle-2 text-subtitle-1 pa-0 ma-0 my-5 font-weight-bold text-uppercase">R${{productStore.product?.price?.toFixed(2).replace('.', ',')}}</v-card-subtitle>
+                    <v-card-actions class="pa-0 d-flex flex-wrap ga-2 justify-space-between align-center">
+                        <v-btn variant="tonal" class="text-body-2" @click="cartStore.addProduct(route.params?.id || undefined)">Adicionar ao carrinho</v-btn>
+                        <v-btn variant="tonal" class="text-body-2 ma-0">Entrar em contato</v-btn>
+                    </v-card-actions>
+                </div>
+
             </div>
         </v-card>
     </v-container>
@@ -29,40 +33,42 @@
 
         <v-slide-group>
             <v-slide-group-item v-for="i in 5">
-                <v-card height="300px" width="210px" class="mx-2 d-flex flex-column bg-teal-lighten-1 overflow-hidden">
-                    <v-img class="h-50 w-100 flex-grow-1" cover src="https://duohaus.com.br/wp-content/uploads/2021/07/massagemodeladora1.jpeg"/>
-                    <article class="flex-grow-1 flex-shrink-1 d-flex flex-column ga-2 overflow-auto">
-                        <div class="flex-grow-1 flex-shrink-1 d-flex flex-column   overflow-auto">
-                            <v-card-title>
-                                Nome item
-                            </v-card-title>
-                            <v-card-text class="overflow-hidden">
-                                esse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantantaesse item faz tantantnantnantnantanta
-                            </v-card-text>
-                        </div>
-
-
-                        <v-card-subtitle class="">
-                            R$25.90
-                        </v-card-subtitle>
-                    </article>
-
-                    <v-card-actions class="w-100" >
-                        <v-btn variant="tonal" density="compact" class="text-subtitle-2 text-uppercase">
-                            Ver mais
-                        </v-btn>
-                        <v-btn variant="tonal" density="compact" class="text-subtitle-2  text-uppercase">
-                            + carrinho
-                        </v-btn>
-                    </v-card-actions>
-                </v-card>
+                <div class='mx-6'> 
+                    <sharedItem     
+                        :id='productStore.product?.id'
+                        :name='productStore.product?.name'
+                        :description='productStore.product?.description'
+                        :title='productStore.product?.title'
+                        :price='productStore.product?.price'
+                        :img='productStore.product?.img'
+                        :quantity='productStore.product?.quantity'
+                        :categoryName='productStore.product?.category_name'
+                        :loading='productStore.loading'
+                        height='400px'
+                    />
+                </div>
             </v-slide-group-item>
         </v-slide-group>
     </v-sheet>
-    <sharedMessagesContainer/>
+    <sharedMessagesContainer :comments='messageStore.messages' :productId='route?.params?.id'/>
 </template>
 
 <script setup lang='ts'>
     import {useProductStore} from '../../../lib/services/productStore.ts'
+    import {useCartStore} from '../../../lib/services/cartStore.ts'
+    import {useMessageStore} from '../../../lib/services/messageStore.ts'
 
+
+    const route = useRoute()
+
+
+    const productStore = useProductStore()
+    const cartStore = useCartStore()
+    const messageStore = useMessageStore()
+
+    messageStore.getMessages(route?.params?.id)
+
+    onMounted(() => {
+        productStore.getProduct(route?.params?.id).then(() => !productStore?.product && navigateTo('/404'))
+    })
 </script>

@@ -81,6 +81,5 @@
         if(currentValue === 'Mais novos') filter.value.sortBy.isNewest = true
         if(currentValue === 'Mais Relevantes') filter.value.sortBy.isMostFavorites = true
     })
-    //Mano, eu gosto muito da historia do n1ss1n e ele parece ser uma otima pessoa. Mas vamos ser honestos: A PAIN PRECISA de um star player, melhoraria o time absurdamente. Só escolher qualquer um entre LUCAOZY, SNOWZIN E DUMAU (ATÉ possivelmente um VENOMZERA, mas, como a contratação dele é recente, a multa dele com a red deve ser GIGANTESCA). Lucaozy já tá tem um tempao no fluxo (pensando no curto prazo é a melhor opção, o mlk é um monstro, mas já tem 22 anos), dumau um tempao na legacy (minha visão ele é o meio termo entre futuro e curto prazo), e snowzin praticamente nasceu na case (Obviamente teria problemas com escola e por ele ser muito jovem, mas esse garoto COM CERTEZA é o proximo KSCERATO). Não é possivel que a multa de algum deles seria tão absurda (pois creio eu que estão em final de contrato). Desde que o SKULLZ saiu do time, claramente falta um star player consistente no time, e, honestamente, eu acho que a unica coisa que separa essa pain do top 20 é esse star player.
 </script>
 

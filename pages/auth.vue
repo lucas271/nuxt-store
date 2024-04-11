@@ -1,6 +1,6 @@
 <template>
     <v-main class="h-screen w-screen d-flex align-center justify-center pa-0 ma-0 bg-teal-darken-2">
-            <v-btn icon="mdi-arrow-left" density="comfortable" position="absolute" :style="{top: '1%', left: '0.5%', zIndex: '100'}"></v-btn>
+            <v-btn icon="mdi-arrow-left" density="comfortable" position="absolute" :style="{top: '1%', left: '0.5%', zIndex: '100'}" @click="navigateTo('/')"></v-btn>
             <v-window class="mx-auto h-100 w-100 responsive-width my-auto" v-model="step">
                 <v-window-item class="h-100 w-100"  :value="1">
                     <v-form class="h-100 w-100" @submit="e => handleAuth(e, 'signIn')">
@@ -8,8 +8,10 @@
                             <div class="w-50 h-100 pa-4 flex-column d-none d-sm-flex justify-space-evenly align-center">
                                 <v-card-title class="text-uppercase font-weight-bold">Entre na sua conta</v-card-title>
                                 <div class="w-100">
-                                    <v-text-field placeholder="email" v-model="email"></v-text-field>
-                                    <v-text-field placeholder="Senha" v-model="password"></v-text-field>
+                                    <v-alert v-if='apiErrors.length > 0' class='mb-6' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
+
+                                    <v-text-field placeholder="email" :rules='emailValidation' v-model="email"></v-text-field>
+                                    <v-text-field placeholder="Senha" :rules='passWordValidation' v-model="password"></v-text-field>
                                 </div>
 
                                 
@@ -28,19 +30,17 @@
                                     <v-card-subtitle tag="h1" class="text-h4 text-uppercase font-weight-bold bg-teal-darken-4 pa-3 rounded-lg text-wrap text-center" :style="{lineHeight: '1.5'}">Life Cris - Login</v-card-subtitle>
                                     <div class="w-100 h-100 pa-4 flex-column d-flex d-sm-none justify-space-evenly align-center">
                                         <div class="w-100">
-                                            <v-text-field placeholder="email"></v-text-field>
-                                            <v-text-field placeholder="Senha" ></v-text-field>
+                                            <v-alert v-if='apiErrors.length > 0' class='mb-6' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
+                                            <v-text-field placeholder="email" :rules='emailValidation' v-model="email"></v-text-field>
+                                            <v-text-field placeholder="Senha" :rules='passWordValidation' v-model="password"></v-text-field>
                                         </div>
                                     </div>
                                     <v-card-actions class="d-flex flex-column ga-3">
-                                        <v-btn variant="tonal" class="font-weight-bold">Entrar</v-btn>
+                                        <v-btn variant="tonal" type="submit" class="font-weight-bold d-sm-none">Entrar</v-btn>
                                         <v-card-subtitle class="text-center bg-teal-darken-4 rounded-lg pa-4">Não tem uma conta? <br/><v-btn variant="tonal" @click="step = 2">Crie!</v-btn></v-card-subtitle>
                                     </v-card-actions>
                                 </div>
-
                             </div>
-
-
                         </v-card>
                     </v-form>
                 </v-window-item>
@@ -51,14 +51,16 @@
                             <div class="w-50 h-100 pa-4 flex-column d-none d-sm-flex justify-space-evenly align-center">
                                 <v-card-title class="text-uppercase font-weight-bold">Crie sua conta</v-card-title>
                                 <div class="w-100">
-                                    <v-text-field placeholder="email"></v-text-field>
-                                    <v-text-field placeholder="Senha"></v-text-field>
-                                    <v-text-field placeholder="Repetir"></v-text-field>
+                                    <v-alert v-if='apiErrors.length > 0' class='mb-6' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
+                                    <v-text-field placeholder="Nome de usuário" :rules="[(value) => !value && 'Campo vazio' || Number(value[0]) && 'Nome não pode começar com um numero']" v-model='username'></v-text-field>
+                                    <v-text-field placeholder="email" :rules='emailValidation' v-model="email"></v-text-field>
+                                    <v-text-field placeholder="Senha" :rules='passWordValidation' v-model="password"></v-text-field>
+                                    <v-text-field placeholder="Repetir senha" :rules="[(value) => !value && 'Campo vazio', (value) => value !== password && 'Senhas não são iguais.']" v-model='repeatPassword'></v-text-field>
                                 </div>
 
                                 
                                 <v-card-actions>
-                                    <v-btn variant="tonal" class="font-weight-bold">Criar</v-btn>
+                                    <v-btn type='submit' variant="tonal" class="font-weight-bold">Criar</v-btn>
                                 </v-card-actions>
                             </div>
 
@@ -71,14 +73,17 @@
                                     <v-card-subtitle tag="h1" class="text-h4 text-uppercase font-weight-bold bg-teal-darken-4 pa-3 rounded-lg text-wrap text-center" :style="{lineHeight: '1.5'}">Life Cris - Registrar</v-card-subtitle>
                                     <div class="w-100 h-100 pa-4 flex-column d-flex d-sm-none justify-space-evenly align-center">
                                         <div class="w-100">
-                                            <v-text-field placeholder="email"  v-model="email"></v-text-field>
-                                            <v-text-field placeholder="Senha"  v-model="password"></v-text-field>
-                                            <v-text-field placeholder="repetir senha" class="text-yellow"  v-model="repeatPassword"></v-text-field>
+                                            <v-alert v-if='apiErrors.length > 0' class='mb-6' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
+                                            <v-text-field placeholder="Nome de usuário" :rules="[(value) => !value && 'Campo vazio' || Number(value[0]) && 'Nome não pode começar com um numero']" v-model='username'></v-text-field>
+                                            <v-text-field placeholder="email" :rules='emailValidation' v-model="email"></v-text-field>
+                                            <v-text-field placeholder="Senha" :rules='passWordValidation' v-model="password"></v-text-field>
+                                            <v-text-field placeholder="Repetir senha" :rules="[(value) => !value && 'Campo vazio' || !(value === password) && 'Senhas não são iguais.']" v-model='repeatPassword'></v-text-field>
                                         </div>
                                  
                                     </div>
                                     <v-card-actions class="d-flex flex-column ga-3">
-                                        <v-btn type='submit' variant="tonal" class="font-weight-bold">Criar</v-btn>
+                                        <v-alert v-if='apiErrors.length > 0' class='mb-6' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
+                                        <v-btn type='submit' variant="tonal" class="font-weight-bold d-sm-none">Criar</v-btn>
                                         <v-card-subtitle class="text-center bg-teal-darken-4 rounded-lg pa-4">Já tem uma conta? <br/><v-btn variant="tonal" @click="step = 1">Entre!</v-btn></v-card-subtitle>
                                     </v-card-actions>
                                 </div>
@@ -95,30 +100,83 @@
 </template>
 
 <script lang="ts" setup>
+import {useAuthStore} from '../lib/services/authStore'
+
 const { $csrfFetch } = useNuxtApp()
 
 const router = useRouter()
 const step = ref<number>(1)
-const email = ref<string>('')
+const apiErrors = ref<string[]>([])
+const authStore = useAuthStore()
+
 const password = ref<string>('')
 const repeatPassword = ref<string>('')
 const errorMsg = ref<string>('')
 const successMsg = ref<string>('')
+const email = ref<string>('')
+const username = ref<string>('')
+const loading = ref<boolean>(false)
+
+watch(step, () => {
+    email.value = ''
+    repeatPassword.value = ''
+    password.value = ''
+    errorMsg.value = ''
+    successMsg.value = ''
+    username.value = ''
+    apiErrors.value = []
+})
+
+const emailValidation = [
+    (value) => {
+        const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return !!value || 'email é necessário' && emailRegex.test(value) || 'email invalido';
+    }, 
+]
+
+const passWordValidation = [
+    (value) => {
+        if (!value || value.length < 6 || value.length > 60) {
+            return 'Senha deve ter no minimo 6 caracteres.';
+        }
+
+        if (value.length > 60) {
+            return 'Senha deve ter no máximo 60 caracteres.';
+        }
+
+        const hasUppercase = /[A-Z]/.test(value);
+        const hasLowercase = /[a-z]/.test(value);
+        const hasNumber = /\d/.test(value);
+
+        if (!hasUppercase || !hasLowercase || !hasNumber) {
+            return 'Senha deve conter uma letra maiuscula, uma minuscula e um numero.';
+        }
+
+        return true; // Valid password
+    }
+]
+
 
 const client = useSupabaseClient()
 const handleAuth = async (e, type) => {
     e.preventDefault()
-    console.log()
+
+    loading.value = true
+    apiErrors.value = []
     if(!email.value || !password.value) return errorMsg.value = 'Informações faltando'
     if(type === 'signIn'){
-        const data = await $csrfFetch('/api/auth', {method: 'POST', body: {type: 'signIn', email: email.value, password: password.value}}).catch(res => console.log(res))
-        data?.status === 'success' && client.auth.signInWithPassword({email: email.value, password: password.value, options: {redirectTo: '/'}})
+        await authStore.loginUser(email.value, password.value)
+        loading.value = false
+        if(authStore.errors.length > 0) return apiErrors.value = authStore.errors
+        authStore.user && client.auth.signInWithPassword({email: email.value, password: password.value, options: {redirectTo: '/'}})
     }
 
     if(password.value !== repeatPassword.value && type === 'signUp') return errorMsg.value = 'Senhas não são iguais.'
     if(type === 'signUp'){
-        const data = await $csrfFetch('/api/auth', {method: 'POST', body: {type: 'signUp', email: email.value, password: password.value}}).catch(res => console.log(res))
-        data?.status === 'success' && client.auth.signInWithPassword({email: email.value, password: password.value, options: {redirectTo: '/'}})
+        await authStore.addUser(username.value, email.value, password.value)
+        loading.value = false
+        if(authStore.errors.length > 0) return apiErrors.value = authStore.errors
+        authStore.user && client.auth.signInWithPassword({email: email.value, password: password.value, options: {redirectTo: '/'}})
     }
 }
 const handleSubmit = async (e) => {

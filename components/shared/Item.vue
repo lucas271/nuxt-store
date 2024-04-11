@@ -29,7 +29,6 @@ import { useRouter } from 'vue-router';
 import {useCartStore} from '../../lib/services/cartStore.ts'
 import {useProductStore} from '../../lib/services/productStore.ts'
 
-const supabase = useSupabaseClient()
 const cartStore = useCartStore()
 const route = useRouter()
 
