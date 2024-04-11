@@ -33,15 +33,18 @@ export const useCategoryStore = defineStore('category', () => {
     }
     async function addCategory(name: string, description?: string, image?: string){
         try {
+
             start()
-            const response = await $csrfFetch('/api/category', {metohd: 'post', body: {name, description, image}}).then(res => res).catch(res => {
+            console.log('odksaodkaokdas')
+            const response = await $csrfFetch('/api/category', {method: 'post', body: {name, description, image}}).then(res => res).catch(res => {
+                console.log(res)
                 throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
-            return categories.value.push(response.data.product)
+            return categories.value.push(response.product)
         } catch (error) {
             reset()
-
+            console.log(error)
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }

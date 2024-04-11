@@ -3,16 +3,14 @@ import {ref} from 'vue'
 import axios from 'axios'
 
 interface MessageInterface{
-    title: string,
     message: string,
-    userId?: string,
-    productId?: string,
-    id?: string,
     userName?: string,
-    Rating? : {rate: number}
+    rate: number,
+    id: string,
+    userId: string,
 }
 
-export const useItemStore = defineStore('item', () => {
+export const useMessageStore = defineStore('item', () => {
     const messages = ref<MessageInterface[]>([])
     const loading = ref<boolean>(true)
     const errors= ref<string[]>([])
@@ -26,15 +24,15 @@ export const useItemStore = defineStore('item', () => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
-
-            return messages.value = response.data.review
+            console.log(response)
+            return messages.value = response.review
         } catch (error) {
             reset()
 
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || 'não foi possivel encontrar as mensagens')
         }
     }
-    async function updateMessage(commentId: string, title: string, message: string, rating: string){
+    async function updateMessage(commentId: string, message: string, rating: number){
         try {
             start()
             const response = await $csrfFetch('/api/controllers/review', {method: 'put',body: { commentId, title, message, rate: rating}}).then(res => res).catch(res => {
@@ -46,23 +44,25 @@ export const useItemStore = defineStore('item', () => {
 
             reset()
 
-            return messages.value.push(response.data.review)
+            return messages.value.push(response.review)
         } catch (error) {
             reset()
 
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }
-    async function addMessage(review: MessageInterface & {rating: number}){
+    async function addMessage(productId: string, username: string, message: string, rate: number){
         try {
             start()
-            const response = await $csrfFetch('/api/review', {method: 'post', body: {...review, rate: review.rating}}).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/review', {method: 'post', body: {productId, username, message, rate}}).then(res => res).catch(res => {
+                console.log(res, 'mmmmmmmmmmmmmmmmm')
                 throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
-
-            return messages.value.push(response.data.review)
+            console.log(response, 'okcfodkaso')
+            return messages.value.push(response.review)
         } catch (error) {
+            console.log(error, '261281489')
             reset()
 
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
@@ -76,7 +76,7 @@ export const useItemStore = defineStore('item', () => {
             })
             reset()
 
-            return messages.value.filter(message => message.id !== response.data.review.id) 
+            return messages.value.filter(message => message.id !== response.review.id) 
         } catch (error) {
             reset()
 

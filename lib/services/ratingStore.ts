@@ -9,7 +9,7 @@ interface ratingInterface{
     userId: string,
 }
 
-export const useItemStore = defineStore('item', () => {
+export const useRatingStore = defineStore('item', () => {
     const rating = ref<ratingInterface[]>([])
     const loading = ref<boolean>(true)
     const errors= ref<string[]>([])
@@ -24,7 +24,7 @@ export const useItemStore = defineStore('item', () => {
             })
     
             reset()
-            return rating.value = response.data.rating
+            return rating.value = response.rating
         } catch (error) {
             reset()
 
@@ -39,7 +39,7 @@ export const useItemStore = defineStore('item', () => {
             })
             reset()
 
-            return rating.value = [...response.data.rating, ...rating.value]
+            return rating.value = [...response.rating, ...rating.value]
         } catch (error) {
             reset()
 
@@ -54,7 +54,7 @@ export const useItemStore = defineStore('item', () => {
             })
             reset()
 
-            return rating.value.filter(rate => rate.id !== response.data.rating.id) 
+            return rating.value.filter(rate => rate.id !== response.rating.id) 
         } catch (error) {
             reset()
 
@@ -71,7 +71,7 @@ export const useItemStore = defineStore('item', () => {
             const reviewIndex = rating.value.map(rating => rating.id).indexOf(response.data.rating.id)
 			rating.value[reviewIndex >= 0 ? reviewIndex : rating.value.length] = response.data.rating
             reset()
-            return rating.value = [...response.data.rating, ...rating.value]
+            return rating.value = [...response.rating, ...rating.value]
         } catch (error) {
             reset()
 

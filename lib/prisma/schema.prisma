@@ -35,6 +35,7 @@ model flow_state {
   created_at             DateTime?             @db.Timestamptz(6)
   updated_at             DateTime?             @db.Timestamptz(6)
   authentication_method  String
+  auth_code_issued_at    DateTime?             @db.Timestamptz(6)
   saml_relay_states      saml_relay_states[]
 
   @@index([created_at(sort: Desc)])
@@ -149,6 +150,7 @@ model saml_providers {
   attribute_mapping Json?
   created_at        DateTime?     @db.Timestamptz(6)
   updated_at        DateTime?     @db.Timestamptz(6)
+  name_id_format    String?
   sso_providers     sso_providers @relation(fields: [sso_provider_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([sso_provider_id])
@@ -316,7 +318,7 @@ model User {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   image String?   @default("#")
-  name String?
+  username String
   //relations
   carts          Cart[]
   favorites      Favorite[]
@@ -324,7 +326,7 @@ model User {
   rating         Rating[]
 
   @@index([id])
-  @@unique([id, name])
+  @@unique([id, username])
 
   @@schema("auth")
 }
@@ -402,16 +404,18 @@ model Product {
 //product and user related models
 model Review {
   id String @id @default(uuid())
-  userName String
+  username String
 
   message    String
   userId     String 
   product_id String
-
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  
   //relations
   //review does not need to be attached with a rating
   Rating Rating? 
-  user    User    @relation(fields: [userId, userName], references: [id, name], onDelete: Cascade) 
+  user    User    @relation(fields: [userId, username], references: [id, username], onDelete: Cascade) 
   product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
 
   //indexes

@@ -40,6 +40,7 @@ CREATE TABLE "auth"."flow_state" (
     "created_at" TIMESTAMPTZ(6),
     "updated_at" TIMESTAMPTZ(6),
     "authentication_method" TEXT NOT NULL,
+    "auth_code_issued_at" TIMESTAMPTZ(6),
 
     CONSTRAINT "flow_state_pkey" PRIMARY KEY ("id")
 );
@@ -53,7 +54,7 @@ CREATE TABLE "auth"."identities" (
     "last_sign_in_at" TIMESTAMPTZ(6),
     "created_at" TIMESTAMPTZ(6),
     "updated_at" TIMESTAMPTZ(6),
-    "email" TEXT GENERATED AS (lower((identity_data->>'email'::text))) STORED,
+    "email" TEXT DEFAULT lower((identity_data ->> 'email'::text)),
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
 
     CONSTRAINT "identities_pkey" PRIMARY KEY ("id")
@@ -131,6 +132,7 @@ CREATE TABLE "auth"."saml_providers" (
     "attribute_mapping" JSONB,
     "created_at" TIMESTAMPTZ(6),
     "updated_at" TIMESTAMPTZ(6),
+    "name_id_format" TEXT,
 
     CONSTRAINT "saml_providers_pkey" PRIMARY KEY ("id")
 );
@@ -222,7 +224,7 @@ CREATE TABLE "auth"."users" (
     "phone_change" TEXT DEFAULT '',
     "phone_change_token" VARCHAR(255) DEFAULT '',
     "phone_change_sent_at" TIMESTAMPTZ(6),
-    "confirmed_at" TIMESTAMPTZ(6) GENERATED ALWAYS AS (LEAST(email_confirmed_at, phone_confirmed_at)) STORED,
+    "confirmed_at" TIMESTAMPTZ(6) DEFAULT LEAST(email_confirmed_at, phone_confirmed_at),
     "email_change_token_current" VARCHAR(255) DEFAULT '',
     "email_change_confirm_status" SMALLINT DEFAULT 0,
     "banned_until" TIMESTAMPTZ(6),
