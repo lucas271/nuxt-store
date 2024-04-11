@@ -17,10 +17,10 @@
                         :src="item.product.img"
                         width="100%"
                         height="100%"
-                        cover
+                        
                         ></v-img>
                     </div>
-                    <div class="pa-2 d-flex py-1 px-1 h-100 overflow-auto justify-center justify-lg-space-evenly align-center flex-shrink-1 flex-grow-1 ga-4 w-50 flex-column flex-lg-row my-auto">
+                    <div class="pa-2 d-flex py-1  px-1 h-100 overflow-auto justify-center justify-lg-space-evenly align-center flex-shrink-1 flex-grow-1 ga-4 w-50 flex-column flex-lg-row my-auto">
                         <div class="d-flex ga-1 flex-column  align-lg-center align-md-start h-auto flex-shrink-1 justify-lg-center overflow-auto">
                             <v-card-title class="text-md-h6 text-sm-subtitle-1 ma-0 pa-0 text-blue-grey-darken-3 text-wrap flex-shrink-1 flex-grow-1 flex-lg-grow-0">{{item.product.title}}</v-card-title>
                             <v-card-subtitle class="text-break ma-0 pa-0 text-caption text-lg-center text-blue-grey-darken-5 font-bold">UNIDADE: R${{Number(item.product.price).toFixed(2).replace('.', ',')}}</v-card-subtitle>
@@ -31,11 +31,12 @@
                             <div class="flex-grow-1 text-center text-sm-body-2 text-md-body-1 text-subtitle-2 d-flex justify-center align-center" v-else> <v-progress-circular indeterminate/> </div>
                             <v-btn :active='item.product?.loading === false' class="rounded-xl text-blue-grey-darken-2" size="small" density="comfortable" variant='tonal' icon="mdi-arrow-right text-subtitle-2" @click='cartStore.addProduct(item.product.id)'></v-btn>
                         </div>
+                        <div class="d-flex pa-1 flex-column align-center justify-center ga-3 overflow-hidden   text-center text-blue-grey-darken-4">
+                            <span class="text-lg-body-2   text-wrap font-italic">R${{Number(item.quantity * item.product.price).toFixed(2).replace('.', ',')}}</span>
+                            <v-btn class="text-subtitle-2 font-weight-bold text-uppercase" variant='tonal' @click="navigateTo(`item/${item.product.id}`)">ver +</v-btn>
+                        </div>
                     </div>
-                    <div class="d-flex pa-1 w-25 flex-column align-center justify-center ga-3 overflow-hidden   text-center text-blue-grey-darken-4">
-                        <span class="text-lg-body-2 pa-2   text-wrap overflow-auto">R${{Number(item.quantity * item.product.price).toFixed(2).replace('.', ',')}}</span>
-                        <v-btn class="text-subtitle-2 font-weight-bold text-uppercase" variant='tonal'>ver +</v-btn>
-                    </div>
+
                 </div>
                 <div  class="d-flex w-100 h-75 overflow-hidden flex-shrink-0 justify-space-evenly align-center flex-column" v-else>
                     <article class='text-center'>
@@ -51,7 +52,7 @@
             </div>
 
             <v-cart-text tag="span" class="w-100 pt-2 text-subtitle-2 d-flex justify-space-between align-center">
-                <v-btn class="text-subtitle-2" variant='tonal'>Ir para carrinho</v-btn>
+                <v-btn class="text-subtitle-2" variant='tonal' @click="navigateTo('/cart')">Ir para carrinho</v-btn>
                 <span class='text-teal-darken-3 text-uppercase text-subtitle-1 '>R${{cartStore.cartProducts.reduce((pv, cv) => ({totalPrice: (cv.quantity * cv.product.price) + pv.totalPrice}), {totalPrice: 0, quantity: 0}).totalPrice.toFixed(2).replace('.', ',')}}</span>
             </v-cart-text>
         </template>

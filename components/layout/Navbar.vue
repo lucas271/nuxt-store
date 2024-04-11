@@ -53,7 +53,7 @@
         <v-spacer />
         <template v-slot:append>
             <div class="d-none d-sm-flex">
-                <v-btn @click="navigateTo('/wishList')">
+                <v-btn v-if='data.session' @click="navigateTo('/wishList')">
                     <v-icon>mdi-heart-outline</v-icon>
                 </v-btn>
                 <v-menu :close-on-content-click="false">
