@@ -5,7 +5,13 @@ import axios from 'axios'
 interface MessageInterface{
     message: string,
     userName?: string,
-    rate: number,
+    Rating?: {
+        rate: number,
+        review_id: string,
+        product_id: string,
+        user_id: string,
+        id: string,
+    },
     id: string,
     userId: string,
 }
@@ -24,7 +30,7 @@ export const useMessageStore = defineStore('item', () => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
-            console.log(response)
+            console.log(response.review)
             return messages.value = response.review
         } catch (error) {
             reset()
@@ -35,16 +41,14 @@ export const useMessageStore = defineStore('item', () => {
     async function updateMessage(commentId: string, message: string, rating: number){
         try {
             start()
-            const response = await $csrfFetch('/api/controllers/review', {method: 'put',body: { commentId, title, message, rate: rating}}).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/review', {method: 'put',body: { commentId, message, rate: rating}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
 
-            const reviewIndex = messages.value.map(review => review.id).indexOf(response.data.review.id)
-			messages.value[reviewIndex >= 0 ? reviewIndex : messages.value.length] = response.data.review
-
+            const reviewIndex = messages.value.map(review => review.id).indexOf(response.review.id)
             reset()
 
-            return messages.value.push(response.review)
+            return messages.value[reviewIndex >= 0 ? reviewIndex : messages.value.length] = response.review
         } catch (error) {
             reset()
 
@@ -55,14 +59,11 @@ export const useMessageStore = defineStore('item', () => {
         try {
             start()
             const response = await $csrfFetch('/api/review', {method: 'post', body: {productId, username, message, rate}}).then(res => res).catch(res => {
-                console.log(res, 'mmmmmmmmmmmmmmmmm')
                 throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
-            console.log(response, 'okcfodkaso')
             return messages.value.push(response.review)
         } catch (error) {
-            console.log(error, '261281489')
             reset()
 
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
@@ -74,9 +75,11 @@ export const useMessageStore = defineStore('item', () => {
             const response = await $csrfFetch('/api/review', {method: 'delete', body: {commentId: messageId}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
+
+
             reset()
 
-            return messages.value.filter(message => message.id !== response.review.id) 
+            return messages.value = messages.value.filter(message => message.id !== response.review.id) 
         } catch (error) {
             reset()
 

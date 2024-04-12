@@ -1,5 +1,6 @@
-<template v-if='client.auth?.getSession()'>
+<template>
     <div 
+    v-if="client?.data?.session"
     ref='divRef' 
     class="text-subtitle-2 d-flex ga-3 " 
     :style="{position: 'absolute', [x === 'left' ? 'left' : 'right']: '2.5%', [y === 'top' ? 'top': 'bottom']: '2.5%'}">
@@ -14,8 +15,8 @@
 <script setup lang='ts'>
     import {useWishListStore} from '../../lib/services/wishListStore.ts'
     const props = defineProps<{x?: 'left' | 'right', y?: 'top' | 'bottom', id: string}>()
-    const client = useSupabaseClient()
-
+    const client = await (await useSupabaseClient()).auth?.getSession()
+    
     const divRef = ref(null) 
     const wishListStore = useWishListStore()
 

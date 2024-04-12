@@ -62,7 +62,7 @@ class Review{
         if(!this.body?.productId) return this.errors.push('Não recebeu o ID do produto avaliado')
         if(!this.body?.message) return this.errors.push("Não recebeu a mensagem")
         if(!this.body?.username) return this.errors.push("Não recebeu o nome de usuário")
-
+        console.log(Number(this.body.rate))
         const newReview = Number(this.body?.rate) ? await this.prisma.review.create({
             data: {
                 userId: this.body.userId,
@@ -115,6 +115,7 @@ class Review{
     }
 
     async updateMessage(){
+        console.log(this.body, 'pokdpaskdpakspdkapda')
         if(!this.body?.userId) return this.errors.push("Você precisa estar logado para atualizar sua avaliação")
         if(!this.body?.commentId) return this.errors.push("Não recebeu o ID da mensagem")
         if(!this.body?.message) return this.errors.push("Nenhuma mensagem recebida")
@@ -146,6 +147,9 @@ class Review{
             select: {
                 ...selectReview,
             }
+        }).catch((err) => {
+            console.log(err)
+            this.errors.push('Erro ao atualizar a mensagem')
         })
 
         if(this.errors.length > 0) return

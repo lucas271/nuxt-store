@@ -54,7 +54,9 @@ export const useProductStore = defineStore('product', () => {
             })
             reset()
             productCount.value = productCount.value || 0 + 1
-            return products.value.push(response.product)
+            const productIndex = products.value.map(product => product.id).indexOf(response.product.id)
+            console.log(productIndex)
+            return products.value[productIndex >= 0 ? productIndex : products.value.length - 1] = response.product
         } catch (error) {
             reset()
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
@@ -84,9 +86,10 @@ export const useProductStore = defineStore('product', () => {
             })
 
             const productIndex = products.value.map(product => product.id).indexOf(response.product.id)
+            console.log(productIndex)
             reset()
 
-            return products.value[productIndex >= 0 ? productIndex : products.value.length] = response.product
+            return products.value[productIndex >= 0 ? productIndex : products.value.length - 1] = response.product
         } catch (error) {
             reset()
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])

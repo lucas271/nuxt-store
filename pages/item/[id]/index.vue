@@ -32,8 +32,8 @@
         <h3 >Outros items recomendados</h3>
 
         <v-slide-group>
-            <v-slide-group-item v-for="i in 5">
-                <div class='mx-6'> 
+            <v-slide-group-item v-for="i in 5" class="d-flex align-center justify-center">
+                <div class="mx-2"> 
                     <sharedItem     
                         :id='productStore.product?.id'
                         :name='productStore.product?.name'

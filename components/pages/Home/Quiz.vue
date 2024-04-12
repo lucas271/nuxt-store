@@ -18,47 +18,116 @@
                     <v-card-actions>
                         <v-btn variant="outlined" @click='overlay = true'>Fazer o teste</v-btn>
                         <v-overlay v-model='overlay' class='d-flex justify-center align-center'>
-                            <v-card height='85vh' width='75vw' class=' bg-teal-darken-3 d-flex flex-column ga-2'>
-                                <v-btn @click='' position='absolute' style='right: 1.5%; top:1.5%' icon='mdi-close' variant='tonal' density='comfortable'> </v-btn>
-                                <div class='text-center mt-5 mb-5'>
-                                    <v-card-title class='text-h4'> Questionario </v-card-title>
-                                    <v-card-subtitle class='text-subtitle-1'> Descubra o tratamento ideal para você! </v-card-subtitle>
+                            <v-card height='85vh' width='90vw' class=' bg-teal-darken-3 d-flex flex-column ga-2' >
+                                <v-btn @click='' position='absolute' style='right: 1.8%; top:1.5%' class="text-caption" icon='mdi-close' variant='tonal' density='comfortable'> </v-btn>
+                                <div class='text-center my-sm-5 my-2'>
+                                    <v-card-title class='text-sm-h4 text-subtitle-1 font-weight-bold text-break'> Questionario </v-card-title>
+
+                                    <p class='text-caption text-sm-subtitle-2 text-grey-lighten-2 text-break '> Descubra o tratamento ideal para você! </p>
 
                                     <div>
                                     </div>
                                 </div>
           
-                                <v-window v-model="step" class='flex-grow-1 flex-shrink-1 d-flex justify-space-evenly'>
-                                    <v-window-item class='d-flex flex-column h-100' :value="1">
-                                        <v-card-text class='text-h4 font-weight-bold text-uppercase text-center'> Qual área você deseja tratar? </v-card-text>
-                                        <div class='flex-grow-1 d-flex ga-6 h-100 justify-center align-center'>
-                                            <div class='h-100 w-50'>
-                                                
-                                                <v-img class='w-100 h-50' cover src='https://img.freepik.com/vetores-gratis/ilustracao-de-desenho-de-rosto-desenhado-a-mao_23-2150523274.jpg'/>
-                                            </div>
+                                <v-window v-model="step.currentStep" class="h-100 flex-shrink-1 flex-grow-1 ">
+                                    <v-window-item :key="1" class="h-100">
+                                        <div class="d-flex flex-column h-100 overflow-hidden justify-space-evenly align-center">
+                                            <span class="text-sm-h4 text-subtitle-2 mx-0 pa-0 text-wrap w-100 text-center font-weight-bold">
+                                                Qual área você deseja tratar?
+                                            </span>
+             
+                                            <v-slide-group class="h-75 d-flex w-75 flex-shrink-1 ga-2 justify-center align-center justify-center overflow-hidden bg-transparent" elevation="0">
+                                                <v-slide-group-item v-for="item in (step1Options)" class="w-75">
+                                                    <v-hover v-slot="{ isHovering, props }" open-delay="100" >
+                                                        <v-card  
+                                                            class="h-100 w-100 bg-teal-darken-2 d-flex flex-column mx-2 overflow-hidden" 
+                                                            :style="item.name === selectedOptions.step1 && { backgroundColor: 'rgba(0, 0, 0, 0.5)', border: '3px solid #01B573'}"
+                                                            v-bind="props"
+                                                            :elevation="isHovering ? 24 : 2"
+                                                            v-ripple
+                                                            @click="selectedOptions.step1 = item.name"
+                                                        >
+                                                            <h4 class="text-sm-subtitle-1 text-subtitle-2 text-center">{{ item.name }}</h4>
+                                                            <v-img class="w-100 flex-grow-1 flex-shrink-1" cover :src="item.img"/>
+                                                            <v-btn variant="tonal" :ripple="false">clique para selecionar</v-btn>
+                                                        </v-card>
+                                                    </v-hover>
+                                                </v-slide-group-item>
 
-                                            <div class='h-100 w-50'>
-                                                <h6> Corpo </h6>
-                                                <v-img class='w-100 h-50' cover src="https://img.freepik.com/vetores-gratis/desenho-de-linha-de-arte-feminina-feminina-em-fundo-cinza_53876-120588.jpg"/>
-                                            </div>
+                                            </v-slide-group>
+
+                  
+                                            <span class="text-center text-sm-h6 text-subtitle-2" >
+                                                Area selecionada: <span class="font-weight-bold font-italic">{{ selectedOptions.step1 }}</span>
+                                            </span>
                                         </div>
+                                            
                                         
                                     </v-window-item>
+                                    <v-window-item :key="1" class="h-100">
+                                        <div class="d-flex flex-column h-100 overflow-hidden justify-space-evenly align-center">
+                                            <v-card-title class="text-h4 font-weight-bold text-uppercase">
+                                                Que tipo de tratamento você quer? {{ step.currentStep }}
+                                            </v-card-title>
+             
+                                            <div class="d-flex ga-6 w-75 h-75 flex-shrink-1 overflow-hidden flex-wrap">
 
-                                    <v-window-item :value="2">
-
+                                                <v-hover v-slot="{ isHovering, props }"  open-delay="100" v-if="selectedOptions.step1 === 'rosto' || selectedOptions.step1 === 'corpo'" v-for="item in selectedOptions.step1 === 'rosto' ? step2FaceOptions : step2BodyOptions">
+                                                    <v-card
+                                                        :style="item.name === selectedOptions[selectedOptions.step1 === 'rosto' ? 'step2Face' : 'step2Body']  && { backgroundColor: 'rgba(0, 0, 0, 0.5)', border: '3px solid #01B573'}"
+                                                        class="bg-teal-darken-2 d-flex flex-column"
+                                                        v-bind="props"
+                                                        :elevation="isHovering ? 24 : 2"
+                                                        v-ripple
+                                                        @click="selectedOptions[selectedOptions.step1 === 'rosto' ? 'step2Face' : 'step2Body'] = item.name"
+                                                    >
+                                                        <h4 class="text-subtitle-1 text-center">{{ item.name }}</h4>
+                                                        <v-btn variant="tonal" :ripple="false">clique para selecionar</v-btn>
+                                                    </v-card>
+                                                </v-hover>
+                  
+                                            </div>
+                                            <span class="text-center text-h6" >
+                                                Tipo selecionado: <span class="font-weight-bold font-italic">{{ selectedOptions[selectedOptions.step1 === 'rosto' ? 'step2Face' : 'step2Body']?.name }}</span>
+                                            </span>
+                                        </div>
                                     </v-window-item>
+                                    <v-window-item :key="1" class="h-100">
+                                        <div class="d-flex flex-column h-100 overflow-hidden justify-space-evenly align-center">
+                                            <v-card-title class="text-h4 font-weight-bold text-uppercase">
+                                                Qual área você deseja tratar? {{ step.currentStep }}
+                                            </v-card-title>
+             
+                                            <div class="d-flex ga-6 w-100 h-75 flex-shrink-1 justify-center align-center overflow-hidden">
 
-                                    <v-window-item :value="3">
-
+                                                <v-hover v-slot="{ isHovering, props }" open-delay="100" v-for="item in step1Options" >
+                                                    <v-card
+                                                        :style="item.name === selectedOptions.step1 && { backgroundColor: 'rgba(0, 0, 0, 0.5)', border: '3px solid #01B573'}"
+                                                        class="w-50 h-75 bg-teal-darken-2 d-flex flex-column"
+                                                        v-bind="props"
+                                                        :elevation="isHovering ? 24 : 2"
+                                                        v-ripple
+                                                        @click="selectedOptions.step1 = item.name"
+                                                    >
+                                                        <h4 class="text-subtitle-1 text-center">{{ item.name }}</h4>
+                                                        <v-btn variant="tonal" :ripple="false">clique para selecionar</v-btn>
+                                                    </v-card>
+                                                </v-hover>
+                  
+                                            </div>
+                                            <span class="text-center text-h6" >
+                                                Area selecionada: <span class="font-weight-bold font-italic">{{ selectedOptions.step1 }}</span>
+                                            </span>
+                                        </div>
+                                            
+                                        
                                     </v-window-item>
                                 </v-window>
                                 <v-divider/>
                                 <v-card-actions>
-                                    <v-btn variant='tonal' v-if='step.currentStep > 1'> Voltar </v-btn>
+                                    <v-btn variant='tonal' v-if='step.currentStep > 0' @click='step.currentStep--'> Voltar </v-btn>
                                     <v-spacer/>
-
-                                    <v-btn variant='tonal'> {{step.currentStep < numberOfSteps ? 'proximo' : 'Enviar'}} </v-btn>
+                                    <v-btn variant='tonal' @click="step.currentStep + 1 < step.numberOfSteps && step.currentStep++"> {{step.currentStep + 1 < step.numberOfSteps ? 'proximo' : 'Enviar'}} </v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-overlay>
@@ -72,16 +141,36 @@
 
 <script setup lang='ts'>
     const overlay = ref<boolean>(false)
-    const step = ref<{currentStep: 1 | 2 | 3, numberOfSteps: 3}>(1)
+    const step = ref<{currentStep: 0 | 1 | 2, numberOfSteps: number}>({currentStep: 0, numberOfSteps: 3})
 
-    const step1Options = ['rosto' | 'corpo' ]
-    const step2FaceOptions = ['rugas', 'olheiras', 'Acne', 'pele oleosa', 'bioestimuladores']
-    const step2BodyOptions = ['bumbum', 'flacidez', 'gordura localizada', 'estrias', 'celulite', 'pós operatório']
+    const step1Options = [
+        {name: 'rosto', img: 'https://img.freepik.com/vetores-gratis/ilustracao-de-desenho-de-rosto-desenhado-a-mao_23-2150523274.jpg'},
+        {name: 'corpo', img: 'https://img.freepik.com/vetores-gratis/desenho-de-linha-de-arte-feminina-feminina-em-fundo-cinza_53876-120588.jpg'} ]
+    const step2FaceOptions = [
+        {name: 'rugas', img: ''},
+        {name: 'olheiras', img: ''},
+        {name: 'Acne', img: ''},
+        {name: 'pele oleosa', img: ''},
+        {name: 'bioestimuladores', img: ''},
+        {name: 'lallalala', img: ''}
+    ]
+    const step2BodyOptions = [
+        {name: 'bumbum', img: ''},
+        {name: 'gordura localizada', img: ''},
+        {name: 'estrias', img: ''},
+        {name: 'celulite', img: ''},
+        {name: 'pós operatório', img: ''},
+        {name: 'lallalala', img: ''}
+    ]
     interface optionsInterface{
-
+        step1: 'rosto' | 'corpo' | undefined,
+        step2Face: "rugas" | "olheiras" | "Acne" | "pele oleosa" | "bioestimuladores" | undefined,
+        step2Body: "bumbum" | "flacidez" | "gordura localizada" | "estrias" | "celulite" | "pós operatório" | undefined
     }
 
-    const selectedOptions = ref<optionsInterface>([{ 
-
-    }])
+    const selectedOptions = ref<optionsInterface>({
+        step1: undefined,
+        step2Face: undefined,
+        step2Body: undefined
+    })
 </script>

@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang='ts'>
-    import {useProductStore} from '../../lib/services/productStore.ts'
+    import {useProductStore} from '../../lib/services/productStore'
     const productStore = useProductStore()
     const divRef = ref(null) 
     const emit = defineEmits(['editProduct'])
