@@ -3,25 +3,20 @@
         <v-container class="w-100 h-100">
             <v-sheet class="h-100 w-100 bg-transparent d-flex flex-column justify-space-around">
                     <v-card-title class="text-h4 text-center text-wrap text-sm-h4 text-h5 font-weight-bold">Mais vendidos</v-card-title>
-                    <v-slide-group center-active class="h-100 d-flex justify-center align-center">                
-                        <v-slide-group-item v-for="n in 20" :key="n" >
-                            <v-card class="d-flex flex-column ma-3 responsive-card-slide bg-white rounded-lg overflow-hidden">
-                                <img src="https://duohaus.com.br/wp-content/uploads/2021/07/massagemodeladora1.jpeg" width="100%" height="40%"/>
-                                <div class="d-flex flex-shrink-1 flex-column justify-space-between ga-2 overflow-hidden py-3">
-                                    <article class="d-flex flex-column flex-shrink-1 flex-grow-1 overflow-auto ">
-                                        <v-card-title class="text-wrap " >drenagem é coisa de viado NÃO FAZdrenagem é coisa de viado NÃO FAZ</v-card-title>
-                                        <v-card-subtitle  class="text-wrap overflow-none">Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!Passe melhor pelo pós cirurgico!</v-card-subtitle>
-                                    </article>
-                                    <v-card-actions class="d-flex w-100 justify-space-between flex-wrap" :style="{width: '100%', height: 'fit-content'}">
-                                        <v-btn variant="tonal" class="text-subtitle-2"> Ver mais </v-btn>
-                                        <v-btn variant="tonal" class="text-subtitle-2"> + Carrinho </v-btn>
-                                    </v-card-actions>
-                                </div>
 
+                    <v-slide-group center-active class="h-100 d-flex justify-center align-center h-100 mx-sm-auto" v-if='!loading'>                
+                        <v-slide-group-item v-for="product in selectedProducts"  :key="product.id" >
+                            <div class="mx-2 h-100 pa-1 responsive-card-slide overflow-hidden ">
+                                <sharedItem  height="100%" width="100%" :id="product.id" :name="product.name" :category_name="product.category_name" :sessions="product.sessions" :body_part="product.body_part" :description="product.description" :img="product.img" :title="product.title" :price="product.price" :quantity="product.quantity" :is_available="product.is_available" >
 
-                            </v-card>
+                                </sharedItem>
+                            </div>
+
                         </v-slide-group-item>
                     </v-slide-group>
+                    <div v-else class="d-flex justify-center align-center h-100">
+                        <v-progress-circular indeterminate/>
+                    </div>
                     <v-btn style="width: fit-content;" class="mx-auto" variant="tonal">
                         Ver Todos os produtos
                     </v-btn>
@@ -30,3 +25,30 @@
 
     </section>
 </template>
+
+<script setup lang="ts">
+    const loading = ref<boolean>(false)
+    const selectedProducts = await (async () => {
+        loading.value = true
+        return await $fetch('/api/product?data='+JSON.stringify({sortBy: {isMostFavorites: true,}, take: 5, skip: 0, type: 'products'})).then(res => {
+        try {
+            loading.value = false
+            return res?.product?.products || {errors: 'Erro no servidor'}
+        } catch (error) {
+            loading.value = false
+
+            return {errors: 'Erro no servidor'}
+            
+        }
+    }).catch(res => {
+        try {
+            loading.value = false
+
+            return {errors: JSON.parse(res.data.message).errors}
+        } catch (error) {
+            loading.value = false
+
+            return {errors: 'Erro no servidor'}
+        }
+    })})()
+</script>
