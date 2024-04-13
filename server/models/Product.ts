@@ -103,6 +103,8 @@ class Product{
 	}
 
 	async createNewProduct(){
+		this.validateFields()
+		if(this.errors.length > 0) return
 		if(!this.body || !this.body.body_part || !this.body.title || !this.body.name || !this.body.quantity || !this.body.description || !this.body.price) return this.errors.push("Existem campos vazios")
 		const newProduct = await this.prisma.product.create({
 			data: {
@@ -140,6 +142,8 @@ class Product{
 	}
 
 	async updateProduct(){
+		this.validateFields()
+		if(this.errors.length > 0) return
 		if(!this.body?.userId) return this.errors.push("Você precisa ser um usuário autorizado para atualizar um produto")
 		if(!this.body?.productId) return this.errors.push("Não recebeu o produto para atualizar")
 		const updatedProduct = await this.prisma.product.update({
@@ -201,13 +205,10 @@ class Product{
 		this.response = product
 	}
 
-	private async isAuthorized(userId: string){
-		const user = await this.prisma.user.findFirst({where: {id: userId}}).then(res => res).catch(() => {
-			this.errors.push("Não foi possível verificar se o usuário está autorizado")
-			return null
-		})
-		if(this.errors.length > 0)
-		return false
+	private async validateFields(){
+		if(this.body?.title && this.body.title.length > 75) return this.errors.push("Tamanho do titulo maior que 75")
+		if(this.body?.name && this.body.name.length > 30) return this.errors.push("Tamanho do nome maior que 30")
+		if(this.body?.description && this.body.description.length > 75) return this.errors.push("Tamanho da descrição maior que 150")
 	}
 }
 

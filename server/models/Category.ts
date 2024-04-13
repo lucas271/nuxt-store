@@ -60,6 +60,7 @@ class Category{
 	}
 
 	async newCategory(){
+		if(this.body?.name && this.body.name.length > 30 ) return this.errors.push("Tamanho da categoria excede o limite de caracters")
         if(!this.body?.name )return this.errors.push("informações faltando")
 		const newCategory = await this.prisma.category.create({
 			data: {

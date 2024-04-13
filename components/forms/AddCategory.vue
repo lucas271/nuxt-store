@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-    import {useCategoryStore} from '../../lib/services/categoryStore.ts'
+    import {useCategoryStore} from '../../lib/services/categoryStore'
     const categoryStore = useCategoryStore()
 
     const categoryName = ref<string>('')
@@ -29,6 +29,9 @@
         },
         () => {
             return !categoryName.value?.match(/^[a-zA-Z]+$/) ? false : true
+        },
+        () => {
+            categoryName.value.length > 30 ? 'maximo de 30 caracters' : true
         }
     ];
     const categoryDescriptionRules = [

@@ -11,7 +11,6 @@
         <v-stepper-window>
             <v-stepper-window-item :value='index + 1' v-for="(item, index) in steps" :key="index ">
                 <v-form ref="formRef" :key="index">
-
                     <template v-for="input in Object.keys(item)">
                         <v-text-field 
                             v-if="item[input].type === 'text' || item[input].type === 'number'"
@@ -29,7 +28,7 @@
                             v-model="properties[input]"
                             :items="item[input]?.options"
                         />
-                        <sharedCategorySelect v-if="item[input].type === 'selectAPI'" :rules="item[input].rules" :placeholder="item[input].placeholder" :name="input" :label="item[input].label" v-model="properties[input]"/>
+                        <sharedCategorySelect v-if="item[input].type === 'selectAPI'" :rules="item[input].rules" :placeholder="item[input].placeholder" :name="input" :label="item[input].label" v-model="properties[`${input}`]"/>
                         <v-file-input 
                             v-if="item[input].type === 'file'"                                              
                             :label="item[input].label" 
@@ -52,7 +51,7 @@
 </template>
 
 <script lang="ts" setup>
-    import {useProductStore} from '../../lib/services/productStore.ts'
+    import {useProductStore} from '../../lib/services/productStore'
     const emit = defineEmits(['stepperClose'])
     interface PropertiesInterface{
         isForm: boolean,
@@ -63,21 +62,20 @@
         id?: string, 
         quantity?: number | null,
         name?: string,
-        category?: string
+        category_name?: string
         sessions?: number,
         bodyPart?: string,
     }
 
 
     const props = defineProps<{properties?: PropertiesInterface, isEdit?: boolean}>()
-    const properties = ref<{properties: PropertiesInterface}>({isForm: false, title: '', img: '', category: '', name: '', quantity: null, id: '', description: '', price: null, sessions: 1, type:''})
+    const properties = ref<{properties: PropertiesInterface}>({isForm: false, title: '', img: '', category_name: '', name: '', quantity: null, id: '', description: '', price: null, sessions: 1, type:''})
     onMounted(() => {
         properties.value = props.properties ? {...props.properties} : properties.value
     })
 
     const currentStep = ref<1 | 2 | 3>(1)
     const productStore = useProductStore()
-    const categorySelect = ref<string | string[]>()
     const formRef = ref(null)
     const isCurrentStepError = ref(false)
 
@@ -127,22 +125,21 @@
             name: {
                 rules: [
                     (e) => {
-                        return !e ? false : true
+                        return !e ? "Campo vazio" : true
                     }, 
                     (e) => {
-                        console.log(e)
-                        return e.match(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/) ? true : false
+                        return e.match(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/) ? true : "nome invalido"
                     },
                     (e) => {
-                        return e.length > 40 ? false : true
-                    }
+                        return e.length > 40 ? "Nome pode ter no maximo 35 letras" : true
+                    },
                 ],
                 label: 'Nome do produto',
                 placeholder: 'Digite o nome do produto',
                 type: 'text',
                 valid: true
             },
-            category: {
+            category_name: {
                 rules: [(e) => {
                     return !e ? false : true
                 }],
@@ -153,11 +150,14 @@
             price: {
                 rules: [
                     (e) => {
-                        return !e ? false : true
+                        return !e ? "campo vazio" : true
                     },
                     (e) => {
-                        return !Number(e) ? false : true
+                        return !Number(e) ? 'Valor não é um numero' : true
                     },
+                    (e) => {
+                        return String(e).length > 4 ? 'Preço não pode conter mais de 4 digitos' : true
+                    }
                 ],
                 type: 'number',
                 label: 'Preço do produto',
@@ -168,13 +168,13 @@
             title: {
                 rules: [  
                     (e) => {
-                        return !e ? false : true
+                        return !e ? "campo vazio" : true
                     }, 
                     (e) => {
-                        return e.match(/^[A-Za-z]+$/) ? true : false
+                        return e.match(/^[A-Za-z]+$/) ? true : "valor invalido"
                     },
                     (e) => {
-                        return e.length > 40 ? false : true
+                        return e.length > 75 ? "Titulo não pode ter mais de 80 caracters" : true
                 }],
                 label: 'Titulo do Produto',
                 type: 'text',
@@ -183,10 +183,10 @@
             description: {
                 rules: [
                     (e) => {
-                        return !e ? false : true
+                        return !e ? "campo vazio" : true
                     }, 
                     (e) => {
-                        return e.length > 200 ? false : true
+                        return e.length > 150 ? "Descrição pode ter no maximo 150 caracteres" : true
                     }
                 ],
                 label: 'Descrição do produto',
@@ -196,10 +196,10 @@
             quantity: {
                 rules: [
                     (e) => {
-                        return !e ? false : true
+                        return !e ? "campo vazio" : true
                     },
                     (e) => {
-                        return !Number(e) ? false : true
+                        return !Number(e) ? "valor não é um numero" : true
                     }
                 ],
                 label: 'Quantidade do produto',
@@ -212,8 +212,7 @@
                 rules: [
 
                     (e) => {
-                        console.log(e)
-                        return !e ? false : true
+                        return !e ? "campo vazio" : true
                     },
                     (e) => {
                         return e !== 'corpo' && e !== 'rosto' ? "Invalido" : true
@@ -230,7 +229,7 @@
                         return !e ? 'nenhuma opção selecionada' : true
                     },
                     (e) => {
-                        return Number(e) !== 1 && Number(e) !== 5 && Number(e) !== 10 ? "Invalido" : true
+                        return Number(e) !== 1 && Number(e) !== 5 && Number(e) !== 10 ? "Valor invalido" : true
                     }
                 ],
                 options: [1, 5, 10],
@@ -240,24 +239,24 @@
             },
             img: {
                 rules: [
-                    (file: File[] | undefined): boolean => {
-                        if (file.length < 1) return false;
-                        file = file[0]
+                    async (fileArray: File[]): Promise<boolean | string> => {
+                        if (fileArray.length < 1) return "Arquivo não encontrado";
+                        const file = fileArray[0]
                         // Check if the file is an image
                         const fileType = file.type.split('/')[0];
-                        if (fileType !== 'image') return false;
+                        if (fileType !== 'image') return "Arquivo não é uma imagem";
 
                         const img = new Image();
                         img.src = URL.createObjectURL(file);
-                        return new Promise((resolve) => {
+                        return await new Promise((resolve) => {
                             img.onload = () => {
-                                ((img.width / img.height) * 100  >= 100 && (img.width / img.height) * 100 <= 130) || (img.height / img.width) * 100  >= 100 && (img.height / img.width) * 100 <= 110 ? resolve(true) : resolve(false)
+                                ((img.width / img.height) * 100  >= 100 && (img.width / img.height) * 100 <= 130) || (img.height / img.width) * 100  >= 100 && (img.height / img.width) * 100 <= 110 ? resolve(true) : resolve("Proporções invalidas")
                             };
                         });   
                     }
                 ],
-                label: '',
-                placeholder: '',
+                label: 'Selecione uma imagem',
+                placeholder: 'Imagem a ser selecionada',
                 type: 'file'
             }
         }

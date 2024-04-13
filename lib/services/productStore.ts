@@ -86,8 +86,7 @@ export const useProductStore = defineStore('product', () => {
 
             const productIndex = products.value.map(product => product.id).indexOf(response.product.id)
             reset()
-
-            return products.value[productIndex >= 0 ? productIndex : products.value.length - 1] = response.product
+            return products.value[productIndex] = response.product
         } catch (error) {
             reset()
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
