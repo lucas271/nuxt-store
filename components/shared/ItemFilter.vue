@@ -12,7 +12,7 @@
                 />
             </div>
             <div class="w-100 h-75">
-                <v-combobox placeholder="selecione o numero de sessões" :items="['1 sessão', '5 sessões', '10 sessões']" v-model="filter.numberOfSessionsSelected" chips  class="w-100" multiple>
+                <v-combobox placeholder="selecione o numero de sessões" :items="['1 sessão', '5 sessões', '10 sessões']" v-model="filter.sessions" chips  class="w-100" multiple>
 
                 </v-combobox>
 
@@ -58,7 +58,7 @@
                 isNewest: null,
             },
             categoriesSelected: [],
-            numberOfSessionsSelected: [],
+            sessions: [],
             startsWith: '',
             priceRange: null
         } : filter

@@ -14,6 +14,8 @@ export interface ProductBodyInterface{
     quantity?: number,
     productQuantIncrement?: number
     category?: string,
+	sessions?: 1 | 5 | 10,
+	body_part?: 'rosto' | 'corpo'
 }
 
 export interface ProductQueryInterface{
@@ -25,7 +27,8 @@ export interface ProductQueryInterface{
         isMostFavorites?: boolean,
         isNewest?: boolean,
     },
-	categoriesSelected?: string[]
+	categoriesSelected?: string[],
+	sessions?: (1 | 5 | 10)[],
     startsWith?: string,
     priceRange?: number[],
 }
@@ -53,6 +56,7 @@ class Product{
 				mode: "insensitive"
 			},
 			category_name: (this.query?.categoriesSelected && this.query.categoriesSelected.length >= 1) ? {in: this.query?.categoriesSelected} : undefined,
+			sessions:	(this.query?.sessions && this.query?.sessions?.length > 0) ? {in: this.query?.sessions} : undefined,
 			price: {gte: this.query?.priceRange ? this.query?.priceRange[0] || 0 : 0, lte: this.query?.priceRange ? this.query?.priceRange[1] || undefined: undefined}
 		}
 		const productCount = await this.prisma.product.count({
@@ -99,7 +103,7 @@ class Product{
 	}
 
 	async createNewProduct(){
-		if(!this.body || !this.body.title || !this.body.name || !this.body.quantity || !this.body.description || !this.body.price) return this.errors.push("Existem campos vazios")
+		if(!this.body || !this.body.body_part || !this.body.title || !this.body.name || !this.body.quantity || !this.body.description || !this.body.price) return this.errors.push("Existem campos vazios")
 		const newProduct = await this.prisma.product.create({
 			data: {
 				title: this.body.title,
@@ -108,7 +112,9 @@ class Product{
 				name: this.body.name,
 				price: Number(this.body.price),
 				quantity: Number(this.body.quantity) || 1,
-				category_name: this.body?.category
+				category_name: this.body?.category,
+				body_part: this.body?.body_part,
+				sessions: Number(this.body?.sessions)
 			}
 		}).catch((error) => this.errors.push('Erro ao criar o produto') && console.log(error))
 
@@ -148,6 +154,8 @@ class Product{
 				price: Number(this.body?.price) || undefined,
 				quantity: Number(this.body?.quantity) || undefined,
 				category_name: this.body?.category,
+				body_part: this.body?.body_part,
+				sessions: Number(this.body?.sessions)
 			}
 		}).catch((err) => {
 			console.log(err)
@@ -178,7 +186,6 @@ class Product{
 
 	async increaseProductQuant(){
 		if(!this.body || !this.body.productQuantIncrement || !this.body.productId || !this.body.userId) return this.errors.push("Informações faltando")
-		if(!(await this.isAuthorized(this.body.userId))) return this.errors.push("Usuário não autorizado")
 
 		const product = await this.prisma.product.update({
 			where: {

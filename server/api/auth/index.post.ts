@@ -6,6 +6,8 @@ const prisma = new PrismaClient()
 export default defineEventHandler(async (event) => {
     try {
         const body: {email: string, password: string, username?: string, type: 'signIn' | 'signUp'} = await readBody(event)
+        console.log(body)
+
         const client = await serverSupabaseClient(event)
         if(!body.type) throw {errors: ['Não foi possivel definir o tipo da operação'], statusCode: 400}
         if(!body.email || !body.password ) throw {errors: ['Informações faltando'], statusCode: 400}
@@ -26,6 +28,7 @@ export default defineEventHandler(async (event) => {
                 email: body.email,
                 password: body.password,
             })
+            console.log(error)
             if(error) throw {errors: [error.status == 400 && 'Credenciais invalidas' || 'Algo deu errado'], statusCode: error.status}
     
             const user  = data.user?.id && await prisma.user.create({

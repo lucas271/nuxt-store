@@ -6,14 +6,14 @@
                 <slot/>
             </v-col>
             <v-col cols="12" md="4" sm="6" v-for="product in products" height="500px">
-                <sharedItem v-if="!edit || !edit.find(item => item.value === product.id && item.isForm)" :loading='product.loading' :id="product.id" :name="product.name" :description="product.description" :img="product.img" :title="product.title" :price="product.price" :quantity="product.quantity" :is_available="product.is_available" >
+                <sharedItem v-if="!edit || !edit.find(item => item.value === product.id && item.isForm)" :category_name="product.category_name" :loading='product.loading' :id="product.id" :sessions="product.sessions" :body_part="product.body_part" :name="product.name" :description="product.description" :img="product.img" :title="product.title" :price="product.price" :quantity="product.quantity" :is_available="product.is_available" >
                     <slot name="icon-slot" />
                 </sharedItem>
                 <template v-else> 
                     <sharedProductStepper :isEdit='true' @stepperClose="edit = edit.map(item => {
                         
                         return item.value === product.id ? {value: product.id, isForm: false} : item
-                    })" :properties="{isForm: edit.find(item => item.value === product.id).isForm, id:product.id, name:product.name, description:product.description, img:product.img, title: product.title, price: product.price, quantity: product.quantity, category:product.category_name}"/>
+                    })" :properties="{isForm: edit.find(item => item.value === product.id).isForm, id:product.id, sessions: product.sessions, body_part: product.body_part,  name:product.name, description:product.description, img:product.img, title: product.title, price: product.price, quantity: product.quantity, category_name: product.category_name}"/>
                 </template>
             </v-col>
         </template>
@@ -39,7 +39,9 @@ interface productInterface {
         img?: string,
         quantity: number
         is_available: boolean,
-        category?: string,
+        category_name?: string,
+        sessions?: number,
+        body_part?: string,
     }[]
 }
 const props = defineProps<{

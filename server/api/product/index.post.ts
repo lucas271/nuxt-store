@@ -4,9 +4,9 @@ import defaultResponse from "../util/defaultResponse"
 export default defineEventHandler(async (event) => {
   try{
     const body: ProductBodyInterface = await readBody(event)
+
     if(!body) throw {errors: ['Informações faltando'], statusCode: 400}
     const userId = event.context?.userId
-    console.log(body)
     if(!userId) throw {errors: ['Informações faltando'], statusCode: 400}
     const product = new Product({...body, userId})
     

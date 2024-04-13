@@ -14,6 +14,8 @@ export interface productInterface {
     quantity: number
     is_available: boolean,
     category?: string,
+    sessions: ( 1 | 5 | 10)[]
+    body_part: 'rosto' | 'corpo'
 }
 
 
@@ -28,12 +30,11 @@ export const useProductStore = defineStore('product', () => {
     async function getAllProducts(filter: filterInterface, take: number, skip: number){
         try {
             start()
-            const response = await $fetch('/api/product?data='+JSON.stringify({ ...filter, take, skip, type: 'products'})).then(res => res).catch(res => {
+            const response = await $fetch('/api/product?data='+JSON.stringify({ ...filter, sessions: filter?.sessions?.map((item) => parseInt(item)), take, skip, type: 'products'})).then(res => res).catch(res => {
                 console.log(res)
                 throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
-            console.log(response)
             if(response?.product?.products?.length  < 1) {
                 products.value = []
                 throw {errors: ['Nenhum produto disponivel']}
@@ -54,9 +55,7 @@ export const useProductStore = defineStore('product', () => {
             })
             reset()
             productCount.value = productCount.value || 0 + 1
-            const productIndex = products.value.map(product => product.id).indexOf(response.product.id)
-            console.log(productIndex)
-            return products.value[productIndex >= 0 ? productIndex : products.value.length - 1] = response.product
+            return products.value.push(response.product)
         } catch (error) {
             reset()
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
@@ -86,7 +85,6 @@ export const useProductStore = defineStore('product', () => {
             })
 
             const productIndex = products.value.map(product => product.id).indexOf(response.product.id)
-            console.log(productIndex)
             reset()
 
             return products.value[productIndex >= 0 ? productIndex : products.value.length - 1] = response.product

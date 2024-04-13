@@ -28,7 +28,6 @@ export const useCartStore = defineStore('cart', () => {
         try {
             start()
             const response = await $fetch('/api/cart').then(res => res).catch(res => {
-                console.log('ikdiasjdijasidjias', res)
                 throw {errors: JSON.parse(res.data.message).errors}
 			})            
             if(response.data?.errors?.length > 0)  throw {errors: response.data.errors}
@@ -50,8 +49,10 @@ export const useCartStore = defineStore('cart', () => {
             
                 
             reset()
-            if(cartProducts.value.find(product => response.cart.product.id)?.quantity === 1 && response.cart)  return cartProducts.value = [...cartProducts.value.filter(product => response.cart.product.id !== product.product.id)]
-            return cartProducts.value.find(product => response.cart.product.id === product.product.id) ? cartProducts.value = [...cartProducts.value.filter(product => response.cart.product.id !== product.product.id), response.cart] : ''
+            if(cartProducts.value.find(product => response.cart.product.id === product.product.id)?.quantity === 1 && response.cart)  return cartProducts.value = [...cartProducts.value.filter(product => response.cart.product.id !== product.product.id)]
+            
+            const productIndex = cartProducts.value.map(product => product.product.id).indexOf(response.cart.product.id)
+            return cartProducts.value[productIndex] = response.cart
         } catch (error) {
             console.log(error)
             reset()
@@ -66,10 +67,10 @@ export const useCartStore = defineStore('cart', () => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()
-            return cartProducts.value.find(product => response.cart.product.id === product.product.id) ? cartProducts.value = [...cartProducts.value.filter(product => response.cart.product.id !== product.product.id), response.cart] : cartProducts.value.push(response.cart) 
+            const productIndex = cartProducts.value.map(product => product.product.id).indexOf(response.cart.product.id)
+            return cartProducts.value[productIndex >= 0 ? productIndex : 0] = response.cart
         } catch (error) {
             reset()
-            console.log(error.errors)
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
     }

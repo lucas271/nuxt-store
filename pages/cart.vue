@@ -9,8 +9,8 @@
                 <div class="d-flex flex-column ga-4 overflow-auto my-3 w-100 flex-grow-1 flex-shrink-1" >
                     <v-divider thickness="2" class=''/>
 
-                    <template v-if="!cartStore.loading" v-for='product in cartStore.cartProducts'>
-                        <template v-if="cartStore.cartProducts.length > 0">
+                    <template v-if="!cartStore.loading" >
+                        <template v-if="cartStore.cartProducts.length > 0" v-for='product in cartStore.cartProducts'>
                             <div class="h-75 w-100 d-flex align-center" >
                                 <div class="d-flex w-100 h-100 text-grey-darken-4 justify-space-evenly py-2 px-1 flex-column flex-md-row align-center ga-4 flex-grow-1 flex-shrink-1 overflow-auto">
                                     <div class="d-flex flex-shrink-1 flex-grow-1 h-100 w-100 justify-between align-center overflow-hidden">

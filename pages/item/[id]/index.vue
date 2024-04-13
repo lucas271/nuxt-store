@@ -44,6 +44,8 @@
                         :quantity='productStore.product?.quantity'
                         :categoryName='productStore.product?.category_name'
                         :loading='productStore.loading'
+                        :sessions="productStore.product?.sessions"
+                        :body_part="productStore.product?.body_part" 
                         height='400px'
                     />
                 </div>

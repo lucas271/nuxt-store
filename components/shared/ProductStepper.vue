@@ -21,8 +21,15 @@
                             :type="item[input].type"
                             v-model="properties[input]"
                         />
-
-                        <sharedCategorySelect v-if="item[input].type === 'select'" :rules="item[input].rules" :placeholder="item[input].placeholder" :name="input" :label="item[input].label" v-model="properties[input]"/>
+                        <v-select
+                            v-if="item[input].type === 'select'"
+                            :label="item[input].label" 
+                            :rules="item[input].rules" :name="input" 
+                            :placeholder="item[input].placeholder" 
+                            v-model="properties[input]"
+                            :items="item[input]?.options"
+                        />
+                        <sharedCategorySelect v-if="item[input].type === 'selectAPI'" :rules="item[input].rules" :placeholder="item[input].placeholder" :name="input" :label="item[input].label" v-model="properties[input]"/>
                         <v-file-input 
                             v-if="item[input].type === 'file'"                                              
                             :label="item[input].label" 
@@ -57,11 +64,13 @@
         quantity?: number | null,
         name?: string,
         category?: string
+        sessions?: number,
+        bodyPart?: string,
     }
 
 
     const props = defineProps<{properties?: PropertiesInterface, isEdit?: boolean}>()
-    const properties = ref<{properties: PropertiesInterface}>({isForm: false, title: '', img: '', category: '', name: '', quantity: null, id: '', description: '', price: null, name: ''})
+    const properties = ref<{properties: PropertiesInterface}>({isForm: false, title: '', img: '', category: '', name: '', quantity: null, id: '', description: '', price: null, sessions: 1, type:''})
     onMounted(() => {
         properties.value = props.properties ? {...props.properties} : properties.value
     })
@@ -139,7 +148,7 @@
                 }],
                 label: 'categoria do produto',
                 placeholder: 'selecione a categoria',
-                type: 'select'
+                type: 'selectAPI'
             },
             price: {
                 rules: [
@@ -197,7 +206,38 @@
                 placeholder: 'Quant produtos disponiveis',
                 type: 'number'
             }
-        }, {
+        },
+        {
+            body_part: {
+                rules: [
+
+                    (e) => {
+                        console.log(e)
+                        return !e ? false : true
+                    },
+                    (e) => {
+                        return e !== 'corpo' && e !== 'rosto' ? "Invalido" : true
+                    }
+                ],
+                label: 'parte do corpo',
+                placeholder: 'Rosto ou Corpo',
+                type: 'select',
+                options: ['rosto', 'corpo']
+            },
+            sessions: {
+                rules: [
+                    (e) => {
+                        return !e ? 'nenhuma opção selecionada' : true
+                    },
+                    (e) => {
+                        return Number(e) !== 1 && Number(e) !== 5 && Number(e) !== 10 ? "Invalido" : true
+                    }
+                ],
+                options: [1, 5, 10],
+                label: 'Numero de sessões',
+                placeholder: 'selecione o numero de sessões',
+                type: 'select'
+            },
             img: {
                 rules: [
                     (file: File[] | undefined): boolean => {

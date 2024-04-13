@@ -382,11 +382,11 @@ model Product {
   img          String
   quantity     Int
   is_available Boolean @default(true)
-  number_of_sessions Int @default(1)
+  sessions Int @default(1)
 
   category_name String
   brand_id      String?
-
+  body_part  String
   //relations
 
   favorites Favorite[]
@@ -500,6 +500,5 @@ enum CartStatus {
   PENDING
   COMPLETED
   CANCELED
-      @@schema("public")
-
+  @@schema("public")
 }

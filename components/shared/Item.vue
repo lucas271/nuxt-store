@@ -4,8 +4,14 @@
             <slot/>
         </v-img>
         <div class='flex-grow-1 d-flex justify-space-around flex-column'>
-            <v-card-title class="font-italic">{{name}}</v-card-title>
+            <v-card-title class="font-italic">{{name}} </v-card-title>
+            
             <v-card-subtitle class="text-wrap">{{title}}</v-card-subtitle>
+            <v-chip-group class=" ma-2 d-flex flex-wrap">
+                <v-chip>{{ sessions }} {{sessions > 1 ? 'sessões' : 'sessão'}}</v-chip>
+                <v-chip> {{ body_part }}</v-chip>
+                <v-chip> {{ category_name }}</v-chip>
+            </v-chip-group>
             <v-card-text>R${{ price && price.toFixed(2).replace('.', ',') || '' }}</v-card-text>
             <v-card-actions >
                 <v-btn class="text-body-1"  variant="tonal" @click="navigateTo(`/item/${id}`)">
@@ -43,7 +49,9 @@ interface ItemInterface {
     img?: string,
     quantity?: number
     is_available?: boolean,
-    categoryName?: string,
+    category_name?: string,
+    sessions?: number,
+    body_part?: string,
     loading?: boolean,
     height?: string,
 }

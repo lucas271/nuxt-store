@@ -3,6 +3,7 @@ export interface filterInterface{
     typesSelected: null,
     numberOfSessions: null,
     searchQuery: null 
+    sessions: ['1 sessão', '5 sessões', '10 sessões']
 }
 export const useFilterState = () => useState<filterInterface>('filter', () => {
     return {
@@ -12,7 +13,7 @@ export const useFilterState = () => useState<filterInterface>('filter', () => {
             isNewest: null,
         },
         categoriesSelected: [],
-        numberOfSessionsSelected: [],
+        sessions: [],
         startsWith: '',
         priceRange: null
     }
