@@ -66,29 +66,34 @@
                                     </v-window-item>
                                     <v-window-item :key="1" class="h-100">
                                         <div class="d-flex flex-column h-100 overflow-hidden justify-space-evenly align-center">
-                                            <v-card-title class="text-h4 font-weight-bold text-uppercase">
-                                                Que tipo de tratamento você quer? {{ step.currentStep }}
+                                            <v-card-title class="text-sm-h4 text-subtitle-2 mx-0 pa-0 text-wrap w-100 text-center font-weight-bold">
+                                                Que tipo de tratamento você quer? 
                                             </v-card-title>
              
-                                            <div class="d-flex ga-6 w-75 h-75 flex-shrink-1 overflow-hidden flex-wrap">
+                                            <v-container class="d-flex  ga-3 w-75 h-75 flex-shrink-1 justify-center align-center overflow-x-hidden flex-wrap overflow-auto">
+                                                <v-row align="end" >
+                                                    <v-col v-if="selectedOptions.step1 === 'rosto' || selectedOptions.step1 === 'corpo'" v-for="item in selectedOptions.step1 === 'rosto' ? step2FaceOptions : step2BodyOptions">
+                                                        <v-hover v-slot="{ isHovering, props }"  open-delay="100" >
+                                                            <v-card
+                                                                :style="item.name === selectedOptions[selectedOptions.step1 === 'rosto' ? 'step2Face' : 'step2Body']  && { backgroundColor: 'rgba(0, 0, 0, 0.5)', border: '3px solid #01B573'}"
+                                                                class="bg-teal-darken-2 d-flex flex-column"
+                                                                v-bind="props"
+                                                                :elevation="isHovering ? 24 : 2"
+                                                                v-ripple
+                                                                @click="selectedOptions[selectedOptions.step1 === 'rosto' ? 'step2Face' : 'step2Body'] = item.name"
+                                                            >
+                                                                <h4 class="text-sm-subtitle-1 text-subtitle-2 text-center text-break">{{ item.name }}</h4>
+                                                                <v-btn variant="tonal" class="text-sm-h6 text-subtitle-2 font-weight-bold text-break" :ripple="false">clique para selecionar</v-btn>
+                                                            </v-card>
+                                                        </v-hover>
+                                                    </v-col>
 
-                                                <v-hover v-slot="{ isHovering, props }"  open-delay="100" v-if="selectedOptions.step1 === 'rosto' || selectedOptions.step1 === 'corpo'" v-for="item in selectedOptions.step1 === 'rosto' ? step2FaceOptions : step2BodyOptions">
-                                                    <v-card
-                                                        :style="item.name === selectedOptions[selectedOptions.step1 === 'rosto' ? 'step2Face' : 'step2Body']  && { backgroundColor: 'rgba(0, 0, 0, 0.5)', border: '3px solid #01B573'}"
-                                                        class="bg-teal-darken-2 d-flex flex-column"
-                                                        v-bind="props"
-                                                        :elevation="isHovering ? 24 : 2"
-                                                        v-ripple
-                                                        @click="selectedOptions[selectedOptions.step1 === 'rosto' ? 'step2Face' : 'step2Body'] = item.name"
-                                                    >
-                                                        <h4 class="text-subtitle-1 text-center">{{ item.name }}</h4>
-                                                        <v-btn variant="tonal" :ripple="false">clique para selecionar</v-btn>
-                                                    </v-card>
-                                                </v-hover>
+                                                </v-row>
+                                               
                   
-                                            </div>
-                                            <span class="text-center text-h6" >
-                                                Tipo selecionado: <span class="font-weight-bold font-italic">{{ selectedOptions[selectedOptions.step1 === 'rosto' ? 'step2Face' : 'step2Body']?.name }}</span>
+                                            </v-container>
+                                            <span class="text-center text-sm-h6 text-subtitle-2 text-break w-75" >
+                                                Tipo selecionado: <span class="font-weight-bold font-italic">{{ selectedOptions[selectedOptions.step1 === 'rosto' ? 'step2Face' : 'step2Body'] }}</span>
                                             </span>
                                         </div>
                                     </v-window-item>
@@ -125,9 +130,9 @@
                                 </v-window>
                                 <v-divider/>
                                 <v-card-actions>
-                                    <v-btn variant='tonal' v-if='step.currentStep > 0' @click='step.currentStep--'> Voltar </v-btn>
+                                    <v-btn variant='tonal' v-if='step.currentStep > 0' @click='step.currentStep > 0 && step.currentStep--'> Voltar </v-btn>
                                     <v-spacer/>
-                                    <v-btn variant='tonal' @click="step.currentStep + 1 < step.numberOfSteps && step.currentStep++"> {{step.currentStep + 1 < step.numberOfSteps ? 'proximo' : 'Enviar'}} </v-btn>
+                                    <v-btn variant='tonal' @click="(step.currentStep + 1 === 1 ? selectedOptions.step1 : step.currentStep + 1 === 2 && (selectedOptions?.step2Face || selectedOptions?.step2Body)) && (step.currentStep + 1 < step.numberOfSteps && step.currentStep++)"> {{step.currentStep + 1 < step.numberOfSteps ? 'proximo' : 'Enviar'}} </v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-overlay>
