@@ -14,30 +14,21 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
-    "@nuxt/app": "^0.5.0",
-    "@nuxtjs/axios": "^5.13.6",
-    "@nuxtjs/supabase": "^1.2.0",
+    "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/vuetify": "^1.12.3",
-    "axios": "^1.6.8",
-    "defu": "^6.1.4",
+    "@pinia/nuxt": "^0.5.1",
+    "@prisma/client": "^5.12.1",
+    "install": "^0.13.0",
     "nuxt": "^3.11.2",
     "nuxt-csurf": "^1.5.1",
     "pinia": "^2.1.7",
-    "vite": "^5.2.8",
-    "vue": "3.4.15",
-    "vue-router": "^4.3.0",
-    "webpack": "^5.91.0"
+    "prisma": "^5.12.1",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0"
   },
   "devDependencies": {
-    "@nuxt/types": "^2.17.3",
-    "@nuxtjs/google-fonts": "^3.2.0",
-    "@pinia/nuxt": "^0.5.1",
-    "@prisma/client": "^5.12.1",
-    "@types/node": "^20.12.7",
-    "hookable": "5.5.3",
-    "prisma": "^5.12.1",
+    "@nuxtjs/supabase": "^1.2.0",
     "sass": "^1.75.0",
-    "typescript": "^5.4.5",
     "vite-plugin-vuetify": "^2.0.3",
     "vuetify": "^3.5.15"
   }

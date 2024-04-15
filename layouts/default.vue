@@ -3,8 +3,11 @@
 <template>
   <v-app>
     <layoutNavbar/>
-    <v-main class="main-min-height mb-sm-0 pb-sm-0 ">
-      <slot/>
+    <v-main class='mb-sm-0 pb-sm-0'>
+      <section class="main-min-height  ">
+        <slot/>
+
+      </section>
       <layoutFooter/>
     </v-main>
 

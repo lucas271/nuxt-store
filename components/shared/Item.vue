@@ -6,7 +6,7 @@
         <div class='flex-grow-1 d-flex justify-space-around flex-column overflow-hidden px-1'>
             <v-card-title class="font-italic text-sm-h6 text-subtitle-1 font-weight-bold">{{name}} </v-card-title>
             
-            <v-card-subtitle class="text-wrap flex-shrink-1 text-sm-body-2 text-caption  flex-shrink-1 overflow-auto">{{title}}dsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdas</v-card-subtitle>
+            <v-card-subtitle class="text-wrap flex-shrink-1 text-sm-body-2 text-caption  flex-shrink-1 overflow-auto">{{title}}</v-card-subtitle>
             <div>
                 <v-chip-group class=" ma-2 d-flex flex-wrap">
                     <v-chip class="text-sm-body-2 text-caption">{{ sessions }} {{sessions && sessions > 1 ? 'sessões' : 'sessão'}}</v-chip>

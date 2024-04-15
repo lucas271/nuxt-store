@@ -30,7 +30,7 @@ export default defineNuxtConfig({
     addCsrfTokenToEventCtx: true // default false, to run useCsrfFetch on server set it to true
   },
   supabase:{
-    redirect: true
+    redirect: false
   },
 
   css: ["./assets/scss/global.scss"],
