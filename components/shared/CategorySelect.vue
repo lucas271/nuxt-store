@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-    import {useCategoryStore} from '../../lib/services/categoryStore'
+    import {useCategoryStore} from '../../lib/services/categoryStore.ts'
     const categoryStore = useCategoryStore()
     defineProps<{select: string[]}>();
 </script>

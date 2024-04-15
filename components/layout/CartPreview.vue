@@ -9,7 +9,7 @@
         </div>
         <v-divider :thickness="4"/>
         <template v-if='!cartStore.loading'>
-            <div class="d-flex flex-column ga-4 flex-shrink-1 flex-grow-1  my-3 overflow-y-auto overflow-x-hidden">
+            <div class="d-flex flex-column ga-4 flex-shrink-1 flex-grow-1  my-3 overflow-y-auto overflow-x-hidden px-sm-4">
                 <div class="d-flex w-100 h-75 overflow-hidden flex-shrink-0 ga-2 justify-space-between" :style="{position: 'relative'}" v-if='cartStore?.cartProducts?.length > 0' v-for='item in cartStore.cartProducts'>
                     <div class="w-25 d-flex align-center justify-center">
                         <v-img
@@ -20,21 +20,25 @@
                         
                         ></v-img>
                     </div>
-                    <div class="pa-2 d-flex py-1  px-1 h-100 overflow-auto justify-center justify-lg-space-evenly align-center flex-shrink-1 flex-grow-1 ga-4 w-50 flex-column flex-lg-row my-auto">
-                        <div class="d-flex ga-1 flex-column  align-lg-center align-md-start h-auto flex-shrink-1 justify-lg-center overflow-auto">
-                            <v-card-title class="text-md-h6 text-sm-subtitle-1 ma-0 pa-0 text-blue-grey-darken-3 text-wrap flex-shrink-1 flex-grow-1 flex-lg-grow-0">{{item.product.title}}</v-card-title>
-                            <v-card-subtitle class="text-break ma-0 pa-0 text-caption text-lg-center text-blue-grey-darken-5 font-bold">UNIDADE: R${{Number(item.product.price).toFixed(2).replace('.', ',')}}</v-card-subtitle>
+                    <div class="pa-2 d-flex py-1  px-1 h-100 overflow-auto justify-center justify-lg-space-evenly align-center flex-shrink-1 flex-grow-1 ga-4 w-50  my-auto">
+                        <div class="d-flex ga-1 flex-column  align-lg-center align-md-start h-auto flex-shrink-1 justify-lg-center overflow-auto flex-grow-1">
+                            <v-card-title class="text-md-h6 text-sm-subtitle-1 ma-0 pa-0 text-blue-grey-darken-3 text-wrap flex-shrink-1 flex-grow-1 flex-lg-grow-0">{{item.product.name}}</v-card-title>
+                            <v-card-subtitle class="text-break text-wrap ma-0 pa-0 text-caption text-lg-center text-blue-grey-darken-5 font-bold">UN: R${{Number(item.product.price).toFixed(2).replace('.', ',')}}</v-card-subtitle>
                         </div>
-                        <div class="d-flex justify-between align-center text-blue-grey-darken-2 ga-2">
-                            <v-btn :active='item.product?.loading === false' class="rounded-xl text-blue-grey-darken-2" size="small" density="comfortable" variant='tonal' icon="mdi-arrow-left text-subtitle-2" @click='cartStore.deleteSingleCartProduct(item.product.id)'></v-btn>
-                            <div class="flex-grow-1 text-center text-sm-body-2 text-md-body-1 text-subtitle-2" v-if="!item.product?.loading">{{item.quantity}}</div>
-                            <div class="flex-grow-1 text-center text-sm-body-2 text-md-body-1 text-subtitle-2 d-flex justify-center align-center" v-else> <v-progress-circular indeterminate/> </div>
-                            <v-btn :active='item.product?.loading === false' class="rounded-xl text-blue-grey-darken-2" size="small" density="comfortable" variant='tonal' icon="mdi-arrow-right text-subtitle-2" @click='cartStore.addProduct(item.product.id)'></v-btn>
-                        </div>
-                        <div class="d-flex pa-1 flex-column align-center justify-center ga-3 overflow-hidden   text-center text-blue-grey-darken-4">
+                        <div class="d-flex flex-column ga-3">
                             <span class="text-lg-body-2   text-wrap font-italic">R${{Number(item.quantity * item.product.price).toFixed(2).replace('.', ',')}}</span>
+
+
+                            <div class="d-flex justify-space-between align-center text-blue-grey-darken-2 ga-2">
+                                <v-btn :active='item.product?.loading === false' class="rounded-xl text-blue-grey-darken-2" size="small" density="comfortable" variant='tonal' icon="mdi-arrow-left text-subtitle-2" @click='cartStore.deleteSingleCartProduct(item.product.id)'></v-btn>
+                                <div class="flex-grow-1 text-center text-sm-body-2 text-md-body-1 text-subtitle-2" v-if="!item.product?.loading">{{item.quantity}}</div>
+                                <div class="flex-grow-1 text-center text-sm-body-2 text-md-body-1 text-subtitle-2 d-flex justify-center align-center" v-else> <v-progress-circular indeterminate/> </div>
+                                <v-btn :active='item.product?.loading === false' class="rounded-xl text-blue-grey-darken-2" size="small" density="comfortable" variant='tonal' icon="mdi-arrow-right text-subtitle-2" @click='cartStore.addProduct(item.product.id)'></v-btn>
+                            </div>
                             <v-btn class="text-subtitle-2 font-weight-bold text-uppercase" variant='tonal' @click="navigateTo(`item/${item.product.id}`)">ver +</v-btn>
+
                         </div>
+
                     </div>
 
                 </div>

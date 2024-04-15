@@ -14,7 +14,7 @@
                     v-bind="props"
                     class="mx-sm-6 mt-3 mt-sm-0"
                     >
-                    Nova Categoria
+                        Nova Categoria
                     </v-btn>
                 </template>  
                 <v-card height="400px" width="230px" >

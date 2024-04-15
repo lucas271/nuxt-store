@@ -36,22 +36,25 @@
                                                 Qual área você deseja tratar?
                                             </span>
              
-                                            <v-slide-group class="h-75 d-flex w-75 flex-shrink-1 ga-2 justify-center align-center justify-center overflow-hidden bg-transparent" elevation="0">
-                                                <v-slide-group-item v-for="item in (step1Options)" class="w-75">
-                                                    <v-hover v-slot="{ isHovering, props }" open-delay="100" >
-                                                        <v-card  
-                                                            class="h-100 w-100 bg-teal-darken-2 d-flex flex-column mx-2 overflow-hidden" 
-                                                            :style="item.name === selectedOptions.step1 && { backgroundColor: 'rgba(0, 0, 0, 0.5)', border: '3px solid #01B573'}"
-                                                            v-bind="props"
-                                                            :elevation="isHovering ? 24 : 2"
-                                                            v-ripple
-                                                            @click="selectedOptions.step1 = item.name"
-                                                        >
-                                                            <h4 class="text-sm-subtitle-1 text-subtitle-2 text-center">{{ item.name }}</h4>
-                                                            <v-img class="w-100 flex-grow-1 flex-shrink-1" cover :src="item.img"/>
-                                                            <v-btn variant="tonal" :ripple="false">clique para selecionar</v-btn>
-                                                        </v-card>
-                                                    </v-hover>
+                                            <v-slide-group class="h-100 d-flex w-75 flex-shrink-1 ga-2 overflow-hidden bg-transparent" elevation="0" style="position: relative;">
+                                                <v-slide-group-item v-for="item in (step1Options)" class="w-75" tag="h2">
+                                                    <div class="w-75 h-100 d-flex justify-center align-center">
+                                                        <v-hover v-slot="{ isHovering, props }" open-delay="100">
+                                                            <v-card  
+                                                                class="h-75 w-75 bg-teal-darken-2 d-flex  flex-column mx-2 overflow-hidden" 
+                                                                :style="item.name === selectedOptions.step1 && { backgroundColor: 'rgba(0, 0, 0, 0.5)', border: '3px solid #01B573'}"
+                                                                v-bind="props"
+                                                                :elevation="isHovering ? 24 : 2"
+                                                                v-ripple
+                                                                @click="selectedOptions.step1 = item.name"
+                                                            >
+                                                                <h4 class="text-sm-subtitle-1 text-subtitle-2 text-center">{{ item.name }}</h4>
+                                                                <v-img class="w-100 flex-grow-1 flex-shrink-1" cover :src="item.img"/>
+                                                                <v-btn variant="tonal" :ripple="false">clique para selecionar</v-btn>
+                                                            </v-card>
+                                                        </v-hover>
+                                                    </div>
+
                                                 </v-slide-group-item>
 
                                             </v-slide-group>
@@ -75,8 +78,8 @@
                                                     <v-col v-if="selectedOptions.step1 === 'rosto' || selectedOptions.step1 === 'corpo'" v-for="item in selectedOptions.step1 === 'rosto' ? step2FaceOptions : step2BodyOptions">
                                                         <v-hover v-slot="{ isHovering, props }"  open-delay="100" >
                                                             <v-card
-                                                                :style="item.name === selectedOptions[selectedOptions.step1 === 'rosto' ? 'step2Face' : 'step2Body']  && { backgroundColor: 'rgba(0, 0, 0, 0.5)', border: '3px solid #01B573'}"
-                                                                class="bg-teal-darken-2 d-flex flex-column"
+                                                                :style="{...(item.name === selectedOptions[selectedOptions.step1 === 'rosto' ? 'step2Face' : 'step2Body']  ?  {backgroundColor: 'rgba(0, 0, 0, 0.5)', border: '3px solid #01B573'} : {border: '3px solid transparent'})}"
+                                                                class="bg-teal-darken-2 d-flex flex-column "
                                                                 v-bind="props"
                                                                 :elevation="isHovering ? 24 : 2"
                                                                 v-ripple
@@ -152,20 +155,20 @@
         {name: 'rosto', img: 'https://img.freepik.com/vetores-gratis/ilustracao-de-desenho-de-rosto-desenhado-a-mao_23-2150523274.jpg'},
         {name: 'corpo', img: 'https://img.freepik.com/vetores-gratis/desenho-de-linha-de-arte-feminina-feminina-em-fundo-cinza_53876-120588.jpg'} ]
     const step2FaceOptions = [
-        {name: 'rugas', img: ''},
-        {name: 'olheiras', img: ''},
-        {name: 'Acne', img: ''},
-        {name: 'pele oleosa', img: ''},
-        {name: 'bioestimuladores', img: ''},
-        {name: 'lallalala', img: ''}
+        {name: 'rugas', id: '' },
+        {name: 'olheiras', id: ''},
+        {name: 'Acne', id: ''},
+        {name: 'pele oleosa', id: ''},
+        {name: 'bioestimuladores', id: ''},
+        {name: 'lallalala', id: ''}
     ]
     const step2BodyOptions = [
-        {name: 'bumbum', img: ''},
-        {name: 'gordura localizada', img: ''},
-        {name: 'estrias', img: ''},
-        {name: 'celulite', img: ''},
-        {name: 'pós operatório', img: ''},
-        {name: 'lallalala', img: ''}
+        {name: 'bumbum', id: ''},
+        {name: 'gordura localizada', id: ''},
+        {name: 'estrias', id: ''},
+        {name: 'celulite', id: ''},
+        {name: 'pós operatório', id: ''},
+        {name: 'lallalala', id: ''}
     ]
     interface optionsInterface{
         step1: 'rosto' | 'corpo' | undefined,

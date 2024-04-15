@@ -6,7 +6,7 @@
 
                     <v-slide-group center-active class="h-100 d-flex justify-center align-center h-100 mx-sm-auto" v-if='!loading'>                
                         <v-slide-group-item v-for="product in selectedProducts"  :key="product.id" >
-                            <div class="mx-2 h-100 pa-1 responsive-card-slide overflow-hidden ">
+                            <div class="mx-2  pa-1 responsive-card-slide overflow-hidden " style="height: 90%; margin-top: auto; margin-bottom: auto;">
                                 <sharedItem  height="100%" width="100%" :id="product.id" :name="product.name" :category_name="product.category_name" :sessions="product.sessions" :body_part="product.body_part" :description="product.description" :img="product.img" :title="product.title" :price="product.price" :quantity="product.quantity" :is_available="product.is_available" >
 
                                 </sharedItem>

@@ -6,6 +6,7 @@ export default defineEventHandler(async (event) => {
     const body: ProductBodyInterface = await readBody(event)
 
     if(!body) throw {errors: ['Informações faltando'], statusCode: 400}
+    console.log(body)
     const userId = event.context?.userId
     if(!userId) throw {errors: ['Informações faltando'], statusCode: 400}
     const product = new Product({...body, userId})

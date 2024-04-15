@@ -28,7 +28,7 @@
                             v-model="properties[input]"
                             :items="item[input]?.options"
                         />
-                        <sharedCategorySelect v-if="item[input].type === 'selectAPI'" :rules="item[input].rules" :placeholder="item[input].placeholder" :name="input" :label="item[input].label" v-model="properties[`${input}`]"/>
+                        <sharedCategorySelect v-if="item[input].type === 'selectAPI'" :rules="item[input].rules" :placeholder="item[input].placeholder" :name="input" :label="item[input].label" v-model="properties[input]"/>
                         <v-file-input 
                             v-if="item[input].type === 'file'"                                              
                             :label="item[input].label" 
@@ -41,7 +41,7 @@
                         
                         <v-btn text @click="index + 1 > 1 ? changeStep('prev') : emit('stepperClose')">{{index + 1 > 1 ? "voltar" : 'cancelar'}}</v-btn>
                         <v-btn v-if="index + 1 < 3"  @click="changeStep('next', index)">Avançar</v-btn>
-                        <v-btn v-else color="success" @click="sendRequest()">Enviar</v-btn>
+                        <v-btn v-else color="success" @click="sendRequest($event)">Enviar</v-btn>
                     </div>
                 </v-form>
             </v-stepper-window-item>
@@ -80,7 +80,8 @@
     const isCurrentStepError = ref(false)
 
 
-    async function sendRequest(){
+    async function sendRequest(e){
+        e.preventDefault();
         const areFormsValidPromises = formRef.value.map(async ref => await ref.validate());
         const areFormsValid = await Promise.all(areFormsValidPromises).then(results => results.filter(result => !result.valid))
         
@@ -88,7 +89,7 @@
         const formInputs = formRef.value.map(ref =>  ref.querySelectorAll('input'))
         const combinedFormInputs = formInputs.reduce((pv, cv) => [...pv, ...cv], [])
         const productRequestParamsArray = await Promise.all(combinedFormInputs.map(async (element) => {
-            if(element.name === 'category') return { [element.name]: properties.value[element.name]}
+            if(element.name === 'category_name') return { [element.name]: properties.value[element.name]}
             if (element.name === 'img') {
                 const file = element.files[0];
                 const base64File = await new Promise((resolve, reject) => {
@@ -111,7 +112,7 @@
         const productRequestParamsObj = productRequestParamsArray.reduce((pv, cv) => {return {...pv, ...cv}}, {})
         !props.isEdit ? productStore.addProduct(productRequestParamsObj) : productStore.updateProduct(props.properties.id, productRequestParamsObj)
     }
-    const changeStep = async (type: 'next' | 'prev', index) => {
+    const changeStep = async (type: 'next' | 'prev', index: number) => {
         
         if (type === 'next') {
             if(!(await formRef.value[index].validate()).valid) return isCurrentStepError.value = true
@@ -131,7 +132,7 @@
                         return e.match(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/) ? true : "nome invalido"
                     },
                     (e) => {
-                        return e.length > 40 ? "Nome pode ter no maximo 35 letras" : true
+                        return e.length > 30 ? "Nome pode ter no maximo 30 letras" : true
                     },
                 ],
                 label: 'Nome do produto',
@@ -171,10 +172,10 @@
                         return !e ? "campo vazio" : true
                     }, 
                     (e) => {
-                        return e.match(/^[A-Za-z]+$/) ? true : "valor invalido"
+                        return e.match(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/) ? true : "Titulo invalido"
                     },
                     (e) => {
-                        return e.length > 75 ? "Titulo não pode ter mais de 80 caracters" : true
+                        return e.length > 75 ? "Titulo não pode ter mais de 70 caracters" : true
                 }],
                 label: 'Titulo do Produto',
                 type: 'text',

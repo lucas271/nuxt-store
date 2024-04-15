@@ -13,7 +13,7 @@ export interface ProductBodyInterface{
     img?: string,
     quantity?: number,
     productQuantIncrement?: number
-    category?: string,
+    category_name?: string,
 	sessions?: 1 | 5 | 10,
 	body_part?: 'rosto' | 'corpo'
 }
@@ -114,7 +114,7 @@ class Product{
 				name: this.body.name,
 				price: Number(this.body.price),
 				quantity: Number(this.body.quantity) || 1,
-				category_name: this.body?.category,
+				category_name: this.body?.category_name,
 				body_part: this.body?.body_part,
 				sessions: Number(this.body?.sessions)
 			}
@@ -157,7 +157,7 @@ class Product{
 				name: this.body?.name,
 				price: Number(this.body?.price) || undefined,
 				quantity: Number(this.body?.quantity) || undefined,
-				category_name: this.body?.category,
+				category_name: this.body?.category_name,
 				body_part: this.body?.body_part,
 				sessions: Number(this.body?.sessions)
 			}
@@ -208,7 +208,7 @@ class Product{
 	private async validateFields(){
 		if(this.body?.title && this.body.title.length > 75) return this.errors.push("Tamanho do titulo maior que 75")
 		if(this.body?.name && this.body.name.length > 30) return this.errors.push("Tamanho do nome maior que 30")
-		if(this.body?.description && this.body.description.length > 75) return this.errors.push("Tamanho da descrição maior que 150")
+		if(this.body?.description && this.body.description.length > 150) return this.errors.push("Tamanho da descrição maior que 150")
 	}
 }
 

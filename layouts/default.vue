@@ -5,8 +5,8 @@
     <layoutNavbar/>
     <v-main class="main-min-height mb-sm-0 pb-sm-0 ">
       <slot/>
+      <layoutFooter/>
     </v-main>
-    <layoutFooter/>
 
     <layoutNavbarFooter/>
     <layoutSocialIcons/>

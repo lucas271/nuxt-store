@@ -13,7 +13,7 @@ export interface productInterface {
     img?: string,
     quantity: number
     is_available: boolean,
-    category?: string,
+    category_name?: string,
     sessions: ( 1 | 5 | 10)[]
     body_part: 'rosto' | 'corpo'
 }
@@ -49,8 +49,10 @@ export const useProductStore = defineStore('product', () => {
     }
     async function addProduct(productInfo: productInterface){
         try {
+
+            console.log(productInfo)
             start()
-            const response = await $csrfFetch('/api/product', {method: 'POST',body: { ...productInfo, category_name: productInfo.category}}).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/product', {method: 'POST',body: { ...productInfo}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()

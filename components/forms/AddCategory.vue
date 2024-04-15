@@ -8,7 +8,6 @@
         </div>
         <div class="w-100">
             <v-text-field class="w-75 mx-auto" :rules="categoryDescriptionRules" v-model="categoryDescription" label="Descrição da categoria" density="compact"/>
-
         </div >
         <div class="w-100">
             <v-file-input class="w-75 mx-auto" density="compact" label="Imagem da categoria"/>
