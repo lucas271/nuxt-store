@@ -32,9 +32,7 @@ export default defineNuxtConfig({
   supabase:{
     redirect: true
   },
-  alias: {
-    "@": resolve(__dirname, '/')
-  },
+
   css: ["./assets/scss/global.scss"],
   vite: {
     vue: {

@@ -12,6 +12,7 @@ specifiers:
   '@prisma/client': ^5.10.2
   '@types/node': ^20.11.24
   axios: ^1.6.7
+  defu: ^6.1.4
   hookable: 5.5.3
   nuxt: ^3.10.2
   nuxt-csurf: ^1.5.1
@@ -33,6 +34,7 @@ dependencies:
   '@nuxtjs/supabase': 1.1.6
   '@nuxtjs/vuetify': 1.12.3_vue@3.4.15+webpack@5.90.1
   axios: 1.6.7
+  defu: 6.1.4
   nuxt: 3.10.2_biggstzyw5nvcv4o63h5qlymo4
   nuxt-csurf: 1.5.1
   pinia: 2.1.7_uvcdd7474ilntvuyfubqjxprie

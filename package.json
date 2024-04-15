@@ -19,6 +19,7 @@
     "@nuxtjs/supabase": "^1.1.6",
     "@nuxtjs/vuetify": "^1.12.3",
     "axios": "^1.6.7",
+    "defu": "^6.1.4",
     "nuxt": "^3.10.2",
     "nuxt-csurf": "^1.5.1",
     "pinia": "^2.1.7",
