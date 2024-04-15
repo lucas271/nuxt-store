@@ -8,7 +8,8 @@
                             <div class="w-50 h-100 pa-4 flex-column d-none d-sm-flex justify-space-evenly align-center">
                                 <v-card-title class="text-uppercase font-weight-bold">Entre na sua conta</v-card-title>
                                 <div class="w-100">
-                                    <v-alert v-if='apiErrors.length > 0' class='mb-6' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
+                                    <v-alert v-if='apiErrors.length > 0' class='text-caption pa-1 px-4 pa-sm-4 text-sm-body-2' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
+                                    <v-alert v-if='isSuccess' class='text-caption pa-1 px-4 pa-sm-4 text-sm-body-2' type='success'> Operação bem sucedida</v-alert>
 
                                     <v-text-field placeholder="email" :rules='emailValidation' v-model="email"></v-text-field>
                                     <v-text-field placeholder="Senha" :rules='passWordValidation' v-model="password"></v-text-field>
@@ -30,7 +31,8 @@
                                     <v-card-subtitle tag="h1" class="text-h4 text-uppercase font-weight-bold bg-teal-darken-4 pa-3 rounded-lg text-wrap text-center" :style="{lineHeight: '1.5'}">Life Cris - Login</v-card-subtitle>
                                     <div class="w-100 h-100 pa-4 flex-column d-flex d-sm-none justify-space-evenly align-center">
                                         <div class="w-100">
-                                            <v-alert v-if='apiErrors.length > 0' class='mb-6' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
+                                            <v-alert v-if='apiErrors.length > 0' class='text-caption pa-1 px-4 pa-sm-4 text-sm-body-2' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
+                                            <v-alert v-if='isSuccess' class='text-caption pa-1 px-4 pa-sm-4 text-sm-body-2' type='success'> Operação bem sucedida</v-alert>
                                             <v-text-field placeholder="email" :rules='emailValidation' v-model="email"></v-text-field>
                                             <v-text-field placeholder="Senha" :rules='passWordValidation' v-model="password"></v-text-field>
                                         </div>
@@ -70,10 +72,14 @@
                                 </v-sheet>
 
                                 <div class="remove-overlay d-flex justify-space-between align-center flex-column pa-4 h-100 w-100 text-white">
-                                    <v-card-subtitle tag="h1" class="text-h4 text-uppercase font-weight-bold bg-teal-darken-4 pa-3 rounded-lg text-wrap text-center" :style="{lineHeight: '1.5'}">Life Cris - Registrar</v-card-subtitle>
+
+                                    <v-card-subtitle tag="h1" class="text-h6 text-uppercase font-weight-bold bg-teal-darken-4 pa-3 rounded-lg text-wrap text-center" :style="{lineHeight: '1.5'}">Life Cris - Registrar</v-card-subtitle>
+
                                     <div class="w-100 h-100 pa-4 flex-column d-flex d-sm-none justify-space-evenly align-center">
+                                        <v-alert v-if='apiErrors.length > 0' class='text-caption pa-1 px-4 pa-sm-4 text-sm-body-2' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
+                                        <v-alert v-if='isSuccess' class='text-caption pa-1 px-4 pa-sm-4 text-sm-body-2' type='success'> Operação bem sucedida</v-alert>
+
                                         <div class="w-100">
-                                            <v-alert v-if='apiErrors.length > 0' class='mb-6' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
                                             <v-text-field placeholder="Nome de usuário" :rules="[(value) => !value && 'Campo vazio' || Number(value[0]) && 'Nome não pode começar com um numero']" v-model='username'></v-text-field>
                                             <v-text-field placeholder="email" :rules='emailValidation' v-model="email"></v-text-field>
                                             <v-text-field placeholder="Senha" :rules='passWordValidation' v-model="password"></v-text-field>
@@ -82,9 +88,8 @@
                                  
                                     </div>
                                     <v-card-actions class="d-flex flex-column ga-3">
-                                        <v-alert v-if='apiErrors.length > 0' class='mb-6' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
                                         <v-btn type='submit' variant="tonal" class="font-weight-bold d-sm-none">Criar</v-btn>
-                                        <v-card-subtitle class="text-center bg-teal-darken-4 rounded-lg pa-4">Já tem uma conta? <br/><v-btn variant="tonal" @click="step = 1">Entre!</v-btn></v-card-subtitle>
+                                        <v-card-subtitle class="text-center bg-teal-darken-4 rounded-lg pa-sm-4 pa-2">Já tem uma conta? <br/><v-btn variant="tonal" @click="step = 1">Entre!</v-btn></v-card-subtitle>
                                     </v-card-actions>
                                 </div>
 
@@ -104,7 +109,6 @@ import {useAuthStore} from '../lib/services/authStore'
 
 const { $csrfFetch } = useNuxtApp()
 
-const router = useRouter()
 const step = ref<number>(1)
 const apiErrors = ref<string[]>([])
 const authStore = useAuthStore()
@@ -116,8 +120,10 @@ const successMsg = ref<string>('')
 const email = ref<string>('')
 const username = ref<string>('')
 const loading = ref<boolean>(false)
+const isSuccess = ref<boolean>(false)
 
 watch(step, () => {
+    isSuccess.value = false
     email.value = ''
     repeatPassword.value = ''
     password.value = ''
@@ -163,12 +169,17 @@ const handleAuth = async (e, type) => {
 
     loading.value = true
     apiErrors.value = []
+    isSuccess.value  = false
+
+
     if(!email.value || !password.value) return errorMsg.value = 'Informações faltando'
     if(type === 'signIn'){
         await authStore.loginUser(email.value, password.value)
         loading.value = false
         if(authStore.errors.length > 0) return apiErrors.value = authStore.errors
-        authStore.user && client.auth.signInWithPassword({email: email.value, password: password.value, options: {redirectTo: '/'}})
+        
+        isSuccess.value = authStore.user?.userId ? true : false
+        authStore.user && client.auth.signInWithPassword({email: email.value, password: password.value}) && navigateTo('/')
     }
 
     if(password.value !== repeatPassword.value && type === 'signUp') return errorMsg.value = 'Senhas não são iguais.'
@@ -176,6 +187,7 @@ const handleAuth = async (e, type) => {
         await authStore.addUser(username.value, email.value, password.value)
         loading.value = false
         if(authStore.errors.length > 0) return apiErrors.value = authStore.errors
+        isSuccess.value = authStore.user?.userId ? true : false
         authStore.user && client.auth.signInWithPassword({email: email.value, password: password.value, options: {redirectTo: '/'}})
     }
 }

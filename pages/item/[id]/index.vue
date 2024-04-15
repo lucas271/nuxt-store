@@ -6,12 +6,15 @@
                 
             </div>
             <v-img class="text-start responsive_img " cover :src="productStore.product?.img"/>
-            <div class="ga-3 flex-column flex-shrink-1 justify-center flex-grow-1 pa-sm-5 pa-6">
-                <article class="d-flex flex-column w-100 ga-3">
+            <div class="ga-3 flex-column flex-shrink-1 overflow-hidden d-flex justify-space-between flex-grow-1 pa-sm-5 pa-6">
+                <article class="d-flex flex-column w-100 ga-3 overflow-hidden">
                     <v-card-title v-if='productStore.product?.name' class="text-sm-h4 text-h6 font-weight-bold text-wrap py-1 px-0 ma-0">
                         {{productStore.product?.name}}
                     </v-card-title>
-                    <v-card-subtitle class="pa-0 text-sm-subtitle-1 text-subtitle-2 flex-shrink-1 overflow-auto text-wrap">{{productStore.product?.title}}</v-card-subtitle>
+                    <div class="flex-shrink-1 flex-grow-1">
+                        <v-card-subtitle class="pa-0 text-sm-subtitle-1 text-subtitle-2 flex-shrink-1 overflow-auto text-wrap">{{productStore.product?.title}}</v-card-subtitle>
+                    </div>
+
 
                     <v-chip-group>
                         <v-chip class="text-sm-body-2 text-caption"> {{ productStore.product?.sessions }} {{productStore.product?.sessions && productStore.product?.sessions > 1 ? 'sessões' : 'sessão'}} </v-chip>
@@ -27,9 +30,23 @@
                 </div>
                 <div>
                     <v-card-subtitle class="text-md-subtitle-1 text-sm-subtitle-2 text-subtitle-1 pa-0 ma-0 my-5 font-weight-bold text-uppercase">R${{productStore.product?.price?.toFixed(2).replace('.', ',')}}</v-card-subtitle>
-                    <v-card-actions class="pa-0 d-flex flex-wrap ga-2 justify-space-between align-center">
-                        <v-btn variant="tonal" class="text-body-2" @click="cartStore.addProduct(route.params?.id || undefined)">Adicionar ao carrinho</v-btn>
-                        <v-btn variant="tonal" class="text-body-2 ma-0">Entrar em contato</v-btn>
+                    <v-card-actions class="pa-0 d-flex flex-sm-nowrap flex-wrap ga-2 justify-space-between align-center">
+                        <v-btn variant="tonal" class="text-body-2 w-100 flex-shrink-1" :disabled="cartStore.loading" @click="cartStore.addProduct(route.params?.id || undefined)">
+                            <template v-if="cartStore.cartProducts.find(product => product.product.id === productStore.product?.id)?.product?.loading" >
+                                <v-progress-circular indeterminate/>
+                            </template>
+                            <template v-else>
+                                Adicionar ao carrinho
+                            </template>
+                        </v-btn>
+                        <v-btn variant="tonal" class="text-body-2 ma-0 w-100 flex-shrink-1" active :disabled="cartStore.loading">
+                            <template v-if="cartStore.cartProducts.find(product => product.product.id === productStore.product?.id)?.product?.loading" >
+                                <v-progress-circular indeterminate/>
+                            </template>
+                            <template v-else>
+                                Entrar em contato
+                            </template>
+                        </v-btn>
                     </v-card-actions>
                 </div>
 

@@ -1,12 +1,12 @@
 <template>
-    <v-card class="flex-column d-flex ga-2 bg-teal-lighten-2 rounded-lg" >
+    <v-card class="flex-column d-flex ga-2 bg-teal-lighten-2 rounded-lg overflow-hidden h-100" >
         <v-img class="h-50 w-100 " cover :src="img ? img : 'https://duohaus.com.br/wp-content/uploads/2021/07/massagemodeladora1.jpeg'" :name='id'>
             <slot/>
         </v-img>
         <div class='flex-grow-1 d-flex justify-space-around flex-column overflow-hidden px-1'>
             <v-card-title class="font-italic text-sm-h6 text-subtitle-1 font-weight-bold">{{name}} </v-card-title>
             
-            <v-card-subtitle class="text-wrap flex-shrink-1 text-sm-body-2 text-caption text-wrap text-break flex-shrink-1">{{title}}dsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdas</v-card-subtitle>
+            <v-card-subtitle class="text-wrap flex-shrink-1 text-sm-body-2 text-caption  flex-shrink-1 overflow-auto">{{title}}dsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdasdsadasdasdasdasdas</v-card-subtitle>
             <div>
                 <v-chip-group class=" ma-2 d-flex flex-wrap">
                     <v-chip class="text-sm-body-2 text-caption">{{ sessions }} {{sessions && sessions > 1 ? 'sessões' : 'sessão'}}</v-chip>
