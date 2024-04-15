@@ -9,7 +9,7 @@ interface UserInterface{
 
 export const useAuthStore = defineStore('authStore', () => {
     const user = ref<UserInterface | null>(null)
-    const loading = ref<boolean>(true)
+    const loading = ref<boolean>(false)
     const errors = ref<string[]>([])
     const { $csrfFetch } = useNuxtApp()
 

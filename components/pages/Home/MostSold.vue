@@ -6,8 +6,8 @@
 
                     <div class="d-flex justify-center align-center overflow-hidden mx-sm-auto" style="height: 85%;" v-if='!loading'>
                         <v-slide-group center-active class="h-100">                
-                            <v-slide-group-item v-for="product in selectedProducts" class="w-100 h-100 overflow-hidden" style="position: relative;"  :key="product.id" >
-                                <div class="mx-sm-6 mx-2  pa-1 responsive-card-slide overflow-hidden w-100 my-auto" style="position: relative;">
+                            <v-slide-group-item v-for="product in selectedProducts" class="overflow-hidden" style="position: relative;"  :key="product.id" >
+                                <div class="mx-sm-6 mx-2  pa-1 responsive-card-slide overflow-hidden my-auto" style="position: relative;">
                                     <sharedItem  :id="product.id" :name="product.name" :category_name="product.category_name" :sessions="product.sessions" :body_part="product.body_part" :description="product.description" :img="product.img" :title="product.title" :price="product.price" :quantity="product.quantity" :is_available="product.is_available" >
 
                                     </sharedItem>
@@ -59,11 +59,10 @@
 
 <style>
     .responsive-card-slide{
-        height: 85%;
+        height: 75%;
 
         @media (max-width: 700px) {
-            height:100%;
-            width: 50%;
+            height:85%;
         }
     }
 

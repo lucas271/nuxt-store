@@ -1,5 +1,5 @@
 <template>
-    <v-row class="flex-grow-1">
+    <v-row class="flex-grow-1" style="min-height: 50vh;">
         <template v-if="!loading">
 
             <v-col cols="12" md="4" sm="6" v-if="$slots.default">

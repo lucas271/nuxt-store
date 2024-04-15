@@ -11,13 +11,18 @@
                                     <v-alert v-if='apiErrors.length > 0' class='text-caption pa-1 px-4 pa-sm-4 text-sm-body-2' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
                                     <v-alert v-if='isSuccess' class='text-caption pa-1 px-4 pa-sm-4 text-sm-body-2' type='success'> Operação bem sucedida</v-alert>
 
-                                    <v-text-field placeholder="email" :rules='emailValidation' v-model="email"></v-text-field>
-                                    <v-text-field placeholder="Senha" :rules='passWordValidation' v-model="password"></v-text-field>
+                                    <v-text-field placeholder="email" :disabled="authStore.loading" :rules='emailValidation' v-model="email"></v-text-field>
+                                    <v-text-field placeholder="Senha" :disabled="authStore.loading" :rules='passWordValidation' v-model="password"></v-text-field>
                                 </div>
 
                                 
                                 <v-card-actions>
-                                    <v-btn variant="tonal" type="submit" class="font-weight-bold">Entrar</v-btn>
+                                    <v-btn variant="tonal" type="submit" class="font-weight-bold">
+                                        <template v-if="!authStore.loading">
+                                                entrar
+                                        </template>    
+                                        <v-progress-circular indeterminate v-else/>    
+                                    </v-btn>
                                 </v-card-actions>
                             </div>
 
@@ -33,13 +38,18 @@
                                         <div class="w-100">
                                             <v-alert v-if='apiErrors.length > 0' class='text-caption pa-1 px-4 pa-sm-4 text-sm-body-2' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
                                             <v-alert v-if='isSuccess' class='text-caption pa-1 px-4 pa-sm-4 text-sm-body-2' type='success'> Operação bem sucedida</v-alert>
-                                            <v-text-field placeholder="email" :rules='emailValidation' v-model="email"></v-text-field>
-                                            <v-text-field placeholder="Senha" :rules='passWordValidation' v-model="password"></v-text-field>
+                                            <v-text-field placeholder="email" :disabled="authStore.loading" :rules='emailValidation' v-model="email"></v-text-field>
+                                            <v-text-field placeholder="Senha" :disabled="authStore.loading" :rules='passWordValidation' v-model="password"></v-text-field>
                                         </div>
                                     </div>
                                     <v-card-actions class="d-flex flex-column ga-3">
-                                        <v-btn variant="tonal" type="submit" class="font-weight-bold d-sm-none">Entrar</v-btn>
-                                        <v-card-subtitle class="text-center bg-teal-darken-4 rounded-lg pa-4">Não tem uma conta? <br/><v-btn variant="tonal" @click="step = 2">Crie!</v-btn></v-card-subtitle>
+                                        <v-btn variant="tonal" type="submit" class="font-weight-bold d-sm-none">
+                                            <template v-if="!authStore.loading">
+                                                Entrar
+                                            </template>    
+                                            <v-progress-circular indeterminate v-else/>
+                                        </v-btn>
+                                        <v-card-subtitle class="text-center bg-teal-darken-4 rounded-lg pa-4">Não tem uma conta? <br/><v-btn variant="tonal" :disabled="authStore.loading"  @click="step = 2">Crie!</v-btn></v-card-subtitle>
                                     </v-card-actions>
                                 </div>
                             </div>
@@ -54,15 +64,20 @@
                                 <v-card-title class="text-uppercase font-weight-bold">Crie sua conta</v-card-title>
                                 <div class="w-100">
                                     <v-alert v-if='apiErrors.length > 0' class='mb-6' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
-                                    <v-text-field placeholder="Nome de usuário" :rules="[(value) => !value && 'Campo vazio' || Number(value[0]) && 'Nome não pode começar com um numero']" v-model='username'></v-text-field>
-                                    <v-text-field placeholder="email" :rules='emailValidation' v-model="email"></v-text-field>
-                                    <v-text-field placeholder="Senha" :rules='passWordValidation' v-model="password"></v-text-field>
-                                    <v-text-field placeholder="Repetir senha" :rules="[(value) => !value && 'Campo vazio', (value) => value !== password && 'Senhas não são iguais.']" v-model='repeatPassword'></v-text-field>
+                                    <v-text-field :disabled="authStore.loading" placeholder="Nome de usuário" :rules="[(value) => !value && 'Campo vazio' || Number(value[0]) && 'Nome não pode começar com um numero']" v-model='username'></v-text-field>
+                                    <v-text-field :disabled="authStore.loading" placeholder="email" :rules='emailValidation' v-model="email"></v-text-field>
+                                    <v-text-field :disabled="authStore.loading" placeholder="Senha" :rules='passWordValidation' v-model="password"></v-text-field>
+                                    <v-text-field :disabled="authStore.loading" placeholder="Repetir senha" :rules="[(value) => !value && 'Campo vazio', (value) => value !== password && 'Senhas não são iguais.']" v-model='repeatPassword'></v-text-field>
                                 </div>
 
                                 
                                 <v-card-actions>
-                                    <v-btn type='submit' variant="tonal" class="font-weight-bold">Criar</v-btn>
+                                    <v-btn type='submit' variant="tonal" class="font-weight-bold">
+                                        <template v-if="!authStore.loading">
+                                                Criar
+                                        </template>    
+                                                <v-progress-circular indeterminate v-else/>
+                                        </v-btn>
                                 </v-card-actions>
                             </div>
 
@@ -80,16 +95,21 @@
                                         <v-alert v-if='isSuccess' class='text-caption pa-1 px-4 pa-sm-4 text-sm-body-2' type='success'> Operação bem sucedida</v-alert>
 
                                         <div class="w-100">
-                                            <v-text-field placeholder="Nome de usuário" :rules="[(value) => !value && 'Campo vazio' || Number(value[0]) && 'Nome não pode começar com um numero']" v-model='username'></v-text-field>
-                                            <v-text-field placeholder="email" :rules='emailValidation' v-model="email"></v-text-field>
-                                            <v-text-field placeholder="Senha" :rules='passWordValidation' v-model="password"></v-text-field>
-                                            <v-text-field placeholder="Repetir senha" :rules="[(value) => !value && 'Campo vazio' || !(value === password) && 'Senhas não são iguais.']" v-model='repeatPassword'></v-text-field>
+                                            <v-text-field :disabled="authStore.loading" placeholder="Nome de usuário" :rules="[(value) => !value && 'Campo vazio' || Number(value[0]) && 'Nome não pode começar com um numero']" v-model='username'></v-text-field>
+                                            <v-text-field :disabled="authStore.loading" placeholder="email" :rules='emailValidation' v-model="email"></v-text-field>
+                                            <v-text-field :disabled="authStore.loading" placeholder="Senha" :rules='passWordValidation' v-model="password"></v-text-field>
+                                            <v-text-field :disabled="authStore.loading" placeholder="Repetir senha" :rules="[(value) => !value && 'Campo vazio' || !(value === password) && 'Senhas não são iguais.']" v-model='repeatPassword'></v-text-field>
                                         </div>
                                  
                                     </div>
                                     <v-card-actions class="d-flex flex-column ga-3">
-                                        <v-btn type='submit' variant="tonal" class="font-weight-bold d-sm-none">Criar</v-btn>
-                                        <v-card-subtitle class="text-center bg-teal-darken-4 rounded-lg pa-sm-4 pa-2">Já tem uma conta? <br/><v-btn variant="tonal" @click="step = 1">Entre!</v-btn></v-card-subtitle>
+                                        <v-btn type='submit' variant="tonal" class="font-weight-bold d-sm-none">
+                                            <template v-if="!authStore.loading">
+                                                Criar
+                                            </template>    
+                                            <v-progress-circular indeterminate v-else/>
+                                        </v-btn>
+                                        <v-card-subtitle class="text-center bg-teal-darken-4 rounded-lg pa-sm-4 pa-2">Já tem uma conta? <br/><v-btn variant="tonal" :disabled="authStore.loading"  @click="step = 1">Entre!</v-btn></v-card-subtitle>
                                     </v-card-actions>
                                 </div>
 
@@ -107,7 +127,6 @@
 <script lang="ts" setup>
 import {useAuthStore} from '../lib/services/authStore'
 
-const { $csrfFetch } = useNuxtApp()
 
 const step = ref<number>(1)
 const apiErrors = ref<string[]>([])
@@ -119,7 +138,6 @@ const errorMsg = ref<string>('')
 const successMsg = ref<string>('')
 const email = ref<string>('')
 const username = ref<string>('')
-const loading = ref<boolean>(false)
 const isSuccess = ref<boolean>(false)
 
 watch(step, () => {
@@ -167,7 +185,6 @@ const client = useSupabaseClient()
 const handleAuth = async (e, type) => {
     e.preventDefault()
 
-    loading.value = true
     apiErrors.value = []
     isSuccess.value  = false
 
@@ -175,17 +192,15 @@ const handleAuth = async (e, type) => {
     if(!email.value || !password.value) return errorMsg.value = 'Informações faltando'
     if(type === 'signIn'){
         await authStore.loginUser(email.value, password.value)
-        loading.value = false
         if(authStore.errors.length > 0) return apiErrors.value = authStore.errors
         
         isSuccess.value = authStore.user?.userId ? true : false
-        authStore.user && client.auth.signInWithPassword({email: email.value, password: password.value}) && navigateTo('/')
+        await authStore.user && client.auth.signInWithPassword({email: email.value, password: password.value}) && await navigateTo('/')
     }
 
     if(password.value !== repeatPassword.value && type === 'signUp') return errorMsg.value = 'Senhas não são iguais.'
     if(type === 'signUp'){
         await authStore.addUser(username.value, email.value, password.value)
-        loading.value = false
         if(authStore.errors.length > 0) return apiErrors.value = authStore.errors
         isSuccess.value = authStore.user?.userId ? true : false
         authStore.user && client.auth.signInWithPassword({email: email.value, password: password.value, options: {redirectTo: '/'}})

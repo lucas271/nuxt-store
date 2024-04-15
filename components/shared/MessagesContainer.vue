@@ -15,7 +15,7 @@
             <div class="bg-grey  mx-auto my-5  rounded-lg" style='width: 90%;' v-else>
 
                 <div class="d-flex flex-column ga-2 pa-3" v-for='comment in comments?.filter(comment => comment?.userId === user?.id)'>
-                    <div class="d-flex justify-space-between w-100 align-center px-6">
+                    <div class="d-flex justify-space-between flex-wrap w-100 align-center px-6">
                         <v-card-title>
                             Seus comentários:
                         </v-card-title>
@@ -38,6 +38,7 @@
             <div class="d-flex flex-column ga-2 pa-3" v-for='comment in comments?.filter(comment => comment?.userId !== user?.id)'> 
                 <sharedMessage :message='comment?.message' :updated_at="comment?.updated_at" :created_at="comment?.created_at" :userId='comment?.userId' :id='comment?.id' :userName='comment?.username' :rate='comment?.Rating?.rate'/>
             </div>
+
         </v-card>
     </v-container>
 </template>

@@ -53,25 +53,25 @@
             </div>
         </v-card>
     </v-container>
-    <v-sheet class="w-100 pa-8">
-        <h3 class="mb-5 text-teal-darken-3">Outros items recomendados</h3>
+    <v-sheet class="w-100 pa-8 ">
+        <h3 class="mt-5 text-teal-darken-3">Outros items recomendados</h3>
 
-        <v-slide-group>
+        <v-slide-group >
 
-            <v-slide-group-item v-for="i in 5" class="d-flex align-center justify-center">
-                <div class="w-25 mr-4"> 
+            <v-slide-group-item v-for="product in selectedProducts" class="d-flex  align-center justify-center ">
+                <div class="mr-4 w-75 responsive-item my-auto "> 
                     <sharedItem     
-                        :id='productStore.product?.id'
-                        :name='productStore.product?.name'
-                        :description='productStore.product?.description'
-                        :title='productStore.product?.title'
-                        :price='productStore.product?.price'
-                        :img='productStore.product?.img'
-                        :quantity='productStore.product?.quantity'
-                        :category_name='productStore.product?.category_name'
-                        :loading='productStore.loading'
-                        :sessions="productStore.product?.sessions"
-                        :body_part="productStore.product?.body_part" 
+                        :id='product?.id'
+                        :name='product?.name'
+                        :description='product?.description'
+                        :title='product?.title'
+                        :price='product?.price'
+                        :img='product?.img'
+                        :quantity='product?.quantity'
+                        :category_name='product?.category_name'
+                        :loading='loading'
+                        :sessions="product?.sessions"
+                        :body_part="product?.body_part" 
                         height="500px"
                     />
                 </div>
@@ -89,6 +89,20 @@
 
     const route = useRoute()
 
+    const selectedProducts = await (async () => {
+        return await $fetch('/api/product?data='+JSON.stringify({sortBy: {isMostFavorites: true,}, take: 5, skip: 0, type: 'products'})).then(res => {
+        try {
+            return res?.product?.products || {errors: 'Erro no servidor'}
+        } catch (error) {
+            return {errors: 'Erro no servidor'}
+        }
+    }).catch(res => {
+        try {
+            return {errors: JSON.parse(res.data.message).errors}
+        } catch (error) {
+            return {errors: 'Erro no servidor'}
+        }
+    })})()
 
     const productStore = useProductStore()
     const cartStore = useCartStore()
@@ -129,6 +143,14 @@
             min-height: fit-content;
         }
 
+    }
+
+    .responsive-item{
+        height: 75%;
+        @media (max-width: 400px) {
+            max-width: 65vw;
+            height: 90%;
+        }
     }
 
 

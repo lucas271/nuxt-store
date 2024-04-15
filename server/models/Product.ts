@@ -71,7 +71,7 @@ class Product{
 				created_at: this.query.sortBy.isNewest && 'asc' || undefined,
 				favorites: this.query.sortBy.isMostFavorites === true ? {
 					_count: 'asc'
-				} : undefined
+				} : undefined,
 			}
 		}).catch(err => {
 			this.errors.push("Erro ao tentar encontrar os produtos")
