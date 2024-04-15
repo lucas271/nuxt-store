@@ -59,6 +59,12 @@
 
 <style>
     .responsive-card-slide{
-        height: 100%;
-}
+        height: 85%;
+
+        @media (max-width: 700px) {
+            height:100%;
+            width: 50%;
+        }
+    }
+
 </style>
