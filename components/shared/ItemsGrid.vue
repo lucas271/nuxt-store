@@ -3,7 +3,8 @@
         <template v-if="!loading">
 
             <v-col cols="12" md="4" sm="6" v-if="$slots.default">
-                <slot/>
+                <slot name="default" />
+
             </v-col>
             <v-col cols="12" md="4" sm="6" v-for="product in products">
                 <sharedItem v-if="!edit || !edit.find(item => item.value === product.id && item.isForm)" :category_name="product.category_name" :loading='product.loading' :id="product.id" :sessions="product.sessions" :body_part="product.body_part" :name="product.name" :description="product.description" :img="product.img" :title="product.title" :price="product.price" :quantity="product.quantity" :is_available="product.is_available" width="300px" height="400px">

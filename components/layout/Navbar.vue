@@ -31,9 +31,9 @@
                                 <v-list-item-title class='overflow-hidden text-sm-center text-md-left'>
                                 {{product.name}}
                                 </v-list-item-title >
-                                <v-list-item-text class='overflow-hidden text-subtitle-2 text-grey-darken-2 text-sm-center text-md-left flex-shrink-1'>
+                                <p class='overflow-hidden text-subtitle-2 text-grey-darken-2 text-sm-center text-md-left flex-shrink-1'>
                                     {{product.description}}
-                                </v-list-item-text>
+                                </p>
 
                             </div>
                             <v-list-item-subtitle class='text-sm-center text-md-left'>
@@ -86,6 +86,7 @@
 </template>
 
 <script lang="ts" setup>
+
     import {ref} from 'vue'
     import {useCartStore} from '../../lib/services/cartStore.ts'
     const isOpen = ref<boolean>(false)

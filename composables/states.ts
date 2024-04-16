@@ -19,6 +19,7 @@ export const useFilterState = () => useState<filterInterface>('filter', () => {
     }
 })
 
+
 export const usePagination = () => useState<filterInterface>('pagination', () => {
     return {
         take: 12,

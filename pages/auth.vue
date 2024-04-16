@@ -1,6 +1,8 @@
 <template>
+
     <v-main class="h-screen w-screen d-flex align-center justify-center pa-0 ma-0 bg-teal-darken-2">
-            <v-btn icon="mdi-arrow-left" density="comfortable" position="absolute" :style="{top: '1%', left: '0.5%', zIndex: '100'}" @click="navigateTo('/')"></v-btn>
+        
+            <v-btn icon="mdi-arrow-left" density="comfortable" position="absolute" :style="{top: '1%', left: '0.5%', zIndex: '100'}" @click="async () => await changeRoute()"></v-btn>
             <v-window class="mx-auto h-100 w-100 responsive-width my-auto" v-model="step">
                 <v-window-item class="h-100 w-100"  :value="1">
                     <v-form class="h-100 w-100" @submit="e => handleAuth(e, 'signIn')">
@@ -126,7 +128,9 @@
 
 <script lang="ts" setup>
 import {useAuthStore} from '../lib/services/authStore'
-
+async function changeRoute(path?: string) {
+  window.location.href = '/';
+}
 
 const step = ref<number>(1)
 const apiErrors = ref<string[]>([])
@@ -139,6 +143,7 @@ const successMsg = ref<string>('')
 const email = ref<string>('')
 const username = ref<string>('')
 const isSuccess = ref<boolean>(false)
+const router = useRouter()
 
 watch(step, () => {
     isSuccess.value = false
@@ -195,7 +200,7 @@ const handleAuth = async (e, type) => {
         if(authStore.errors.length > 0) return apiErrors.value = authStore.errors
         
         isSuccess.value = authStore.user?.userId ? true : false
-        await authStore.user && client.auth.signInWithPassword({email: email.value, password: password.value}) && await navigateTo('/')
+        await authStore.user && await client.auth.signInWithPassword({email: email.value, password: password.value}) && await changeRoute()
     }
 
     if(password.value !== repeatPassword.value && type === 'signUp') return errorMsg.value = 'Senhas não são iguais.'
@@ -203,18 +208,13 @@ const handleAuth = async (e, type) => {
         await authStore.addUser(username.value, email.value, password.value)
         if(authStore.errors.length > 0) return apiErrors.value = authStore.errors
         isSuccess.value = authStore.user?.userId ? true : false
-        authStore.user && client.auth.signInWithPassword({email: email.value, password: password.value, options: {redirectTo: '/'}})
+        authStore.user && await client.auth.signInWithPassword({email: email.value, password: password.value}) && await changeRoute()
     }
 }
-const handleSubmit = async (e) => {
-    e.preventDefault()
-    await signUp()
-}
+
 
 
 definePageMeta({
-  layout: 'empty',
-  middleware: 'need-no-user'
+    layout: 'empty',
 })
-
 </script>

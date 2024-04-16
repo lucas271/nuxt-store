@@ -3,12 +3,12 @@
     <v-container>
         
         <h2 class="text-left mt-4 mb-8">Tratamentos</h2>
-        <v-header class="w-100 h-50">
+        <header class="w-100 h-50">
             <sharedItemFilter/>
             <div class="w-100 mt-6">
                 <sharedDisplayErrors v-if="productStore.errors.length > 0 " :errors="productStore.errors" :filter="filter" :refreshFunc="productStore.getAllProducts" :loading="productStore.loading"/>
             </div>
-        </v-header>
+        </header>
         <sharedItemsGrid :products="productStore.products" :loading="productStore.loading" :take="take" :skip="(cvPage - 1) * take" :storeFunc="productStore.getAllProducts" :watchVariable="filter">
             <template v-slot:icon-slot="{ data }">
                 <sharedDefaultProductIcons y='top'/>

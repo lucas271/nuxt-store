@@ -384,7 +384,7 @@ model Product {
   is_available Boolean @default(true)
   sessions Int @default(1)
 
-  category_name String
+  category_name Category[]
   brand_id      String?
   body_part  String
   //relations
@@ -394,7 +394,6 @@ model Product {
   rating    Rating[]
   cart_item CartItem[]
 
-  category Category? @relation(fields: [category_name], references: [name])
 
   //indexes
   @@index([id, name])

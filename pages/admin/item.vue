@@ -1,6 +1,6 @@
 <template>
     <v-container class="d-flex flex-column" style="min-height: 100%;">
-        <v-header class="w-100 h-50 my-7">
+        <header class="w-100 h-50 my-7">
             <h2 class="my-6">Nossos Tratamentos </h2>
 
             <!-- Item filter and sorting -->
@@ -26,7 +26,7 @@
             <div class="w-100 mt-6">
                 <sharedDisplayErrors v-if="productStore.errors.length > 0 " :errors="productStore.errors" :filter="filter" :refreshFunc="productStore.getAllProducts" :loading="productStore.loading"/>
             </div>
-        </v-header>
+        </header>
         <sharedItemsGrid :products="productStore.products" :loading="productStore.loading" :edit='edit'  :take="take" :skip="(cvPage - 1) * take" :storeFunc="productStore.getAllProducts" :watchVariable="filter">
             <v-sheet class="w-100 h-100">
                 <v-hover v-if="!isForm">

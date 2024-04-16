@@ -17,7 +17,7 @@ export interface wishListInterface {
 }
 
 
-export const useWishListStore = defineStore('wishList', () => {
+export const useWishListStore = defineStore('wishlist', () => {
     const wishList = ref<wishListInterface[]>([])
     const loading = ref<boolean>(true)
     const errors = ref<string[]>([])
@@ -27,7 +27,7 @@ export const useWishListStore = defineStore('wishList', () => {
     async function removeFromWishList(wishListItemId: string){
         try {
             start()
-            const response = await $csrfFetch('/api/wishList', {method: 'delete', body: { wishListItemId: wishList.value.find(product => product.product.id === wishListItemId)?.id, type: 'product'}}).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/wishlist', {method: 'delete', body: { wishListItemId: wishList.value.find(product => product.product.id === wishListItemId)?.id, type: 'product'}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
     
@@ -41,7 +41,7 @@ export const useWishListStore = defineStore('wishList', () => {
     async function removeAllFromWishList(wishListItemId: string){
         try {
             start()
-            const response = await $csrfFetch('/api/wishList', {method: 'delete', body: {wishListItemId, type: 'deleteAll'}}).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/wishlist', {method: 'delete', body: {wishListItemId, type: 'deleteAll'}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
 
@@ -57,7 +57,7 @@ export const useWishListStore = defineStore('wishList', () => {
     async function getAllWishListProducts(productId: string){
         try {
             start()
-            const response = await $fetch('/api/wishList?data='+JSON.stringify({productId, type: 'items'})).then(res => res).catch(res => {
+            const response = await $fetch('/api/wishlist?data='+JSON.stringify({productId, type: 'items'})).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
 
@@ -74,7 +74,7 @@ export const useWishListStore = defineStore('wishList', () => {
     async function addToWishList(productId: string){
         try {
             start()
-            const response = await $csrfFetch('/api/wishList', {method: 'post', body: {productId}}).then(res => res).catch(res => {
+            const response = await $csrfFetch('/api/wishlist', {method: 'post', body: {productId}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
             reset()

@@ -14,7 +14,7 @@
 
 <script setup lang='ts'>
     import {useWishListStore} from '../../lib/services/wishListStore.ts'
-    const props = defineProps<{x?: 'left' | 'right', y?: 'top' | 'bottom', id: string}>()
+    const props = defineProps<{x?: 'left' | 'right', y?: 'top' | 'bottom', id?: string}>()
     const client = await (await useSupabaseClient()).auth?.getSession()
     
     const divRef = ref(null) 

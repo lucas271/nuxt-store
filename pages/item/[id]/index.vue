@@ -58,7 +58,7 @@
 
         <v-slide-group >
 
-            <v-slide-group-item v-for="product in selectedProducts" class="d-flex  align-center justify-center ">
+            <v-slide-group-item v-for="product in selectedProducts">
                 <div class="mr-4 w-75 responsive-item my-auto "> 
                     <sharedItem     
                         :id='product?.id'
@@ -69,7 +69,7 @@
                         :img='product?.img'
                         :quantity='product?.quantity'
                         :category_name='product?.category_name'
-                        :loading='loading'
+                        :loading='productStore.loading'
                         :sessions="product?.sessions"
                         :body_part="product?.body_part" 
                         height="500px"
@@ -103,16 +103,22 @@
             return {errors: 'Erro no servidor'}
         }
     })})()
-
     const productStore = useProductStore()
+
     const cartStore = useCartStore()
     const messageStore = useMessageStore()
 
-    messageStore.getMessages(route?.params?.id)
+    definePageMeta({
+        validate: async (router) => {
+            const productStoreValidate = useProductStore()
 
-    onMounted(() => {
-        productStore.getProduct(route?.params?.id).then(() => !productStore?.product && navigateTo('/404'))
+            // Check if the id is made up of digits
+            await productStoreValidate.getProduct(String(router.params.id))
+            return productStoreValidate.product ? true : false
+        }
     })
+    await messageStore.getMessages(route?.params?.id)
+
 </script>
 
 

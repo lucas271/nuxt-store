@@ -20,7 +20,7 @@ export interface cartProductInterface {
 
 export const useCartStore = defineStore('cart', () => {
     const cartProducts = ref<cartProductInterface[]>([])
-    const loading = ref<boolean>(false)
+    const loading = ref<boolean>(true)
     const errors= ref<string[]>([])
     const { $csrfFetch } = useNuxtApp()
 

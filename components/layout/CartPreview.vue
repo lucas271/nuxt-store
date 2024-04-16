@@ -35,7 +35,7 @@
                                 <div class="flex-grow-1 text-center text-sm-body-2 text-md-body-1 text-subtitle-2 d-flex justify-center align-center" v-else> <v-progress-circular indeterminate/> </div>
                                 <v-btn :active='item.product?.loading === false' class="rounded-xl text-blue-grey-darken-2" size="small" density="comfortable" variant='tonal' icon="mdi-arrow-right text-subtitle-2" @click='cartStore.addProduct(item.product.id)'></v-btn>
                             </div>
-                            <v-btn class="text-subtitle-2 font-weight-bold text-uppercase" variant='tonal' @click="navigateTo(`item/${item.product.id}`)">ver +</v-btn>
+                            <v-btn class="text-subtitle-2 font-weight-bold text-uppercase" variant='tonal' @click="navigateTo(`/item/${item.product.id}`)">ver +</v-btn>
 
                         </div>
 
@@ -48,17 +48,17 @@
                         <p class="text-subtitle-2"> Clique no botão para procurar items </p>
                     </article>
 
-                    <v-btn @click="router.push('/item')">
+                    <v-btn @click="changeRoute('/item')">
                         todos os items
                         {{cartStore.cartProducts}}
                     </v-btn> 
                 </div>
             </div>
 
-            <v-cart-text tag="span" class="w-100 pt-2 text-subtitle-2 d-flex justify-space-between align-center">
-                <v-btn class="text-subtitle-2" variant='tonal' @click="navigateTo('/cart')">Ir para carrinho</v-btn>
+            <v-card-text tag="span" class="w-100 pt-2 text-subtitle-2 d-flex justify-space-between align-center">
+                <v-btn class="text-subtitle-2" variant='tonal' @click="changeRoute('/cart')">Ir para carrinho</v-btn>
                 <span class='text-teal-darken-3 text-uppercase text-subtitle-1 '>R${{cartStore.cartProducts.reduce((pv, cv) => ({totalPrice: (cv.quantity * cv.product.price) + pv.totalPrice}), {totalPrice: 0, quantity: 0}).totalPrice.toFixed(2).replace('.', ',')}}</span>
-            </v-cart-text>
+            </v-card-text>
         </template>
         <div class='flex-grow-1 d-flex align-center justify-center' v-else>
             <v-progress-circular indeterminate/>
@@ -67,8 +67,11 @@
 </template>
 
 <script setup lang='ts'>
+
     import {useCartStore} from '../../lib/services/cartStore.ts'
-    const router = useRoute()
+    async function changeRoute(path?: string) {
+        window.location.href = path || '/';
+    }  
     const cartStore = useCartStore()
     onMounted(async () => {
         cartStore.cartProducts?.length < 1 && cartStore.getCart()

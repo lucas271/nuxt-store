@@ -10,5 +10,5 @@
 <script setup lang="ts">
     import {useCategoryStore} from '../../lib/services/categoryStore.ts'
     const categoryStore = useCategoryStore()
-    defineProps<{select: string[]}>();
+    defineProps<{select?: string[]}>();
 </script>

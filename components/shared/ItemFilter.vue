@@ -51,17 +51,17 @@
 
     const resetFilter = () => {
         const isReset = confirm('Tem certeza que quer resetar o filtro?')
-        return filter.value = isReset ? {
-            sortBy: {
+        if(isReset){
+            filter.value.sortBy = {
                 isPriceAscending: null,
                 isMostFavorites: null,
                 isNewest: null,
             },
-            categoriesSelected: [],
-            sessions: [],
-            startsWith: '',
-            priceRange: null
-        } : filter
+            filter.value.priceRange = null
+            filter.value.sessions = []
+            filter.value.categoriesSelected = []
+            filter.value.startsWith = ''
+        }
     }
     const maxPrice = await $fetch('/api/product?data='+JSON.stringify({type: 'maxPrice'})).then(res => res.value ).catch(res => {
         return 'a'

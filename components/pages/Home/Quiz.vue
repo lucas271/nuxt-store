@@ -20,47 +20,42 @@
                         <v-overlay v-model='overlay' class='d-flex justify-center align-center'>
                             <v-card height='85vh' width='90vw' class=' bg-teal-darken-3 d-flex flex-column ga-2' >
                                 <v-btn @click='' position='absolute' style='right: 1.8%; top:1.5%' class="text-caption" icon='mdi-close' variant='tonal' density='comfortable'> </v-btn>
-                                <div class='text-center my-sm-5 my-2'>
-                                    <v-card-title class='text-sm-h4 text-subtitle-1 font-weight-bold text-break'> Questionario </v-card-title>
+                                <div class='text-center my-sm-5 mt-2'>
+                                    <v-card-title class='text-sm-h4 text-subtitle-1 font-weight-bold text-break pa-sm-3 pa-0'> Questionario </v-card-title>
 
-                                    <p class='text-caption text-sm-subtitle-2 text-grey-lighten-2 text-break '> Descubra o tratamento ideal para você! </p>
+                                    <p class='text-caption text-sm-subtitle-2 text-grey-lighten-2 text-break d-none d-sm-inline'> Descubra o tratamento ideal para você! </p>
 
                                     <div>
                                     </div>
                                 </div>
           
-                                <v-window v-model="step.currentStep" class="h-100 flex-shrink-1 flex-grow-1 ">
+                                <v-window v-model="step.currentStep" class="h-100  flex-shrink-1 flex-grow-1 ">
                                     <v-window-item :key="1" class="h-100">
                                         <div class="d-flex flex-column h-100 overflow-hidden justify-space-evenly align-center">
-                                            <span class="text-sm-h4 text-subtitle-2 mx-0 pa-0 text-wrap w-100 text-center font-weight-bold">
+                                            <span class="text-sm-h4 text-body-2 mx-0 pa-sm-0 pb-3 text-wrap w-100 text-center font-weight-bold">
                                                 Qual área você deseja tratar?
                                             </span>
-             
-                                            <v-slide-group class="h-100 d-flex w-75 flex-shrink-1 ga-2 overflow-hidden bg-transparent" elevation="0" style="position: relative;">
-                                                <v-slide-group-item v-for="item in (step1Options)" class="w-75" tag="h2">
-                                                    <div class="w-75 h-100 d-flex justify-center align-center">
-                                                        <v-hover v-slot="{ isHovering, props }" open-delay="100">
-                                                            <v-card  
-                                                                class="h-75 w-75 bg-teal-darken-2 d-flex  flex-column mx-2 overflow-hidden" 
-                                                                :style="item.name === selectedOptions.step1 && { backgroundColor: 'rgba(0, 0, 0, 0.5)', border: '3px solid #01B573'}"
-                                                                v-bind="props"
-                                                                :elevation="isHovering ? 24 : 2"
-                                                                v-ripple
-                                                                @click="selectedOptions.step1 = item.name"
-                                                            >
-                                                                <h4 class="text-sm-subtitle-1 text-subtitle-2 text-center">{{ item.name }}</h4>
-                                                                <v-img class="w-100 flex-grow-1 flex-shrink-1" cover :src="item.img"/>
-                                                                <v-btn variant="tonal" :ripple="false">clique para selecionar</v-btn>
-                                                            </v-card>
-                                                        </v-hover>
-                                                    </div>
+                                            <div class="d-flex flex-grow-1 responsiveWidth justify-center align-center flex-sm-row flex-column ga-3 flex-shrink-1 overflow-hidden mx-auto">
+                                                <template v-for="item in (step1Options)" >
+                                                    <v-hover v-slot="{ isHovering, props }" open-delay="100">
+                                                        <v-card  
+                                                            class="h-75 bg-teal-darken-2 d-flex w-75 flex-column mx-2 overflow-hidden" 
+                                                            :style="item.name === selectedOptions.step1 && { backgroundColor: 'rgba(0, 0, 0, 0.5)', border: '3px solid #01B573'}"
+                                                            v-bind="props"
+                                                            :elevation="isHovering ? 24 : 2"
+                                                            v-ripple
+                                                            @click="selectedOptions.step1 = item.name"
+                                                        >
+                                                            <h4 class="text-sm-subtitle-1 text-subtitle-2 text-center d-sm-inline d-none">{{ item.name }}</h4>
+                                                            <v-img class="w-100 flex-grow-1 flex-shrink-1" cover :src="item.img"/>
+                                                            <v-btn variant="tonal" :ripple="false" class="text-subtitle-2 text-sm-subtitle-1">clique para selecionar</v-btn>
+                                                        </v-card>
+                                                    </v-hover>
+                                                </template>
+                                            </div>
 
-                                                </v-slide-group-item>
 
-                                            </v-slide-group>
-
-                  
-                                            <span class="text-center text-sm-h6 text-subtitle-2" >
+                                            <span class="text-center text-sm-h6 text-subtitle-2 mx-0 pa-sm-0 pt-3 " >
                                                 Area selecionada: <span class="font-weight-bold font-italic">{{ selectedOptions.step1 }}</span>
                                             </span>
                                         </div>
@@ -182,3 +177,16 @@
         step2Body: undefined
     })
 </script>
+
+<style>
+    .responsiveWidth{
+        width: 90%;
+        height: fit-content;
+
+        @media (min-width: 800px) {
+            width: 70%;
+            height: 100%;
+        }
+
+    }
+</style>

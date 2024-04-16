@@ -18,7 +18,7 @@ interface MessageInterface{
 
 export const useMessageStore = defineStore('item', () => {
     const messages = ref<MessageInterface[]>([])
-    const loading = ref<boolean>(true)
+    const loading = ref<boolean>(false)
     const errors= ref<string[]>([])
     const { $csrfFetch } = useNuxtApp()
 

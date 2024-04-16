@@ -31,9 +31,9 @@
                                         <v-btn :active='product.product?.loading === false' density="compact" variant='tonal' icon="mdi-arrow-right" @click='cartStore.addProduct(product.product.id)' />
                                     </div>
 
-                                    <div class="w-100 flex-shrink-1 flex-wrap d-flex align-center justify-space-between justify-md-center text-left text-sm-right mt-1 text-nowrap">
+                                    <div class="w-100 flex-shrink-1 ga-3 flex-wrap d-flex align-center justify-space-between justify-md-center text-left text-sm-right mt-1 text-nowrap">
                                         <span class="d-inline font-weight-bold italic text-uppercase">subtotal: R${{(product.quantity * product.product.price).toFixed(2).replace('.', ',')}}</span>
-                                        <v-btn variant="tonal">Ver mais</v-btn>
+                                        <v-btn variant="tonal" @click="navigateTo('/item/'+product.product.id)">Ver mais</v-btn>
                                     </div>
                                 </div>
                                 </div>
@@ -42,13 +42,13 @@
                             <v-divider thickness="2" class=''/>
 
                         </template>
-                        <template v-else>
-                            <article class='h-100 d-flex justify-center align-center ga-3 flex-column'>
+
+                            <article v-else class='h-100 d-flex justify-center align-center ga-3 flex-column'>
                                 <h3 class='text-h3'> Carrinho vazio! </h3>
                                 <p class='text-subtitle-1 mb-3'> Infelizmente seu carrinho está vazio...</p>
                                 <v-btn variant='tonal' @click="navigateTo('/item')"> Procurar itens </v-btn>
                             </article>
-                        </template>
+
                     </template>
                     <template v-else>
                         <div class='flex-grow-1 d-flex justify-center align-center w-100'>
