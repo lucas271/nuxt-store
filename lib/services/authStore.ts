@@ -42,8 +42,9 @@ export const useAuthStore = defineStore('authStore', () => {
             if(!response.user) reset()
             return user.value = response.user
         } catch (error) {
+            console.log(error)
             reset()
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel encontrar as categorias'])
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['Erro ao logar o usuario'])
         }
     }
     async function addUser(username: string, email: string, password: string){
@@ -61,7 +62,7 @@ export const useAuthStore = defineStore('authStore', () => {
         } catch (error) {
             reset()
             console.log(error)
-            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
+            errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['Erro ao criar o usuário'])
         }
     }
     function reset(){

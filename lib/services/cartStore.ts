@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import {ref} from 'vue'
-
 export interface cartProductInterface {
     product: {
         name: string,
@@ -14,8 +13,8 @@ export interface cartProductInterface {
         loading?: boolean,
         category_name: string[]
     },
-    quantity: number
-    cartId: string
+    quantity: number,
+    cartId?: string
 }
 
 
@@ -25,8 +24,16 @@ export const useCartStore = defineStore('cart', () => {
     const errors= ref<string[]>([])
     const { $csrfFetch } = useNuxtApp()
 
+
     async function getCart(){
         try {
+            const isLogged = (await useSupabaseClient().auth.getSession()).data.session?.user ? true : false
+            if(!isLogged) {
+                const storageCart = localStorage.getItem('cart')
+                if(!storageCart) localStorage.setItem('cart', JSON.stringify([]))
+                reset()
+                return cartProducts.value = JSON.parse(localStorage.getItem('cart') || JSON.stringify([]))
+            }
             start()
             const response = await $fetch('/api/cart').then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
@@ -44,6 +51,32 @@ export const useCartStore = defineStore('cart', () => {
     async function deleteSingleCartProduct(productId: string){
         try {
             cartProducts.value = cartProducts.value.map(product => product.product.id === productId ? {...product, product: {...product.product, loading: true}} : product)
+
+            const isLogged = (await useSupabaseClient().auth.getSession()).data.session?.user ? true : false
+            if(!isLogged) {
+                let productsInCart: cartProductInterface[] = JSON.parse(localStorage.getItem('cart') || JSON.stringify([]))
+                if(!productsInCart) localStorage.setItem('cart', JSON.stringify([]))
+
+                const response: any = await $fetch('/api/product?data='+JSON.stringify({productId, type: 'product'})).then(res => res).catch(res => {
+                    throw {errors: JSON.parse(res.data.message).errors}
+                }) 
+
+                if(!response?.product)  throw {errors: ['produto não encontrado']}
+
+                if(productsInCart.find(product => response.product.id === product.product.id)?.quantity === 1 && response.product) {
+                    productsInCart = [...productsInCart.filter(product => response.product.id !== product.product.id)]
+                    localStorage.setItem('cart', JSON.stringify(productsInCart))
+                    reset()
+
+                    return cartProducts.value = productsInCart
+                }
+            
+                const productIndex = productsInCart.map(product => product.product.id).indexOf(response.product.id)
+                productsInCart[productIndex >= 0 ? productIndex : 0] = {product: response.product, quantity: productsInCart[productIndex]?.quantity || 0 - 1}
+                localStorage.setItem('cart', JSON.stringify(productsInCart))
+                reset()
+                return cartProducts.value[productIndex >= 0 ? productIndex : 0] = productsInCart[productIndex]
+            }
             const response = await $csrfFetch('/api/cart', {method: 'PUT', body: {type: 'deleteSingleProductFromcart',  productId}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })    
@@ -64,6 +97,32 @@ export const useCartStore = defineStore('cart', () => {
     async function addProduct(productId: string){
         try {
             cartProducts.value = cartProducts.value.map(product => product.product.id === productId ? {...product, product: {...product.product, loading: true}} : product)
+
+            const isLogged = (await useSupabaseClient().auth.getSession()).data.session?.user ? true : false
+            if(!isLogged) {
+                let productsInCart: cartProductInterface[] = JSON.parse(localStorage.getItem('cart') || JSON.stringify([]))
+                if(!productsInCart) localStorage.setItem('cart', JSON.stringify([]))
+
+                const response: any = await $fetch('/api/product?data='+JSON.stringify({productId, type: 'product'})).then(res => res).catch(res => {
+                    throw {errors: JSON.parse(res.data.message).errors}
+                }) 
+
+                if(!response?.product)  throw {errors: ['produto não encontrado']}
+                const productIndex = productsInCart.map(product => product.product.id).indexOf(response.product.id)
+                if(productIndex === -1) {
+                    productsInCart.push({product: response.product, quantity: 1})
+                    localStorage.setItem('cart', JSON.stringify(productsInCart))
+                    return cartProducts.value = productsInCart        
+                }
+
+                productsInCart[productIndex >= 0 ? productIndex : 0] = {product: response.product, quantity: (productsInCart[productIndex >= 0 ? productIndex : 0]?.quantity || 0) + 1}
+                localStorage.setItem('cart', JSON.stringify(productsInCart))
+                
+                reset()
+                cartProducts.value[productIndex >= 0 ? productIndex : 0] = productsInCart[productIndex]
+                console.log(cartProducts.value, 'blablbalbalba')
+                return
+            }
             const response = await $csrfFetch('/api/cart', {method: 'PUT', body: {type: 'addProduct', productId}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
@@ -71,6 +130,8 @@ export const useCartStore = defineStore('cart', () => {
             const productIndex = cartProducts.value.map(product => product.product.id).indexOf(response.cart.product.id)
             return cartProducts.value[productIndex >= 0 ? productIndex : 0] = response.cart
         } catch (error) {
+            console.log(error)
+
             reset()
             errors.value.push(...(error?.errors?.length > 0 && error?.errors) || ['não foi possivel realizar a ação'])
         }
@@ -78,6 +139,25 @@ export const useCartStore = defineStore('cart', () => {
 
     async function deleteCartProduct(productId: string){
         try {
+            const isLogged = (await useSupabaseClient().auth.getSession()).data.session?.user ? true : false
+            if(!isLogged) {
+                let productsInCart: cartProductInterface[] = JSON.parse(localStorage.getItem('cart') || JSON.stringify([]))
+                if(!productsInCart) localStorage.setItem('cart', JSON.stringify([]))
+
+                const response: any = await $fetch('/api/product?data='+JSON.stringify({productId, type: 'product'})).then(res => res).catch(res => {
+                    throw {errors: JSON.parse(res.data.message).errors}
+                }) 
+
+                if(!response?.product)  throw {errors: ['produto não encontrado']}
+        
+                productsInCart = productsInCart.filter(product => product.product.id !== response.product.id) 
+                localStorage.setItem('cart', JSON.stringify(productsInCart))
+                reset()
+
+                return cartProducts.value = productsInCart
+
+            }
+
             cartProducts.value = cartProducts.value.map(product => product.product.id === productId ? {...product, product: {...product.product, loading: true}} : product)
             const response = await $csrfFetch('/api/cart', {method: 'DELETE', body: {data: {type: 'deleteProductFromCart', productId}}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
@@ -96,6 +176,13 @@ export const useCartStore = defineStore('cart', () => {
     async function deleteCart(){
         try {
             start()
+            const isLogged = (await useSupabaseClient().auth.getSession()).data.session?.user ? true : false
+
+            if(!isLogged) {
+                localStorage.setItem('cart', JSON.stringify([]))
+                reset()
+                return cartProducts.value = []
+            }
             const response = await $csrfFetch('/api/cart', {method: 'DELETE', body: {data: {type: 'deleteCart', cartId}}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })   //storing in a variable if I ever need to use it.

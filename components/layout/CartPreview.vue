@@ -73,7 +73,5 @@
         window.location.href = path || '/';
     }  
     const cartStore = useCartStore()
-    onMounted(async () => {
-        cartStore.cartProducts?.length < 1 && cartStore.getCart()
-    })
+
 </script>

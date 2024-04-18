@@ -118,7 +118,9 @@
         if(searchRef.value?.contains(e.target) || responseRef.value?.$el?.contains(e.target) || e.target === responseRef.value?.$el || e.target === searchRef.value) return
         isSearchResponseFocused.value = false
     }
-
+    onMounted(async () => {
+        cartStore.cartProducts?.length < 1 && cartStore.getCart()
+    })
 
     watch(isSearchResponseFocused, (cv) => !cv ? document.removeEventListener("click", handleOutsideClick) : document.addEventListener("click", handleOutsideClick))
 
