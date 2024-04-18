@@ -107,6 +107,14 @@
     const cartStore = useCartStore()
     const messageStore = useMessageStore()
 
+
+    useSeoMeta({
+        title: `${productStore.product?.name} - localizado Proximo ao km32, jardim paraíso`,
+        ogTitle: productStore.product?.name || '',
+        description: productStore.product?.description + ' Estamos localizados em nova iguaçu, Jardim paraíso. Proximo ao km32.' || 'Esse produto ira te auxiliar a tratar o que te incomoda em sua aparência fisica.',
+        ogImage: productStore.product?.img || '',
+        keywords: productStore.product?.category_name?.join(', ') || '',
+    })
     definePageMeta({
         validate: async (router) => {
             const productStoreValidate = useProductStore()

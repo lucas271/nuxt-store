@@ -27,6 +27,13 @@
     const take = ref<number>(5)
     const productStore = useProductStore()
     const wishListStore = useWishListStore()
+    useSeoMeta({
+        title: `Todos os produtos - localizado Proximo ao km32, jardim paraíso`,
+        ogTitle: `Todos os produtos`,
+        description: "Aqui você encontrará todos os produtos disponiveis no espaço estetica life cris. Pump-up drenagem bioestimuladores e muito mais. Estamos localizados em nova iguaçu, Jardim paraíso. Proximo ao km32.",
+        keywords: 'bioestimuladores, drenagem, pump_up, celulite, pós operatório, limpeza de pele',
+    })
+
 
     onMounted(async () => {
         watch(cvPage, async () => {

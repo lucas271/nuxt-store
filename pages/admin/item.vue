@@ -63,6 +63,16 @@
         await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value)
     })
     await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value)
+    useHead({
+        meta: [
+            {
+            hid: 'robots',
+            name: 'robots',
+            content: 'noindex',
+            },
+        ],
+    })
+    
     definePageMeta({
         middleware: 'need-admin'
     })

@@ -38,6 +38,7 @@
 <script setup lang="ts">
 import {useCartStore} from '../../lib/services/cartStore'
 
+
 const cartStore = useCartStore()
 
 interface ItemInterface {

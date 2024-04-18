@@ -35,4 +35,10 @@
     definePageMeta({
         middleware: 'need-user'
     })
+
+    useSeoMeta({
+        title: `Favoritos`,
+        ogTitle: `Favoritos`,
+        description: "Aqui você encontrará todos os salvos por você como favoritos.",
+    })
 </script>

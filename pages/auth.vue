@@ -213,7 +213,11 @@ const handleAuth = async (e, type) => {
 }
 
 
-
+useSeoMeta({
+    title: `Autenticação`,
+    ogTitle: `Autenticação`,
+    description: "Faça login na pagina estetica life cris e desbloqueie novas funcionalidades",
+})
 definePageMeta({
     layout: 'empty',
     middleware: 'need-no-user'

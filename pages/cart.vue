@@ -72,6 +72,11 @@
     import {useCartStore} from '../lib/services/cartStore.ts'
     const cartStore = useCartStore()
 
+    useSeoMeta({
+        title: `Carrinho`,
+        ogTitle: `Carrinho`,
+        description: "Aqui você encontrará todos os produtos que você colocou no seu carrinho"
+    })
     onMounted(async () => {
         cartStore.cartProducts?.length < 1 && cartStore.getCart()
     })

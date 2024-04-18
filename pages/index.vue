@@ -5,5 +5,3 @@
     <pagesHomeReviews/>
     <pagesHomeLocation/>
 </template>
-<script lang="ts">
-</script>
