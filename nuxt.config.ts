@@ -32,7 +32,7 @@ export default defineNuxtConfig({
     "nuxt-csurf",
   ],
   csurf: { 
-    https: false, 
+    https: true, 
     cookie: { 
       path: '/',
       httpOnly: true,
