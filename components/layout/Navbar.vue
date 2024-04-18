@@ -79,6 +79,7 @@
                     <layoutCartPreview/>
                 </v-menu>
                 <v-btn :aria-label="data.session ? 'sair da conta': 'logar na conta'" @click="data.session ? handleSignOut() : navigateTo('/auth')"}>
+                    {{ data.session }}
                     <v-icon>{{data.session ? "mdi-exit-run" : "mdi-account-outline"}}</v-icon>
                 </v-btn>
             </div>
