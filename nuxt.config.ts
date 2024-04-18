@@ -35,7 +35,6 @@ export default defineNuxtConfig({
     https: true, 
     cookie: { 
       path: '/',
-      httpOnly: true,
     },
     methodsToProtect: ['POST', 'PUT', 'PATCH'], // the request methods we want CSRF protection for
     encryptAlgorithm: 'AES-CBC', // by default '' (node), 'AES-CBC' (serverless)
