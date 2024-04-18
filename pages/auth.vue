@@ -93,14 +93,13 @@
                                     <v-card-subtitle tag="h1" class="text-h6 text-uppercase font-weight-bold bg-teal-darken-4 pa-3 rounded-lg text-wrap text-center" :style="{lineHeight: '1.5'}">Life Cris - Registrar</v-card-subtitle>
 
                                     <div class="w-100 h-100 pa-4 flex-column d-flex d-sm-none justify-space-evenly align-center">
-                                        <v-alert v-if='apiErrors.length > 0' class='text-caption pa-1 px-4 pa-sm-4 text-sm-body-2' type='error' v-for='error in apiErrors'> {{error}} </v-alert>
-                                        <v-alert v-if='isSuccess' class='text-caption pa-1 px-4 pa-sm-4 text-sm-body-2' type='success'> Operação bem sucedida</v-alert>
-
                                         <div class="w-100">
+                                            <v-alert v-if='apiErrors.length > 0' class='text-caption pa-1 px-4 pa-sm-4 text-sm-body-2'  type='error' v-for='error in apiErrors'> {{error}} </v-alert>
+                                            <v-alert v-if='isSuccess' class='text-caption pa-1 px-4 pa-sm-4 text-sm-body-2' type='success'> Operação bem sucedida</v-alert>
                                             <v-text-field :disabled="authStore.loading" placeholder="Nome de usuário" :rules="[(value) => !value && 'Campo vazio' || Number(value[0]) && 'Nome não pode começar com um numero']" v-model='username'></v-text-field>
-                                            <v-text-field :disabled="authStore.loading" placeholder="email" :rules='emailValidation' v-model="email"></v-text-field>
-                                            <v-text-field :disabled="authStore.loading" placeholder="Senha" :rules='passWordValidation' v-model="password"></v-text-field>
-                                            <v-text-field :disabled="authStore.loading" placeholder="Repetir senha" :rules="[(value) => !value && 'Campo vazio' || !(value === password) && 'Senhas não são iguais.']" v-model='repeatPassword'></v-text-field>
+                                            <v-text-field type="email" :disabled="authStore.loading" placeholder="email" :rules='emailValidation' v-model="email"></v-text-field>
+                                            <v-text-field type="password" :disabled="authStore.loading" placeholder="Senha" :rules='passWordValidation' v-model="password"></v-text-field>
+                                            <v-text-field type="password" :disabled="authStore.loading" placeholder="Repetir senha" :rules="[(value) => !value && 'Campo vazio' || !(value === password) && 'Senhas não são iguais.']" v-model='repeatPassword'></v-text-field>
                                         </div>
                                  
                                     </div>

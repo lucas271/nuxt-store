@@ -237,7 +237,7 @@ class Product{
 
 		this.response = product
 	}
-
+ 
 	private async validateFields(){
 		if(this.body?.title && this.body.title.length > 75) return this.errors.push("Tamanho do titulo maior que 75")
 		if(this.body?.name && this.body.name.length > 30) return this.errors.push("Tamanho do nome maior que 30")
