@@ -1,8 +1,10 @@
 <template>
     <v-btn
+    name="whatsapp icone"
     icon="mdi-whatsapp"
     class="bg-teal-lighten-2 text-body-1 btn-responsive-position"
-    
+    aria-label="ir para whatsapp"
+
     >
     </v-btn>
 </template>

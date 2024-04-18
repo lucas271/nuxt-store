@@ -12,6 +12,8 @@ export interface wishListInterface {
         img?: string,
         quantity: number,
         id?: string,
+        category_name: any[],
+
     },
     id: string
 }
@@ -54,10 +56,10 @@ export const useWishListStore = defineStore('wishlist', () => {
         }
     }
 
-    async function getAllWishListProducts(productId: string){
+    async function getAllWishListProducts(){
         try {
             start()
-            const response = await $fetch('/api/wishlist?data='+JSON.stringify({productId, type: 'items'})).then(res => res).catch(res => {
+            const response = await $fetch('/api/wishlist?data='+JSON.stringify({type: 'items'})).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
 

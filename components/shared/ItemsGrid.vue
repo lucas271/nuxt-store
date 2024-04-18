@@ -40,7 +40,7 @@ interface productInterface {
         img?: string,
         quantity: number
         is_available: boolean,
-        category_name?: string,
+        category_name: any[],
         sessions?: number,
         body_part?: string,
     }[]

@@ -13,7 +13,7 @@ export interface ProductBodyInterface{
     img?: string,
     quantity?: number,
     productQuantIncrement?: number
-    category_name?: string,
+    category_name?: string[],
 	sessions?: 1 | 5 | 10,
 	body_part?: 'rosto' | 'corpo'
 }
@@ -55,7 +55,11 @@ class Product{
 				startsWith: this.query?.startsWith,
 				mode: "insensitive"
 			},
-			category_name: (this.query?.categoriesSelected && this.query.categoriesSelected.length >= 1) ? {in: this.query?.categoriesSelected} : undefined,
+			category_name: (this.query?.categoriesSelected && this.query.categoriesSelected.length >= 1)? {some: {
+				name: {
+					in: this.query.categoriesSelected
+				}
+			}} : undefined,
 			sessions:	(this.query?.sessions && this.query?.sessions?.length > 0) ? {in: this.query?.sessions} : undefined,
 			price: {gte: this.query?.priceRange ? this.query?.priceRange[0] || 0 : 0, lte: this.query?.priceRange ? this.query?.priceRange[1] || undefined: undefined}
 		}
@@ -72,6 +76,9 @@ class Product{
 				favorites: this.query.sortBy.isMostFavorites === true ? {
 					_count: 'asc'
 				} : undefined,
+			},
+			include: {
+				category_name: true
 			}
 		}).catch(err => {
 			this.errors.push("Erro ao tentar encontrar os produtos")
@@ -95,6 +102,9 @@ class Product{
 		const product = await this.prisma.product.findUnique({
 			where: {
 				id: this.query.productId
+			},
+			include: {
+				category_name: true
 			}
 		}).catch(err => this.errors.push("Não foi possível obter o produto"))
 
@@ -105,7 +115,7 @@ class Product{
 	async createNewProduct(){
 		this.validateFields()
 		if(this.errors.length > 0) return
-		if(!this.body || !this.body.body_part || !this.body.title || !this.body.name || !this.body.quantity || !this.body.description || !this.body.price) return this.errors.push("Existem campos vazios")
+		if(this.body?.category_name && this.body.category_name.length < 0 || !this.body?.category_name || !this.body || !this.body.body_part || !this.body.title || !this.body.name || !this.body.quantity || !this.body.description || !this.body.price) return this.errors.push("Existem campos vazios")
 		const newProduct = await this.prisma.product.create({
 			data: {
 				title: this.body.title,
@@ -114,9 +124,16 @@ class Product{
 				name: this.body.name,
 				price: Number(this.body.price),
 				quantity: Number(this.body.quantity) || 1,
-				category_name: this.body?.category_name,
+				category_name: {
+					connect: [
+						...this.body.category_name.map(name => ({name}))
+					],
+				},
 				body_part: this.body?.body_part,
 				sessions: Number(this.body?.sessions)
+			},
+			include: {
+				category_name: true
 			}
 		}).catch((error) => this.errors.push('Erro ao criar o produto') && console.log(error))
 
@@ -146,6 +163,8 @@ class Product{
 		if(this.errors.length > 0) return
 		if(!this.body?.userId) return this.errors.push("Você precisa ser um usuário autorizado para atualizar um produto")
 		if(!this.body?.productId) return this.errors.push("Não recebeu o produto para atualizar")
+
+		if(this.errors.length > 0) return
 		const updatedProduct = await this.prisma.product.update({
 			where: {
 				id: this.body.productId
@@ -157,9 +176,17 @@ class Product{
 				name: this.body?.name,
 				price: Number(this.body?.price) || undefined,
 				quantity: Number(this.body?.quantity) || undefined,
-				category_name: this.body?.category_name,
+				category_name: {
+					set: this.body.category_name && [
+						...this.body.category_name.map(name => ({name}))
+					] || undefined,
+				},
 				body_part: this.body?.body_part,
 				sessions: Number(this.body?.sessions)
+			}
+			,
+			include: {
+				category_name: true
 			}
 		}).catch((err) => {
 			console.log(err)
@@ -180,6 +207,9 @@ class Product{
 			},
 			data:{
 				quantity: {decrement: 1}
+			},
+			include: {
+				category_name: true
 			}
 		}).catch(() => this.errors.push('Erro ao diminuir a quantidade do produto'))
 
@@ -197,6 +227,9 @@ class Product{
 			},
 			data:{
 				quantity: {increment: Number(this.body.productQuantIncrement)}
+			},
+			include: {
+				category_name: true
 			}
 		}).catch(() => this.errors.push('Erro ao aumentar a quantidade do produto'))
 

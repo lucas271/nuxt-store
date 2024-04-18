@@ -4,10 +4,10 @@
         <v-alert type="error" v-if="messageStore.errors?.length > 0" v-for="error in messageStore?.errors" :text='error'/>
 
         <div class="d-flex justify-space-between">
-            <v-rating size="small" color="yellow-darken-3" v-model='rate'></v-rating>
+            <v-rating size="small" color="yellow-darken-3" name="mensagem" id="message" v-model='rate'></v-rating>
             <slot/>
         </div>
-        <v-textarea placeholder="escreva seu comentário aqui" v-model='message'></v-textarea>
+        <v-textarea placeholder="escreva seu comentário aqui" name="mensagem" id="message"v-model='message'></v-textarea>
         <v-btn type='submit'> Enviar </v-btn>
     </v-form>
 </template>

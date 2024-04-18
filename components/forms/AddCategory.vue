@@ -4,13 +4,13 @@
         categoryStore.addCategory(categoryName, categoryDescription)
     }">
         <div class="w-100">
-            <v-text-field class="w-75 mx-auto" :rules="categoryNameRules" v-model="categoryName" label="Nome da nova categoria" density="compact"/>
+            <v-text-field name="nome" id="name" class="w-75 mx-auto" :rules="categoryNameRules" v-model="categoryName" label="Nome da nova categoria" density="compact"/>
         </div>
         <div class="w-100">
-            <v-text-field class="w-75 mx-auto" :rules="categoryDescriptionRules" v-model="categoryDescription" label="Descrição da categoria" density="compact"/>
+            <v-text-field class="w-75 mx-auto" name="descrição" id="description" :rules="categoryDescriptionRules" v-model="categoryDescription" label="Descrição da categoria" density="compact"/>
         </div >
         <div class="w-100">
-            <v-file-input class="w-75 mx-auto" density="compact" label="Imagem da categoria"/>
+            <v-file-input class="w-75 mx-auto" name="imagem" id="image" density="compact" label="Imagem da categoria"/>
         </div>
         <v-btn density="comfortable" class="text-body-2" type="submit">Lançar nova categoria</v-btn>
     </v-form>

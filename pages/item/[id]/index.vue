@@ -5,7 +5,7 @@
             <div>
                 
             </div>
-            <v-img class="text-start responsive_img " cover :src="productStore.product?.img"/>
+            <v-img class="text-start responsive_img " :alt="'imagem ' + productStore.product.name ? 'de' + productStore.product.name : 'não encontrada'"  cover :src="productStore.product?.img"/>
             <div class="ga-3 flex-column flex-shrink-1 overflow-hidden d-flex justify-space-between flex-grow-1 pa-sm-5 pa-6">
                 <article class="d-flex flex-column w-100 ga-3 overflow-hidden">
                     <v-card-title v-if='productStore.product?.name' class="text-sm-h4 text-h6 font-weight-bold text-wrap py-1 px-0 ma-0">
@@ -15,11 +15,10 @@
                         <v-card-subtitle class="pa-0 text-sm-subtitle-1 text-subtitle-2 flex-shrink-1 overflow-auto text-wrap">{{productStore.product?.title}}</v-card-subtitle>
                     </div>
 
-
                     <v-chip-group>
                         <v-chip class="text-sm-body-2 text-caption"> {{ productStore.product?.sessions }} {{productStore.product?.sessions && productStore.product?.sessions > 1 ? 'sessões' : 'sessão'}} </v-chip>
                         <v-chip class="text-sm-body-2 text-caption"> {{productStore.product?.body_part}} </v-chip>
-                        <v-chip class="text-sm-body-2 text-caption"> {{productStore.product?.category_name}} </v-chip>
+                        <v-chip class="text-sm-body-2 text-caption" v-if="productStore.product?.category_name && productStore.product?.category_name.length > 0" v-for="category in productStore.product?.category_name">{{category.name}} </v-chip>
 
                     </v-chip-group>
                 </article>
@@ -53,13 +52,13 @@
             </div>
         </v-card>
     </v-container>
-    <v-sheet class="w-100 pa-8 ">
-        <h3 class="mt-5 text-teal-darken-3">Outros items recomendados</h3>
+    <v-sheet class="w-100 pa-8" v-if="selectedProducts.filter((product: any) => productStore?.product?.id !== productStore.product?.id).length > 0">
+        <h3 class="my-5 text-teal-darken-3">Outros items recomendados </h3>
 
         <v-slide-group >
 
-            <v-slide-group-item v-for="product in selectedProducts">
-                <div class="mr-4 w-75 responsive-item my-auto "> 
+            <v-slide-group-item v-for="product in selectedProducts.filter((product: any) => productStore?.product?.id !== product?.id)">
+                <div class="mr-4 responsive-item my-auto " style="width: fit-content; height: fit-content;"> 
                     <sharedItem     
                         :id='product?.id'
                         :name='product?.name'
@@ -90,7 +89,7 @@
     const route = useRoute()
 
     const selectedProducts = await (async () => {
-        return await $fetch('/api/product?data='+JSON.stringify({sortBy: {isMostFavorites: true,}, take: 5, skip: 0, type: 'products'})).then(res => {
+        return await $fetch('/api/product?data='+JSON.stringify({sortBy: {isMostFavorites: true}, take: 5, skip: 0, type: 'products'})).then(res => {
         try {
             return res?.product?.products || {errors: 'Erro no servidor'}
         } catch (error) {
@@ -117,7 +116,7 @@
             return productStoreValidate.product ? true : false
         }
     })
-    await messageStore.getMessages(route?.params?.id)
+    await useAsyncData("messages", async () => messageStore.getMessages(route?.params?.id).then(() => true), {lazy: true})
 
 </script>
 

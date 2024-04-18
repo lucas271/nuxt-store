@@ -36,7 +36,11 @@ class WishList {
                 user_id: this.query?.userId,
             },
             select: {
-                product: true,
+                product: {
+                    include: {
+                        category_name: true
+                    }
+                },
                 id: true,
             }
         }).catch(err => this.errors.push("não foi possível obter os produtos"));
@@ -54,7 +58,11 @@ class WishList {
                 user_id: this.query.userId
             },
             select: {
-                product: true
+                product: {
+                    include: {
+                        category_name: true
+                    }
+                }
             }
         }).catch(err => this.errors.push("não foi possível obter o produto"));
 
@@ -72,7 +80,11 @@ class WishList {
                 product_id: this.body.productId
             },
             select: {
-                product: true,
+                product: {
+                    include: {
+                        category_name: true
+                    }
+                },
                 id: true,
             }
         }).catch((error) => this.errors.push('erro ao criar o produto') && console.log(error));
@@ -91,7 +103,11 @@ class WishList {
                 id: this.body.wishListItemId
             },
             select: {
-                product: true,
+                product: {
+                    include: {
+                        category_name: true
+                    }
+                },
                 id: true,
             }
         }).catch((err) => {

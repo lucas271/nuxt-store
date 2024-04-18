@@ -13,7 +13,7 @@ export interface productInterface {
     img?: string,
     quantity: number
     is_available: boolean,
-    category_name?: string,
+    category_name: any[],
     sessions: ( 1 | 5 | 10)[]
     body_part: 'rosto' | 'corpo'
 }
@@ -39,7 +39,7 @@ export const useProductStore = defineStore('product', () => {
                 products.value = []
                 throw {errors: ['Nenhum produto disponivel']}
              }
-
+             console.log(response.product.products)
             productCount.value = response.product.productCount
             return products.value = response.product.products
         } catch (error: any) {

@@ -11,7 +11,8 @@ export interface cartProductInterface {
         quantity: number,
         is_available: boolean,
         id: string,
-        loading?: boolean
+        loading?: boolean,
+        category_name: string[]
     },
     quantity: number
     cartId: string

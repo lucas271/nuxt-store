@@ -396,6 +396,8 @@ model Product {
 
 
   //indexes
+
+  
   @@index([id, name])
       @@schema("public")
 

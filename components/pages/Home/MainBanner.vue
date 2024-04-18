@@ -11,7 +11,7 @@
                     </v-card-subtitle>
                 </article>
                 <div class="flex-grow-1 flex-shrink-1 w-100 overflow-hidden">
-                    <v-img height='auto'  width='100%' src="https://images.pexels.com/photos/8158947/pexels-photo-8158947.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+                    <v-img alt="imagem mulher sentada" height='auto'  width='100%' src="https://images.pexels.com/photos/8158947/pexels-photo-8158947.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
 
                     </v-img >
                 </div>

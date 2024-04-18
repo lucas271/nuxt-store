@@ -9,6 +9,7 @@
         transition="fade-transition"
         style="transform-origin: center center;"
         ref="btnRef"
+        aria-label="para cima"
     >
 
     </v-btn>

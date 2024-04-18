@@ -62,14 +62,14 @@
         id?: string, 
         quantity?: number | null,
         name?: string,
-        category_name?: string
+        category_name?: string[]
         sessions?: number,
         bodyPart?: string,
     }
 
 
     const props = defineProps<{properties?: PropertiesInterface, isEdit?: boolean}>()
-    const properties = ref<{properties: PropertiesInterface}>({isForm: false, title: '', img: '', category_name: '', name: '', quantity: null, id: '', description: '', price: null, sessions: 1, type:''})
+    const properties = ref<{properties: PropertiesInterface}>({isForm: false, title: '', img: '', category_name: [], name: '', quantity: null, id: '', description: '', price: null, sessions: 1, type:''})
     onMounted(() => {
         properties.value = props.properties ? {...props.properties} : properties.value
     })
@@ -142,7 +142,7 @@
             },
             category_name: {
                 rules: [(e) => {
-                    return !e ? false : true
+                    return !e || e.length < 1 ? false : true
                 }],
                 label: 'categoria do produto',
                 placeholder: 'selecione a categoria',

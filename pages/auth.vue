@@ -216,5 +216,6 @@ const handleAuth = async (e, type) => {
 
 definePageMeta({
     layout: 'empty',
+    middleware: 'need-no-user'
 })
 </script>

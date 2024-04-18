@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import {ref} from 'vue'
-import axios from 'axios'
 
 interface UserInterface{
     username?: string,
@@ -40,7 +39,7 @@ export const useAuthStore = defineStore('authStore', () => {
             })
             if(!response.user) throw {errors: ['usuário não encontrado']}
 
-            reset()
+            if(!response.user) reset()
             return user.value = response.user
         } catch (error) {
             reset()
@@ -51,14 +50,13 @@ export const useAuthStore = defineStore('authStore', () => {
         try {
 
             start()
-            console.log('odksaodkaokdas')
             const response = await $csrfFetch('/api/auth', {method: 'post', body: {type: "signUp", username, password, email}}).then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
             })
             console.log(response)
             if(!response.user) throw {errors: ['erro no servidor']}
 
-            reset()
+            if(!response.user) reset()
             return user.value = response.user
         } catch (error) {
             reset()
