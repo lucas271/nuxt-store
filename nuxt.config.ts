@@ -7,7 +7,6 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
-      
     }
   },
   build: {
@@ -17,8 +16,7 @@ export default defineNuxtConfig({
     '/item/**': {isr: 3600, prerender: true},
     '/item': {ssr: true, isr: 3600},
     '/': {isr: 3600, prerender: true},
-    '/auth': {ssr: false, static: 3600},
-    '/404': {ssr: false},
+    '/auth': {static: 3600},
     '/cart': {isr: 3600}
   },
   modules: [
@@ -41,7 +39,7 @@ export default defineNuxtConfig({
       sameSite: 'strict'
     },
     methodsToProtect: ['POST', 'PUT', 'PATCH'], // the request methods we want CSRF protection for
-    encryptAlgorithm: 'aes-256-cbc', // by default '' (node), 'AES-CBC' (serverless)
+    encryptAlgorithm: 'AES-CBC', // by default '' (node), 'AES-CBC' (serverless)
     addCsrfTokenToEventCtx: true // default false, to run useCsrfFetch on server set it to true
   },
   supabase:{
