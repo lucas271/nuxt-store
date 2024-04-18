@@ -12,7 +12,14 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
+  routeRules: {
+    '/item/**': {isr: 3600, prerender: true},
+    '/item': {ssr: true, isr: 3600},
+    '/': {isr: 3600, static: 3600},
+    '/auth': {static: 3600},
 
+    '/cart': {isr: 3600}
+  },
   modules: [
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {
@@ -26,14 +33,14 @@ export default defineNuxtConfig({
     "nuxt-csurf",
   ],
   csurf: { 
-    https: true, 
+    https: false, 
     cookie: { 
       path: '/',
       httpOnly: true,
       sameSite: 'strict'
     },
     methodsToProtect: ['POST', 'PUT', 'PATCH'], // the request methods we want CSRF protection for
-    encryptAlgorithm: 'AES-CBC', // by default '' (node), 'AES-CBC' (serverless)
+    encryptAlgorithm: 'aes-256-cbc', // by default '' (node), 'AES-CBC' (serverless)
     addCsrfTokenToEventCtx: true // default false, to run useCsrfFetch on server set it to true
   },
   supabase:{
