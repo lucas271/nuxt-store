@@ -7,12 +7,12 @@
                 </v-badge>
             </v-btn>
 
-            <v-btn :aria-label="!session?.value ? 'ir para pagina de autentificação' : 'sair'" class="h-100 text-subtitle-1 px-3" @click="!session?.value ? navigateTo('auth') : 'a'">
+            <v-btn :aria-label="!data?.session ? 'ir para pagina de autentificação' : 'sair'" class="h-100 text-subtitle-1 px-3" @click="navigateTo('auth')">
                 <v-icon v-if="!session?.value" >mdi-account-outline</v-icon>
                 <v-icon v-else >mdi-exit-run</v-icon>
             </v-btn>
 
-            <v-btn aria-label="ir para favoritos" class="h-100 text-subtitle-1 px-3" v-if="data?.session" @click="navigateTo('/wishList')">
+            <v-btn aria-label="ir para favoritos" class="h-100 text-subtitle-1 px-3" v-if="data?.session" @click="navigateTo('wishList')">
                 <v-icon>mdi-heart-outline</v-icon>
             </v-btn>
         </v-bottom-navigation>
@@ -24,7 +24,9 @@
 <script setup lang="ts">
     import {useCartStore} from '../../lib/services/cartStore'
 
-    const session = useSupabaseSession()
+    const client = useSupabaseClient()
     const cartStore = useCartStore()
+    const session = useSupabaseSession()
+    const { data, error } = await client.auth.getSession()
 
 </script>
