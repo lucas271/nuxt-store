@@ -26,7 +26,7 @@
 
                                 <div class="w-75 rounded-xl bg-teal-darken-3 flex-shrink-1">
                                     <v-card-text class="text-wrap text-center overflow-auto">
-                                        this is not necessarially bad but its a good product the problem is not a product itself.
+                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum aspernatur aperiam nisi nihil nulla, fuga aut, molestiae dolores eligendi quod adipisci cum necessitatibus ullam error totam nostrum corrupti natus ut.
                                     </v-card-text>
                                 </div>
                             </div>

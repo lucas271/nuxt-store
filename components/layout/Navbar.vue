@@ -3,7 +3,7 @@
 <template>
     <v-app-bar :elevation="2" rounded height="60" class="allow_overflow text-teal-darken-4 overflow-visible" style="overflow: visible !important; z-index: 1012; ">
         <template v-slot:prepend >
-            <v-app-bar-title tag="h1" @click="navigateTo('/')" class="cursor-pointer text-sm-h5 text-h6">LifeCris</v-app-bar-title>
+            <v-app-bar-title tag="h1" @click="navigateTo('/')" class="cursor-pointer text-sm-h5 text-h6">Logo</v-app-bar-title>
         </template>
         <v-spacer />
             <div class='w-50 d-sm-inline-block d-none h-auto relative pa-0 ma-0' :style="{position: 'relative'}" ref="searchRef">
