@@ -15,7 +15,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/item/**': {swr: 3600, prerender: true},
     '/item': {ssr: true, swr: 3600},
-    '/': {static: 3600, prerender: true},
+    '/': {prerender: true},
     '/auth': {static: 3600},
 
     '/cart': {swr: 3600}

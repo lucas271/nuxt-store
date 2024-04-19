@@ -112,7 +112,7 @@
     const searchbarQuery = ref<string>('')
     const client = useSupabaseClient()
     const products = ref<any[] | {errors: string[]}>([])
-    const data =  (await client.auth.getSession()).data.session?.user ? true : false
+    const data =  (await client.auth.getSession()).data.session?.user
     const cartStore = useCartStore()
 
     const handleOutsideClick = (e: any) => {
