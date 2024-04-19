@@ -9,7 +9,7 @@
                             <v-slide-group  v-if="selectedProducts?.length > 0">         
                                 <v-slide-group-item v-for="product in selectedProducts"   :key="product.id"  >
                                     <div class="mx-sm-6 mx-2  pa-1 responsive-card-slide overflow-hidden my-auto" style="height: 90%;" >
-                                        <sharedItem :id="product?.id" :name="product?.name" :category_name="product?.category_name" :sessions="product?.sessions" :body_part="product?.body_part" :description="product?.description" :img="product?.img" :title="product?.title" :price="product?.price" :quantity="product?.quantity" :is_available="product?.is_available" >
+                                        <sharedItem bg-color="bg-teal-darken-3" :id="product?.id" :name="product?.name" :category_name="product?.category_name" :sessions="product?.sessions" :body_part="product?.body_part" :description="product?.description" :img="product?.img" :title="product?.title" :price="product?.price" :quantity="product?.quantity" :is_available="product?.is_available" >
 
                                         </sharedItem>
 

@@ -1,5 +1,5 @@
 <template>
-    <v-card class="flex-column d-flex ga-2 bg-teal-lighten-2 w-100 rounded-lg overflow-hidden h-100" >
+    <v-card :class="`flex-column d-flex ga-2 ${!bgColor ? 'bg-teal-lighten-2' : bgColor} w-100 rounded-lg overflow-hidden h-100`" >
         <v-img  :alt="'imagem'+ name ? 'de' + name : 'não encontrada' " class="w-100 flex-shrink-1" cover :src="img ? img : 'https://duohaus.com.br/wp-content/uploads/2021/07/massagemodeladora1.jpeg'" :name='id'  style="max-height: 50%; min-height: 35%;">
             <slot/>
         </v-img>
@@ -58,6 +58,7 @@ interface ItemInterface {
     loading?: boolean,
     height?: string,
     width?: string,
+    bgColor?: string
 }
 defineProps<ItemInterface>()
 </script>

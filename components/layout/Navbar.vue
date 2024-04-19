@@ -79,7 +79,6 @@
                     <layoutCartPreview/>
                 </v-menu>
                 <v-btn :aria-label="data.session ? 'sair da conta': 'logar na conta'" @click="data.session ? handleSignOut() : navigateTo('/auth')"}>
-                    {{ data.session }}
                     <v-icon v-if='!data.session'> mdi-account-outline</v-icon>
                     <v-icon v-else> mdi-exit-run</v-icon>
                 </v-btn>

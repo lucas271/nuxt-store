@@ -52,11 +52,10 @@
             </div>
         </v-card>
     </v-container>
-    <v-sheet class="w-100 pa-8" v-if="selectedProducts.filter((product: any) => productStore?.product?.id !== productStore.product?.id).length > 0">
+    <v-container class="w-100 pa-8" v-if="selectedProducts.filter((product: any) => productStore?.product?.id !== product?.id).length > 0">
         <h3 class="my-5 text-teal-darken-3">Outros items recomendados </h3>
 
         <v-slide-group >
-
             <v-slide-group-item v-for="product in selectedProducts.filter((product: any) => productStore?.product?.id !== product?.id)">
                 <div class="mr-4 responsive-item my-auto " style="width: fit-content; height: fit-content;"> 
                     <sharedItem     
@@ -76,7 +75,7 @@
                 </div>
             </v-slide-group-item>
         </v-slide-group>
-    </v-sheet>
+    </v-container>
     <sharedMessagesContainer :comments='messageStore.messages' :productId='route?.params?.id'/>
 </template>
 
