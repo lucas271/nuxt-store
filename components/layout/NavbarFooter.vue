@@ -8,7 +8,7 @@
             </v-btn>
 
             <v-btn :aria-label="!data?.session ? 'ir para pagina de autentificação' : 'sair'" class="h-100 text-subtitle-1 px-3" @click="navigateTo('auth')">
-                <v-icon v-if="!session?.value" >mdi-account-outline</v-icon>
+                <v-icon v-if="!data?.session" >mdi-account-outline</v-icon>
                 <v-icon v-else >mdi-exit-run</v-icon>
             </v-btn>
 
@@ -26,7 +26,6 @@
 
     const client = useSupabaseClient()
     const cartStore = useCartStore()
-    const session = useSupabaseSession()
     const { data, error } = await client.auth.getSession()
 
 </script>
