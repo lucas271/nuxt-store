@@ -12,7 +12,7 @@
                 <v-icon v-else >mdi-exit-run</v-icon>
             </v-btn>
 
-            <v-btn aria-label="ir para favoritos" class="h-100 text-subtitle-1 px-3" v-if="data?.session" @click="navigateTo('wishList')">
+            <v-btn aria-label="ir para favoritos" class="h-100 text-subtitle-1 px-3" v-if="data?.session" @click="navigateTo('/wishList')">
                 <v-icon>mdi-heart-outline</v-icon>
             </v-btn>
         </v-bottom-navigation>
