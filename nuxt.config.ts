@@ -12,12 +12,6 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
-  routeRules: {
-    '/item/**': {swr: 3600, prerender: true},
-    '/item': {ssr: true, swr: 3600},
-    '/': {ssr: true, swr: 3600, prerender: true},
-    '/cart': {swr: 3600}
-  },
   modules: [
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {

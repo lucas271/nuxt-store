@@ -79,7 +79,7 @@
                     <layoutCartPreview/>
                 </v-menu>
                 <v-btn v-if="data" :aria-label="'sair da conta'" class="text-subtitle-1" @click="handleSignOut()">
-                    <v-icon v-if='data'>  mdi-exit-run</v-icon>
+                    <v-icon>  mdi-exit-run</v-icon>
                 </v-btn>
                 <v-btn v-else :aria-label="'logar na conta'" class="text-subtitle-1" @click="navigateTo('/auth')">
                     <v-icon>mdi-account-outline</v-icon>
