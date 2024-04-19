@@ -25,14 +25,13 @@ export default defineNuxtConfig({
     "nuxt-csurf",
   ],
   csurf: { 
-    https: false, 
+    https: true, 
     cookie: { 
       path: '/',
       httpOnly: true,
       sameSite: 'strict'
     },
     methodsToProtect: ['POST', 'PUT', 'PATCH'], // the request methods we want CSRF protection for
-    encryptAlgorithm: 'aes-256-cbc', // by default '' (node), 'AES-CBC' (serverless)
   },
   supabase:{
     redirect: false

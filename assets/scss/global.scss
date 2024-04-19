@@ -2,7 +2,7 @@
     height: calc(100vh - 60px);
 }
 .v-btn{
-    cursor: pointer;
+    cursor: pointer !important;
 }
 .main-min-height{
     min-height: calc(100vh);
