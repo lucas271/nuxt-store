@@ -78,9 +78,13 @@
                     </template>
                     <layoutCartPreview/>
                 </v-menu>
-                <v-btn :aria-label="data ? 'sair da conta': 'logar na conta'" class="text-subtitle-1" @click="data ? handleSignOut() : navigateTo('/auth')">
-                    <v-icon v-if='isUserActive'>  mdi-exit-run</v-icon>
-                    <v-icon v-else>mdi-account-outline</v-icon>
+                <v-btn v-if="data" :aria-label="data ? 'sair da conta': 'logar na conta'" class="text-subtitle-1" @click="data ? handleSignOut() : navigateTo('/auth')">
+                    <v-icon v-if='data'>  mdi-exit-run</v-icon>
+                
+                </v-btn>
+                <v-btn v-else :aria-label="data ? 'sair da conta': 'logar na conta'" class="text-subtitle-1" @click="data ? handleSignOut() : navigateTo('/auth')">
+                    <v-icon v-if='data'>  mdi-exit-run</v-icon>
+                
                 </v-btn>
             </div>
 
@@ -113,14 +117,8 @@
     const client = useSupabaseClient()
     const products = ref<any[] | {errors: string[]}>([])
     const data =  (await client.auth.getSession()).data.session?.user
-    const isUserActive = ref<boolean>(false) 
     const cartStore = useCartStore()
 
-
-    watch(data, (cv) => {
-        console.log(cv)
-        isUserActive.value = cv ? true : false
-    })
     const handleOutsideClick = (e: any) => {
         if(searchRef.value?.contains(e.target) || responseRef.value?.$el?.contains(e.target) || e.target === responseRef.value?.$el || e.target === searchRef.value) return
         isSearchResponseFocused.value = false
