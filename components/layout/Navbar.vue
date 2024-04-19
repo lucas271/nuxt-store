@@ -1,7 +1,7 @@
 
 
 <template>
-    <v-app-bar :elevation="2" rounded height="70" class="allow_overflow text-teal-darken-4 overflow-visible" style="overflow: visible !important; z-index: 1012; ">
+    <v-app-bar :elevation="2" rounded height="60" class="allow_overflow text-teal-darken-4 overflow-visible" style="overflow: visible !important; z-index: 1012; ">
         <template v-slot:prepend >
             <v-app-bar-title @click="navigateTo('/')" class="cursor-pointer text-sm-h5 text-h6">LifeCris</v-app-bar-title>
         </template>
@@ -64,12 +64,12 @@
         <v-spacer />
         <template v-slot:append>
             <div class="d-none d-sm-flex">
-                <v-btn aria-label="ir para Favoritos" v-if='data.session' @click="navigateTo('/wishList')">
+                <v-btn aria-label="ir para Favoritos"  class="text-subtitle-1" v-if='data.session' @click="navigateTo('/wishList')">
                     <v-icon>mdi-heart-outline</v-icon>
                 </v-btn>
                 <v-menu :close-on-content-click="false">
                     <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props" aria-label="abrir preview do carrinho">
+                        <v-btn v-bind="props" aria-label="abrir preview do carrinho" class="text-subtitle-1">
 
                             <v-badge floating tag="span" offset-y="28" offset-x="10" :content="cartStore.cartProducts.reduce((cv, pv) => ({quantity: cv.quantity + pv.quantity}), {quantity: 0}).quantity">
                                 <v-icon>mdi-cart-outline</v-icon>
@@ -78,7 +78,7 @@
                     </template>
                     <layoutCartPreview/>
                 </v-menu>
-                <v-btn :aria-label="data.session ? 'sair da conta': 'logar na conta'" @click="data.session ? handleSignOut() : navigateTo('/auth')"}>
+                <v-btn :aria-label="data.session ? 'sair da conta': 'logar na conta'" class="text-subtitle-1" @click="data.session ? handleSignOut() : navigateTo('/auth')"}>
                     <v-icon v-if='!data.session'> mdi-account-outline</v-icon>
                     <v-icon v-else> mdi-exit-run</v-icon>
                 </v-btn>
