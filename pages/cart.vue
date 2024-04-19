@@ -2,8 +2,8 @@
         <v-container class="full-height-minus-navheader w-100 responsive-height">
             <v-card class="h-100 w-100 d-flex flex-column justify-space-between pa-3 bg-teal-lighten-4 ">
                 <header class='text-teal-darken-4'>
-                    <v-card-title class="text-center font-weight-bold text-sm-left text-wrap text-uppercase ">Carrinho de compras</v-card-title>
-                    <v-card-subtitle class="text-wrap text-caption text-sm-subtitle-2">Ao clicar em comprar você será redirecionado para o whatsapp com uma mensagem indicando os produtos selecionados.</v-card-subtitle>
+                    <v-card-title class="text-center font-weight-bold text-sm-left text-wrap text-uppercase " tag="h2">Carrinho de compras</v-card-title>
+                    <v-card-subtitle class="text-wrap text-caption text-sm-subtitle-2" tag="p">Ao clicar em comprar você será redirecionado para o whatsapp com uma mensagem indicando os produtos selecionados.</v-card-subtitle>
                 </header>
                 
                 <div class="d-flex flex-column ga-4 overflow-auto my-3 h-100 w-100 flex-grow-1 flex-shrink-1" >
@@ -11,7 +11,7 @@
 
                     <template v-if="!cartStore.loading" >
                         <template v-if="cartStore.cartProducts.length > 0" v-for='product in cartStore.cartProducts'>
-                            <v-card-title class="text-sm-h6 text-center text-subtitle-1 text-wrap font-weight-bold">{{product.product.name}}</v-card-title>
+                            <v-card-title tag="h3" class="text-sm-h6 text-center text-subtitle-1 text-wrap font-weight-bold">{{product.product.name}}</v-card-title>
 
                             <div class="w-100 d-flex align-center" >
 
@@ -19,7 +19,7 @@
                                     <div class="d-flex flex-shrink-1 flex-grow-1 h-100 w-100 justify-space-between align-center overflow-hidden">
                                         <v-img class="w-50 h-100"  :src="product.product.img"/>
                                         <article class=" w-50 pa-1 pa-sm-2 ga-2 justify-center align-md-start align-center d-flex flex-column h-100">
-                                            <v-card-subtitle class="text-sm-subtitle-1 text-subtitle-2 text-wrap text-center text-md-start overflow-auto flex-shrink-1 mx-0 pa-0" >{{product.product.description}}</v-card-subtitle>
+                                            <v-card-subtitle tag="h4" class="text-sm-subtitle-1 text-subtitle-2 text-wrap text-center text-md-start overflow-auto flex-shrink-1 mx-0 pa-0" >{{product.product.description}}</v-card-subtitle>
                                             <p class="pa-0 ma-0 text-body-1 text-wrap text-grey-darken-3 text-sm-start text-sm-subtitle-2">R${{product.product.price.toFixed(2).replace('.', ',')}}</p>
                                         </article>
                                     </div>
@@ -43,11 +43,11 @@
 
                         </template>
 
-                            <article v-else class='h-100 d-flex justify-center align-center ga-3 flex-column'>
-                                <h3 class='text-h3'> Carrinho vazio! </h3>
-                                <p class='text-subtitle-1 mb-3'> Infelizmente seu carrinho está vazio...</p>
+                            <span v-else class='h-100 d-flex justify-center align-center ga-3 flex-column'>
+                                <span class='text-h3'> Carrinho vazio! </span>
+                                <span class='text-subtitle-1 mb-3'> Infelizmente seu carrinho está vazio...</span>
                                 <v-btn variant='tonal' @click="navigateTo('/item')"> Procurar itens </v-btn>
-                            </article>
+                            </span>
 
                     </template>
                     <template v-else>

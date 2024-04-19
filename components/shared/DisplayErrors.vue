@@ -1,5 +1,5 @@
 <template>
-    <v-card class="bg-red d-flex justify-space-around flex-column w-100" v-if="errors.length > 0" height="200px">
+    <v-card tag="span" class="bg-red d-flex justify-space-around flex-column w-100" v-if="errors.length > 0" height="200px">
         
         <v-card-title class="text-h5">Erro</v-card-title>
         <template v-if="!loading">

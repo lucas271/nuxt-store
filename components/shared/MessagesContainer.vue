@@ -8,7 +8,7 @@
                     </template>
                     <template v-else>
                         <v-sheet class="bg-grey d-flex justify-center align-center pa-6 ga-4">
-                            <h4>Voce precisa ter uma conta para postar um comentário:</h4>
+                            <span>Voce precisa ter uma conta para postar um comentário!</span>
                             <v-btn variant='tonal' @click="navigateTo('/auth')">Entrar</v-btn>
                         </v-sheet>
                     </template>
@@ -23,7 +23,7 @@
             <div class="mx-auto my-5  rounded-lg" style='width: 90%;' v-else>
                 <div class="d-flex flex-column ga-2 pa-3 bg-grey" v-if='!messageStore.loading' v-for='comment in comments?.filter(comment => comment?.userId === user?.id)'>
                     <div class="d-flex justify-space-between flex-wrap w-100 align-center px-6">
-                        <v-card-title>
+                        <v-card-title tag="h4">
                             Seus comentários:
                         </v-card-title>
                         <v-card-actions v-if="!isEditComment">
@@ -44,7 +44,7 @@
                     <v-progress-circular indeterminate/>
                 </div>
             </div>
-            <v-card-title>Comentários ({{comments?.length || 0}})</v-card-title>
+            <v-card-title tag="h4">Comentários ({{comments?.length || 0}})</v-card-title>
             <div class="d-flex flex-column ga-2 pa-3" v-if='!messageStore.loading' v-for='comment in comments?.filter(comment => comment?.userId !== user?.id)'> 
                 <sharedMessage :message='comment?.message' :updated_at="comment?.updated_at" :created_at="comment?.created_at" :userId='comment?.userId' :id='comment?.id' :userName='comment?.username' :rate='comment?.Rating?.rate'/>
             </div>

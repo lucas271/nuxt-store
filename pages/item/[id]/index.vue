@@ -8,12 +8,10 @@
             <v-img class="text-start responsive_img " :alt="'imagem ' + productStore.product.name ? 'de' + productStore.product.name : 'não encontrada'"  cover :src="productStore.product?.img"/>
             <div class="ga-3 flex-column flex-shrink-1 overflow-hidden d-flex justify-space-between flex-grow-1 pa-sm-5 pa-6">
                 <article class="d-flex flex-column w-100 ga-3 overflow-hidden">
-                    <v-card-title v-if='productStore.product?.name' class="text-sm-h4 text-h6 font-weight-bold text-wrap py-1 px-0 ma-0">
+                    <v-card-title tag="h2" v-if='productStore.product?.name' class="text-sm-h4 text-h6 font-weight-bold text-wrap py-1 px-0 ma-0">
                         {{productStore.product?.name}}
                     </v-card-title>
-                    <div class="flex-shrink-1 flex-grow-1">
-                        <v-card-subtitle class="pa-0 text-sm-subtitle-1 text-subtitle-2 flex-shrink-1 overflow-auto text-wrap">{{productStore.product?.title}}</v-card-subtitle>
-                    </div>
+                    <v-card-subtitle tag="p"  class="pa-0 flex-shrink-1 flex-grow-1 text-sm-subtitle-1 text-subtitle-2 flex-shrink-1 overflow-auto text-wrap">{{productStore.product?.title}}</v-card-subtitle>
 
                     <v-chip-group>
                         <v-chip class="text-sm-body-2 text-caption"> {{ productStore.product?.sessions }} {{productStore.product?.sessions && productStore.product?.sessions > 1 ? 'sessões' : 'sessão'}} </v-chip>
@@ -52,7 +50,7 @@
             </div>
         </v-card>
     </v-container>
-    <v-container class="w-100 pa-8" v-if="selectedProducts.filter((product: any) => productStore?.product?.id !== product?.id).length > 0">
+    <v-container tag="section" class="w-100 pa-8" v-if="selectedProducts.filter((product: any) => productStore?.product?.id !== product?.id).length > 0">
         <h3 class="my-5 text-teal-darken-3">Outros items recomendados </h3>
 
         <v-slide-group >
@@ -76,7 +74,7 @@
             </v-slide-group-item>
         </v-slide-group>
     </v-container>
-    <sharedMessagesContainer :comments='messageStore.messages' :productId='route?.params?.id'/>
+    <sharedMessagesContainer tag="section" :comments='messageStore.messages' :productId='route?.params?.id'/>
 </template>
 
 <script setup lang='ts'>

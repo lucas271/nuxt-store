@@ -40,7 +40,7 @@
                     <sharedProductStepper :properties="{isForm: isForm}" @stepperClose='isForm = false'/>
                 </v-card>
             </v-sheet>
-            <template v-slot:icon-slot="{ data }">
+            <template v-slot:icon-slot>
                 <sharedAdminProductIcons @editProduct='e => edit = edit.find(product => product.value === e.value) ? [...edit.filter(product => product.value !== e.value), e] : [...edit, e] '/>
             </template>
         </sharedItemsGrid>

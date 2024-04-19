@@ -8,20 +8,20 @@
                 </v-img>
             </v-avatar>
             <div class="d-flex flex-column justify-space-evenly" :style="{minWidth: '45%',}">
-                <div>
-                    <v-card-title class='text-h6 text-wrap text-sm-h5'>Não sabe o que quer?</v-card-title>
-                    <v-card-subtitle class="text-wrap text-subtitle-2 text-sm-subtitle-1">Descubra algumas das possibilidades.</v-card-subtitle>
-                </div>
+                <article>
+                    <v-card-title tag="h5" class='text-h6 text-wrap text-sm-h5'>Não sabe o que quer?</v-card-title>
+                    <v-card-subtitle tag="p" class="text-wrap text-subtitle-2 text-sm-subtitle-1">Descubra algumas das possibilidades.</v-card-subtitle>
+                </article>
 
                 <div>
-                    <v-card-text class="text-wrap text-caption">O teste irá te apresentar alguns dos tratamentos disponiveis para o seu caso</v-card-text>
+                    <v-card-text tag="span" class="text-wrap text-caption">O teste irá te apresentar alguns dos tratamentos disponiveis para o seu caso</v-card-text>
                     <v-card-actions>
                         <v-btn variant="outlined" @click='overlay = true'>Fazer o teste</v-btn>
                         <v-overlay v-model='overlay' class='d-flex justify-center align-center'>
                             <v-card height='88vh' width='90vw' class=' bg-teal-darken-3 d-flex flex-column ga-2' >
                                 <v-btn @click='overlay = false' position='absolute'  style='right: 1.8%; top:1.5%' class="text-caption" icon='mdi-close' variant='tonal' density='comfortable'> </v-btn>
                                 <div class='text-center my-sm-5 mt-2'>
-                                    <v-card-title class='text-sm-h4 text-subtitle-1 font-weight-bold text-break pa-sm-3 pa-0'> Questionario </v-card-title>
+                                    <v-card-title tag="h6" class='text-sm-h4 text-subtitle-1 font-weight-bold text-break pa-sm-3 pa-0'> Questionario </v-card-title>
 
                                     <p class='text-caption text-sm-subtitle-2 text-grey-lighten-2 text-break d-none d-sm-inline'> Descubra o tratamento ideal para você! </p>
 
@@ -64,7 +64,7 @@
                                     </v-window-item>
                                     <v-window-item :key="1" class="h-100">
                                         <div class="d-flex flex-column h-100 overflow-hidden justify-space-evenly align-center">
-                                            <v-card-title class="text-sm-h4 text-subtitle-2 mx-0 pa-0 text-wrap w-100 text-center font-weight-bold">
+                                            <v-card-title tag="h6" class="text-sm-h4 text-subtitle-2 mx-0 pa-0 text-wrap w-100 text-center font-weight-bold">
                                                 Que tipo de tratamento você quer? 
                                             </v-card-title>
              
@@ -97,7 +97,7 @@
                                     </v-window-item>
                                     <v-window-item :key="1" class="h-100">
                                         <div class="d-flex flex-column h-100 overflow-hidden justify-space-evenly align-center">
-                                            <v-card-title class="text-sm-h4 text-subtitle-2 mx-0 pa-sm-3 text-wrap w-100 text-center font-weight-bold">
+                                            <v-card-title tag="h6" class="text-sm-h4 text-subtitle-2 mx-0 pa-sm-3 text-wrap w-100 text-center font-weight-bold">
                                                 Tratamentos sugeridos
                                             </v-card-title> 
                                             <v-container class="d-flex justify-center flex-grow-1 flex-shrink-1 align-center overflow-hidden mx-sm-auto" v-if='!loading'>
@@ -126,7 +126,7 @@
                                     </v-window-item>
                                 </v-window>
                                 <v-divider/>
-                                <v-card-actions>
+                                <v-card-actions tag="span">
                                     <v-btn variant='tonal' v-if='step.currentStep > 0' @click='step.currentStep > 0 && step.currentStep--'> Voltar </v-btn>
                                     <v-spacer/>
                                     <v-btn variant='tonal' @click="(step.currentStep + 1 === 1 ? selectedOptions.step1 : step.currentStep + 1 === 2 && (selectedOptions?.step2Face || selectedOptions?.step2Body)) ? (step.currentStep + 1 < step.numberOfSteps && step.currentStep++): overlay = false"> {{step.currentStep + 1 < step.numberOfSteps ? 'proximo' : 'sair'}} </v-btn>

@@ -1,51 +1,54 @@
 <template>
-    <v-text-field placeholder="Pesquisar tratamento" name="Pesquisar tratamento" class="w-100" id="startsWith" v-model="filter.startsWith"></v-text-field>
+    <section class="h-100 w-100">
+        <v-text-field tag="h2" placeholder="Pesquisar tratamento" name="Pesquisar tratamento" class="w-100" id="startsWith" v-model="filter.startsWith"></v-text-field>
 
-    <div class="d-flex ga-3 w-100  flex-sm-row flex-column align-end">
-        <div class="d-flex flex-column w-100 h-100 w-100 flex-grow-1 ga-3">
-            <div class="w-100 h-25">
-                <v-select
-                :items="['Menor valor', 'Maior valor', 'Mais vendidos', 'Mais Novos']"
-                density="compact"
-                v-model="sortBySelected"
-                label="Ordenar por"
-                name="Ordenar Por"
-                id="orderBy"
-                />
-            </div>
-            <div class="w-100 h-75">
-                <v-combobox id="sessions" placeholder="selecione o numero de sessões" name="selecionador numero de sessões" :items="['1 sessão', '5 sessões', '10 sessões']" v-model="filter.sessions" chips  class="w-100" multiple>
-
-                </v-combobox>
-
-            </div>
-        </div>
-
-        <div class="h-100 w-100 d-flex flex-grow-1 flex-shrink-1 flex-column ga-3">
-                <div  class="h-25 w-100">
-                    <v-range-slider
-                        id="priceSlider"
-                        v-model="filter.priceRange"
-                        thumb-label
-                        min="0"
-                        name="range de preço"
-                        :max="maxPrice"
-                        thumb-size="15"
-                    ></v-range-slider>
+        <div class="d-flex ga-3 w-100  flex-sm-row flex-column align-end">
+            <div class="d-flex flex-column w-100 h-100 w-100 flex-grow-1 ga-3">
+                <div class="w-100 h-25">
+                    <v-select
+                    :items="['Menor valor', 'Maior valor', 'Mais vendidos', 'Mais Novos']"
+                    density="compact"
+                    v-model="sortBySelected"
+                    label="Ordenar por"
+                    name="Ordenar Por"
+                    id="orderBy"
+                    />
                 </div>
+                <div class="w-100 h-75">
+                    <v-combobox id="sessions" placeholder="selecione o numero de sessões" name="selecionador numero de sessões" :items="['1 sessão', '5 sessões', '10 sessões']" v-model="filter.sessions" chips  class="w-100" multiple>
 
-                <div class="h-75 text-subtitle-2">
-                    <div class="w-100 flex-grow-1">
-                        <v-combobox id="categorySelect" placeholder="Ex: flacidez" name="selecionador de categorias" :items="categoryStore.categories.length > 0 ? categoryStore.categories.map(category => {
-        return category.name
-    }) : []" chips v-model="filter.categoriesSelected" class="w-100" multiple>
+                    </v-combobox>
 
-                        </v-combobox>
+                </div>
+            </div>
+
+            <div class="h-100 w-100 d-flex flex-grow-1 flex-shrink-1 flex-column ga-3">
+                    <div  class="h-25 w-100">
+                        <v-range-slider
+                            id="priceSlider"
+                            v-model="filter.priceRange"
+                            thumb-label
+                            min="0"
+                            name="range de preço"
+                            :max="maxPrice"
+                            thumb-size="15"
+                        ></v-range-slider>
                     </div>
-                </div>
+
+                    <div class="h-75 text-subtitle-2">
+                        <div class="w-100 flex-grow-1">
+                            <v-combobox id="categorySelect" placeholder="Ex: flacidez" name="selecionador de categorias" :items="categoryStore.categories.length > 0 ? categoryStore.categories.map(category => {
+                                return category.name
+                            }) : []" chips v-model="filter.categoriesSelected" class="w-100" multiple>
+
+                            </v-combobox>
+                        </div>
+                 </div>
             </div>
         </div>
         <v-btn @click="resetFilter">Resetar filtros</v-btn>
+    </section>
+    
 </template>
 
 <script lang="ts" setup>
