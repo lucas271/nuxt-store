@@ -11,9 +11,12 @@
                     </v-card-subtitle>
                 </article>
                 <div class="flex-grow-1 flex-shrink-1 w-100 overflow-hidden">
-                    <v-img alt="imagem mulher sentada" height='auto'  width='100%' src="https://images.pexels.com/photos/8158947/pexels-photo-8158947.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+                    <v-lazy>
+                        <v-img alt="imagem mulher sentada" preload height='auto'  width='100%' src="https://images.pexels.com/photos/8158947/pexels-photo-8158947.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
 
-                    </v-img >
+                        </v-img >
+                    </v-lazy>
+
                 </div>
             </div>
                 <div class="w-100 h-100 d-flex flex-column justify-space-between ">
