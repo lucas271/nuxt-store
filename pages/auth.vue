@@ -223,7 +223,7 @@ useSeoMeta({
     title: `Autenticação`,
     ogTitle: `Autenticação`,
     description: "Faça login na pagina estetica life cris e desbloqueie novas funcionalidades",
-    keywords: 'bioestimuladores, drenagem, pump_up, celulite, pós operatório, limpeza de pele',
+    keywords: 'tratamento1, tratamento2, tratamento3',
 })
 definePageMeta({
     layout: 'empty',

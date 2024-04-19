@@ -106,9 +106,9 @@
 
 
     useSeoMeta({
-        title: `${productStore.product?.name} - localizado Proximo ao km32, jardim paraíso`,
+        title: `${productStore.product?.name}`,
         ogTitle: productStore.product?.name || '',
-        description: productStore.product?.description + ' Estamos localizados em nova iguaçu, Jardim paraíso. Proximo ao km32.' || 'Esse produto ira te auxiliar a tratar o que te incomoda em sua aparência fisica.',
+        description: productStore.product?.description || 'Esse produto ira te auxiliar a tratar o que te incomoda em sua aparência fisica.',
         ogImage: productStore.product?.img || '',
         keywords: productStore.product?.category_name?.join(', ') || '',
     })
