@@ -1,6 +1,9 @@
 .full-height-minus-navheader{
     height: calc(100vh - 60px);
 }
+.v-btn{
+    cursor: pointer;
+}
 .main-min-height{
     min-height: calc(100vh);
 }

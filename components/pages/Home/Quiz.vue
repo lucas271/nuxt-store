@@ -11,10 +11,11 @@
                 <article>
                     <v-card-title tag="h5" class='text-h6 text-wrap text-sm-h5'>Não sabe o que quer?</v-card-title>
                     <v-card-subtitle tag="p" class="text-wrap text-subtitle-2 text-sm-subtitle-1">Descubra algumas das possibilidades.</v-card-subtitle>
+                    <v-card-text class="text-wrap text-body-1">O teste irá te apresentar alguns dos tratamentos disponiveis para o seu caso</v-card-text>
+
                 </article>
 
                 <div>
-                    <v-card-text tag="span" class="text-wrap text-caption">O teste irá te apresentar alguns dos tratamentos disponiveis para o seu caso</v-card-text>
                     <v-card-actions>
                         <v-btn variant="outlined" @click='overlay = true'>Fazer o teste</v-btn>
                         <v-overlay v-model='overlay' class='d-flex justify-center align-center'>

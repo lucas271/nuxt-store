@@ -64,7 +64,7 @@
         <v-spacer />
         <template v-slot:append>
             <div class="d-none d-sm-flex">
-                <v-btn aria-label="ir para Favoritos"  class="text-subtitle-1" v-if='data.session' @click="navigateTo('/wishList')">
+                <v-btn aria-label="ir para Favoritos"  class="text-subtitle-1" v-if='data' @click="navigateTo('/wishList')">
                     <v-icon>mdi-heart-outline</v-icon>
                 </v-btn>
                 <v-menu :close-on-content-click="false">
@@ -78,8 +78,8 @@
                     </template>
                     <layoutCartPreview/>
                 </v-menu>
-                <v-btn :aria-label="data.session ? 'sair da conta': 'logar na conta'" class="text-subtitle-1" @click="data.session ? handleSignOut() : navigateTo('/auth')"}>
-                    <v-icon v-if='!data.session'> mdi-account-outline</v-icon>
+                <v-btn :aria-label="data ? 'sair da conta': 'logar na conta'" class="text-subtitle-1" @click="data ? handleSignOut() : navigateTo('/auth')">
+                    <v-icon v-if='!data'> mdi-account-outline</v-icon>
                     <v-icon v-else> mdi-exit-run</v-icon>
                 </v-btn>
             </div>
@@ -112,7 +112,7 @@
     const searchbarQuery = ref<string>('')
     const client = useSupabaseClient()
     const products = ref<any[] | {errors: string[]}>([])
-    const { data } = await client.auth.getSession()
+    const data =  (await client.auth.getSession()).data.session?.user ? true : false
     const cartStore = useCartStore()
 
     const handleOutsideClick = (e: any) => {
