@@ -30,13 +30,11 @@ import { onMounted } from 'vue';
         const triggerPoint = 100;
         const isHiddenCv = triggerPoint > window.scrollY
         isHidden.value = isHidden.value === true ? isHiddenCv : isHidden.value
-        console.log(isHiddenCv, isHidden.value)
         if(isHiddenCv === true && isHidden.value === false) {
             const btnDomElement = btnRef?.value?.$el
-            if(!btnDomElement) return console.log('kkkk')
+            if(!btnDomElement) return 
             currentClass.value = 'slide-out-to-right'
             btnDomElement.addEventListener('animationend', (e) => {
-                console.log('oab')
                 isHidden.value = true
                 currentClass.value = 'slide-in-from-left'
             })
