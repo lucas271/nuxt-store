@@ -4,10 +4,10 @@
             <div class="d-flex h-100 flex-column overflow-hidden justify-space-between align-center ga-6 w- flex-shrink text-break word-break">
                 <article class="w-100  text-left">
                     <v-card-title class="text-sm-h2 text-h3 text-teal-darken-4 text-wrap mx-0 px-0 overflow-visible" tag="h3">
-                        LifeCris
+                        Company name
                     </v-card-title>
                     <v-card-subtitle tag="p" class="mt-3 ml-1 text-sm-subtitle-1 text-subtitle-2 pa-0 ma-0 t text-teal-darken-3 text-wrap">
-                        Clinica de estética com o melhor preço do mercado
+                        RANDOM SUBTITLE TEST
                     </v-card-subtitle>
                 </article>
                 <div class="flex-grow-1 flex-shrink-1 w-100 overflow-hidden">
@@ -21,8 +21,8 @@
             </div>
                 <div class="w-100 h-100 d-flex flex-column justify-space-between ">
                     <span>
-                        <v-card-title tag="span" class="font-weight-bold text-teal-darken-4 text-subtitle-1  text-wrap  text-sm-h5">Equilíbrio e harmonia em cada medida.</v-card-title>
-                        <v-card-subtitle tag="span" class="font-weight-bold text-teal-darken-3 text-wrap text-subtitle-2">Cuide de você e encontre sua melhor versão.</v-card-subtitle>
+                        <v-card-title tag="span" class="font-weight-bold text-teal-darken-4 text-subtitle-1  text-wrap  text-sm-h5">Random slogan here.</v-card-title>
+                        <v-card-subtitle tag="span" class="font-weight-bold text-teal-darken-3 text-wrap text-subtitle-2">RANDOM SUB SLOGAN HERE</v-card-subtitle>
                     </span>
 
 

@@ -62,7 +62,7 @@
         id?: string, 
         quantity?: number | null,
         name?: string,
-        category_name?: string[]
+        category_name?: any[]
         sessions?: number,
         bodyPart?: string,
     }
@@ -71,7 +71,7 @@
     const props = defineProps<{properties?: PropertiesInterface, isEdit?: boolean}>()
     const properties = ref<{properties: PropertiesInterface}>({isForm: false, title: '', img: '', category_name: [], name: '', quantity: null, id: '', description: '', price: null, sessions: 1, type:''})
     onMounted(() => {
-        properties.value = props.properties ? {...props.properties} : properties.value
+        properties.value = props.properties ? {...props.properties, category_name: props.properties?.category_name?.map(category => category.category_name)} : properties.value
     })
 
     const currentStep = ref<1 | 2 | 3>(1)

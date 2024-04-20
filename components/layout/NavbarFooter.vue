@@ -6,10 +6,11 @@
                     <v-icon>mdi-cart-outline</v-icon>
                 </v-badge>
             </v-btn>
+            {{ data.session ? true : false }}
 
             <v-btn :aria-label="!data?.session ? 'ir para pagina de autentificação' : 'sair'" class="h-100 text-subtitle-1 px-3" @click="navigateTo('auth')">
                 <v-icon v-if="!data?.session" >mdi-account-outline</v-icon>
-                <v-icon v-else >mdi-exit-run</v-icon>
+                <v-icon v-if="data.session" >mdi-exit-run</v-icon>
             </v-btn>
 
             <v-btn aria-label="ir para favoritos" class="h-100 text-subtitle-1 px-3" v-if="data?.session" @click="navigateTo('wishList')">
