@@ -25,11 +25,11 @@ export default defineNuxtConfig({
     "nuxt-csurf",
   ],
   routeRules:{
-    '/': {isr: true},
-    '/item': {isr: true},
+    '/': {isr: 3600},
+    '/item': {isr: 3600},
     '/item/**': {static: true, prerender: true},
-    '/cart': {isr: true},
-    '/wishList': {isr: true}
+    '/cart': {isr: 3600},
+    '/wishList': {isr: 3600}
 
   },
   csurf: { 
@@ -39,7 +39,6 @@ export default defineNuxtConfig({
       httpOnly: true,
       sameSite: 'strict'
     },
-    encryptAlgorithm: 'AES-CBC',
     methodsToProtect: ['POST', 'PUT', 'PATCH'], // the request methods we want CSRF protection for
   },
   supabase:{
