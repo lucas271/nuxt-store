@@ -54,7 +54,7 @@
                             </v-list-item-title>
                         </v-list-item>
                     </template>
-                    <v-list-item class='bg-red d-flex justify-center align center' v-for='error in products?.errors' v-else>
+                    <v-list-item class='bg-red d-flex justify-center align center' v-else>
                         <v-progress-circular indeterminate />
                     </v-list-item>
 
@@ -81,7 +81,7 @@
                 <v-btn v-if="data" :aria-label="'sair da conta'" class="text-subtitle-1" @click="handleSignOut()">
                     <v-icon>  mdi-exit-run</v-icon>
                 </v-btn>
-                <v-btn v-else :aria-label="'logar na conta'" class="text-subtitle-1" @click="navigateTo('/auth')">
+                <v-btn v-if="!data" :aria-label="'logar na conta'" class="text-subtitle-1" @click="navigateTo('/auth')">
                     <v-icon>mdi-account-outline</v-icon>
                 
                 </v-btn>
