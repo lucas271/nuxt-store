@@ -39,7 +39,6 @@ export default defineNuxtConfig({
       httpOnly: true,
       sameSite: 'strict'
     },
-    encryptAlgorithm: 'AES-CBC',
     methodsToProtect: ['POST', 'PUT', 'PATCH'], // the request methods we want CSRF protection for
   },
   supabase:{
