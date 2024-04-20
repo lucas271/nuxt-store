@@ -25,11 +25,11 @@ export default defineNuxtConfig({
     "nuxt-csurf",
   ],
   routeRules:{
-    '/': {isr: 3600},
-    '/item': {isr: 3600},
+    '/': {isr: true},
+    '/item': {isr: true},
     '/item/**': {static: true, prerender: true},
-    '/cart': {isr: 3600},
-    '/wishList': {isr: 3600}
+    '/cart': {isr: true},
+    '/wishList': {isr: true}
 
   },
   csurf: { 
