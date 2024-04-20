@@ -14,14 +14,14 @@
                 <sharedDefaultProductIcons y='top'/>
             </template>
         </sharedItemsGrid>
-        <v-pagination v-model="cvPage" :take="take" :length="Math.ceil(productStore.productCount / take)"></v-pagination>
+        <v-pagination v-model="cvPage" :take="take" :length="Math.ceil(productStore?.productCount / take)"></v-pagination>
     </v-container>
 </template>
 
 <script lang="ts" setup>
 
-    import {useProductStore} from '../../lib/services/productStore.ts'
-    import {useWishListStore} from '../../lib/services/wishListStore.ts'
+    import {useProductStore} from '../../lib/services/productStore'
+    import {useWishListStore} from '../../lib/services/wishListStore'
     const filter = useFilterState()
     const cvPage = ref<number>(1)
     const take = ref<number>(5)
@@ -35,13 +35,14 @@
     })
 
 
-    onMounted(async () => {
         watch(cvPage, async () => {
-            await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value)
+            await useAsyncData('products', async () => await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value).then(() => {
+                return productStore.products
+            }))
         })
-
-        await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value)
-        wishListStore.getAllWishListProducts()
-    })
+        await useAsyncData('products', async () => await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value).then(() => {
+            return productStore.products
+        }))
+        await useAsyncData('wishlist', async () => await wishListStore.getAllWishListProducts().then(() => wishListStore.wishList))
 
 </script>

@@ -28,10 +28,10 @@
         const isSure = confirm('Tem certeza que deseja remover todos os items do seus favoritos?')
         isSure && await wishListStore.removeAllFromWishList()
     }
-    onMounted(async () => {
-        await wishListStore.getAllWishListProducts()
+    await useAsyncData('wishlist', async () => await wishListStore.getAllWishListProducts().then(() => {
+        return wishListStore.wishList
+    }))
 
-    })
     definePageMeta({
         middleware: 'need-user'
     })

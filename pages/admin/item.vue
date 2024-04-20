@@ -60,9 +60,13 @@
     const isForm = ref<boolean>(false)
     const productStore = useProductStore()
     watch(cvPage, async () => {
-        await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value)
+        await useAsyncData('products', async () => await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value).then(() => {
+            return productStore.products
+        }))
     })
-    await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value)
+    await useAsyncData('products', async () => await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value).then(() => {
+        return productStore.products
+    }))
     useHead({
         meta: [
             {
