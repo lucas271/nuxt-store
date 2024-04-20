@@ -28,7 +28,12 @@ export const useCartStore = defineStore('cart', () => {
     async function getCart(){
         try {
             const isLogged = (await useSupabaseClient().auth.getSession()).data.session?.user ? true : false
-
+            if(!isLogged) {
+                const storageCart = localStorage.getItem('cart')
+                if(!storageCart) localStorage.setItem('cart', JSON.stringify([]))
+                reset()
+                return cartProducts.value = JSON.parse(localStorage.getItem('cart') || JSON.stringify([]))
+            }
             start()
             const response = await $fetch('/api/cart').then(res => res).catch(res => {
                 throw {errors: JSON.parse(res.data.message).errors}
