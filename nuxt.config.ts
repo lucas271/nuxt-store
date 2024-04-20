@@ -28,7 +28,7 @@ export default defineNuxtConfig({
     '/': {isr: 3600},
     '/auth': {static: true},
     '/item': {isr: 3600},
-    '/item/**': {static: true, prerender: true},
+    '/item/**': {static: true},
     '/cart': {isr: 3600},
     '/wishList': {isr: 3600}
 
