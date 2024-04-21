@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-    import {useProductStore} from '../../lib/services/productStore.ts'
+    import {useProductStore} from '../../lib/services/productStore'
 
     const edit = ref<{isForm: boolean, value: string[]}[]>([])
     const filter = useFilterState()
@@ -60,11 +60,11 @@
     const isForm = ref<boolean>(false)
     const productStore = useProductStore()
     watch(cvPage, async () => {
-        await useAsyncData('products', async () => await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value).then(() => {
+        await useAsyncData('products', async () => (await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value)).then(() => {
             return productStore.products
         }))
     })
-    await useAsyncData('products', async () => await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value).then(() => {
+    await useAsyncData('products', async () => (await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value)).then(() => {
         return productStore.products
     }))
     useHead({

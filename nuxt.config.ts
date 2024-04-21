@@ -26,8 +26,8 @@ export default defineNuxtConfig({
   ],
   routeRules:{
     '/': {isr: 3600},
-    '/item': {isr: 3600},
-    '/item/**': {static: true, prerender: true},
+    '/item': {isr: 3600, prerender: true},
+    '/item/**': {isr: 3600, prerender: true},
     '/cart': {isr: 3600},
     '/wishList': {isr: 3600}
 
@@ -40,7 +40,6 @@ export default defineNuxtConfig({
       sameSite: 'strict',
     },
     addCsrfTokenToEventCtx: true, // default false, to run useCsrfFetch on server set it to true
-    encryptAlgorithm: 'AES-CBC', // by default 'aes-256-cbc' (node), 'AES-CBC' (serverless)
     methodsToProtect: ['POST', 'PUT', 'PATCH'], // the request methods we want CSRF protection for
   },
   supabase:{

@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang='ts'>
-    import {useCartStore} from '../lib/services/cartStore.ts'
+    import {useCartStore} from '../lib/services/cartStore'
     const cartStore = useCartStore()
 
     useSeoMeta({
@@ -77,7 +77,7 @@
         ogTitle: `Carrinho`,
         description: "Aqui você encontrará todos os produtos que você colocou no seu carrinho"
     })
-    await useAsyncData('cart', async () => await cartStore.getCart().then(() => cartStore.cartProducts))
+    await useAsyncData('cart', async () => (await cartStore.getCart()).then(() => cartStore.cartProducts))
 
 
 </script>
