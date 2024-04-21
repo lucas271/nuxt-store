@@ -123,8 +123,7 @@
         isSearchResponseFocused.value = false
     }
 
-    await useAsyncData('cart', async () => (await cartStore.getCart()).then(() => cartStore.cartProducts))
-
+    await useAsyncData('cart', async () => await cartStore.getCart())
 
     watch(isSearchResponseFocused, (cv) => !cv ? document.removeEventListener("click", handleOutsideClick) : document.addEventListener("click", handleOutsideClick))
 
