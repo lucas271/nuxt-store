@@ -8,7 +8,7 @@ export interface cartProductInterface {
         price: string,
         img: string,
         quantity: number,
-        is_available?: boolean,
+        is_available: boolean,
         id: string,
         loading?: boolean,
         category_name: string[]
@@ -96,24 +96,8 @@ export const useCartStore = defineStore('cart', () => {
     }
     async function addProduct(productId: string){
         try {
-            
             cartProducts.value = cartProducts.value.map(product => product.product.id === productId ? {...product, product: {...product.product, loading: true}} : product)
-            if(!cartProducts.value.find(product => product.product.id === productId)) cartProducts.value.push({
-                product: {
-                    name: '',
-                    description: '',
-                    title: '',
-                    price: '',
-                    img: '',
-                    quantity: 0,
-                    id: '',
-                    loading: true,
-                    category_name: []
-                },
-                quantity: 0,
-            }) //set mock product for cart product loading porpuses
-
-
+            if(!cartProducts.value.find(product => product.product.id === productId)) cartProducts.value.unshift({product: {id: productId, loading: true, price: '0'}, quantity: 0})
             const isLogged = (await useSupabaseClient().auth.getSession()).data.session?.user ? true : false
             if(!isLogged) {
                 let productsInCart: cartProductInterface[] = JSON.parse(localStorage.getItem('cart') || JSON.stringify([]))
@@ -126,7 +110,7 @@ export const useCartStore = defineStore('cart', () => {
                 if(!response?.product)  throw {errors: ['produto não encontrado']}
                 const productIndex = productsInCart.map(product => product.product.id).indexOf(response.product.id)
                 if(productIndex === -1) {
-                    productsInCart.push({product: response.product, quantity: 1})
+                    productsInCart.unshift({product: response.product, quantity: 1})
                     localStorage.setItem('cart', JSON.stringify(productsInCart))
                     return cartProducts.value = productsInCart        
                 }
@@ -134,9 +118,9 @@ export const useCartStore = defineStore('cart', () => {
                 productsInCart[productIndex >= 0 ? productIndex : 0] = {product: response.product, quantity: (productsInCart[productIndex >= 0 ? productIndex : 0]?.quantity || 0) + 1}
                 localStorage.setItem('cart', JSON.stringify(productsInCart))
                 
+
                 reset()
                 cartProducts.value[productIndex >= 0 ? productIndex : 0] = productsInCart[productIndex]
-                console.log(cartProducts.value, 'blablbalbalba')
                 return
             }
             const response = await $csrfFetch('/api/cart', {method: 'PUT', body: {type: 'addProduct', productId}}).then(res => res).catch(res => {
@@ -144,7 +128,8 @@ export const useCartStore = defineStore('cart', () => {
             })
             reset()
             const productIndex = cartProducts.value.map(product => product.product.id).indexOf(response.cart.product.id)
-            return cartProducts.value[productIndex >= 0 ? productIndex : 0] = response.cart
+            if (productIndex < 0) return cartProducts.value.unshift(response.cart)
+            return cartProducts.value[productIndex] = response.cart
         } catch (error) {
             console.log(error)
 

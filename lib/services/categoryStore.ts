@@ -34,7 +34,6 @@ export const useCategoryStore = defineStore('category', () => {
         try {
 
             start()
-            console.log('odksaodkaokdas')
             const response = await $csrfFetch('/api/category', {method: 'post', body: {name, description, image}}).then(res => res).catch(res => {
                 console.log(res)
                 throw {errors: JSON.parse(res.data.message).errors}

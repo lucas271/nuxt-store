@@ -4,7 +4,6 @@ import defaultResponse from "../util/defaultResponse"
 export default defineEventHandler(async (event) => {
   try {
     const query: ProductQueryInterface & {type: 'product' | 'products' | 'maxPrice'} = JSON.parse(String(getQuery(event).data))
-    console.log(query)
     if(!query || !query.type) throw {errors: ['Informações faltando'], statusCode: 400}
     const product = new Product(undefined, {...query})
     

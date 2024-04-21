@@ -9,6 +9,7 @@
             </template>
         </v-stepper-header>
         <v-stepper-window>
+            
             <v-stepper-window-item :value='index + 1' v-for="(item, index) in steps" :key="index ">
                 <v-form ref="formRef" :key="index">
                     <template v-for="input in Object.keys(item)">
@@ -71,7 +72,7 @@
     const props = defineProps<{properties?: PropertiesInterface, isEdit?: boolean}>()
     const properties = ref<{properties: PropertiesInterface}>({isForm: false, title: '', img: '', category_name: [], name: '', quantity: null, id: '', description: '', price: null, sessions: 1, type:''})
     onMounted(() => {
-        properties.value = props.properties ? {...props.properties, category_name: props.properties?.category_name?.map(category => category.category_name)} : properties.value
+        properties.value = props.properties ? {...props.properties, category_name: props.properties?.category_name?.map(category => category.name)} : properties.value
     })
 
     const currentStep = ref<1 | 2 | 3>(1)

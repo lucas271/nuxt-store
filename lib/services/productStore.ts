@@ -39,7 +39,7 @@ export const useProductStore = defineStore('product', () => {
                 products.value = []
                 throw {errors: ['Nenhum produto disponivel']}
              }
-             console.log(response.product.products)
+             console.log(response.product.products, 'dlpasldpaslpdas')
             productCount.value = response.product.productCount
             return products.value = response.product.products
         } catch (error: any) {
