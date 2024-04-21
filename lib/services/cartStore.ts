@@ -8,7 +8,7 @@ export interface cartProductInterface {
         price: string,
         img: string,
         quantity: number,
-        is_available: boolean,
+        is_available?: boolean,
         id: string,
         loading?: boolean,
         category_name: string[]
@@ -96,7 +96,23 @@ export const useCartStore = defineStore('cart', () => {
     }
     async function addProduct(productId: string){
         try {
+            
             cartProducts.value = cartProducts.value.map(product => product.product.id === productId ? {...product, product: {...product.product, loading: true}} : product)
+            if(!cartProducts.value.find(product => product.product.id === productId)) cartProducts.value.push({
+                product: {
+                    name: '',
+                    description: '',
+                    title: '',
+                    price: '',
+                    img: '',
+                    quantity: 0,
+                    id: '',
+                    loading: true,
+                    category_name: []
+                },
+                quantity: 0,
+            }) //set mock product for cart product loading porpuses
+
 
             const isLogged = (await useSupabaseClient().auth.getSession()).data.session?.user ? true : false
             if(!isLogged) {
