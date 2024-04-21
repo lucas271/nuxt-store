@@ -6,7 +6,7 @@
             <v-app-bar-title tag="h1" @click="navigateTo('/')" class="cursor-pointer text-sm-h5 text-h6">Logo</v-app-bar-title>
         </template>
         <v-spacer />
-            <div class='w-50 d-sm-inline-block d-none h-auto relative pa-0 ma-0' :style="{position: 'relative'}" ref="searchRef">
+            <div class='w-50 h-auto relative pa-0 ma-0' :style="{position: 'relative'}" ref="searchRef">
                 <v-text-field
                 class="w-100"
                 density="compact"
@@ -22,13 +22,13 @@
                 ></v-text-field>
 
 
-                <v-list ref="responseRef" v-if='isSearchResponseFocused && products?.length > 0 ' class='py-0 bg-teal-darken-2 rounded-lg responsiveWidth rounded-b-lg d-flex flex-column ga-2'  dense :style="{position: 'absolute', top: '85%', left: '50%', transform: 'translateX(-50%)', overflow: 'visible', width:'fit-content', height: 'fit-content', maxHeight: '500px', minWidth: '70%', maxWidth: '80vw'}">
+                <v-list ref="responseRef" v-if='isSearchResponseFocused && products?.length > 0 ' class='py-0 bg-teal-darken-2 rounded-lg responsiveWidth rounded-b-lg d-flex flex-column ga-2'  dense :style="{position: 'absolute', top: '85%', left: '50%', transform: 'translateX(-50%)', overflow: 'visible',  height: 'fit-content', maxHeight: '500px', maxWidth: '80vw'}">
                     <template v-if="!responseLoading">
                         <v-hover  v-for='product in products'  v-if='!products?.errors'>
                             <template v-slot:default="{ isHovering, props }" >
                                 <div v-bind="props" @click='navigateTo(`/item/${product?.id}`)' :class="`d-flex ga-2 pa-2 cursor-pointer justify-space-between align-center overflow-hidden w-100 ${isHovering ? 'bg-teal-darken-4' : ''}`"  style="height: 125px;">
-                                    <v-list-item-media class='h-100 flex-shrink-1'>
-                                        <v-img :src="product.img" height="200px" width="200px" />
+                                    <v-list-item-media class='h-100 w-50 flex-shrink-1'>
+                                        <v-img :src="product.img" class='h-100 w-100' />
                                     </v-list-item-media>
                                     <div class='d-flex flex-column ga-3 flex-grow-1 h-100 justify-space-around overflow-hidden' :style="{position: 'relative'}">
                                         <div class='overflow-hidden flex-shrink-1' :style="{position: 'relative'}">
@@ -90,16 +90,7 @@
             <v-app-bar-nav-icon class="d-sm-none" aria-label="extensor da navbar" @click="isOpen = !isOpen"/>
         </template>
     </v-app-bar>
-    <v-lazy>
-        <div class="d-sm-none" >
-            <v-navigation-drawer
-            location="top"  
-            v-model="isOpen"
-            temporary
-            >
-            </v-navigation-drawer>
-        </div>
-    </v-lazy>
+
 
 </template>
 
@@ -152,7 +143,7 @@
 <style>
     .responsiveWidth{
         @media (max-width: 700px){
-            width: 200%;
+            width: 80vw;
         }
     }
     .allow_overflow .v-toolbar__content{
