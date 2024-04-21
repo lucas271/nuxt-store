@@ -40,7 +40,7 @@
                 return productStore.products
             }))
         })
-        await useAsyncData('products', async () => await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value).then(() => {
+        await useAsyncData('products', async () => (await productStore.getAllProducts(filter.value, take.value, (cvPage.value - 1) * take.value)).then(() => {
             return productStore.products
         }))
         await useAsyncData('wishlist', async () => await wishListStore.getAllWishListProducts().then(() => wishListStore.wishList))
