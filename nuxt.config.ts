@@ -37,8 +37,10 @@ export default defineNuxtConfig({
     cookie: { 
       path: '/',
       httpOnly: true,
-      sameSite: 'strict'
+      sameSite: 'strict',
     },
+    addCsrfTokenToEventCtx: true, // default false, to run useCsrfFetch on server set it to true
+    encryptAlgorithm: 'AES-CBC', // by default 'aes-256-cbc' (node), 'AES-CBC' (serverless)
     methodsToProtect: ['POST', 'PUT', 'PATCH'], // the request methods we want CSRF protection for
   },
   supabase:{
